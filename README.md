@@ -28,7 +28,7 @@ Configuration complète pour connecter Obsidian à Claude Code (CLI, Desktop et 
 ### 2. Skills (Claude Code CLI)
 ```bash
 # Cloner et copier les skills
-git clone https://github.com/Alex33140/obsidian-claude-setup.git
+git clone https://github.com/acollenne-ux/obsidian-claude-setup.git
 cp -r obsidian-claude-setup/skills/* ~/.claude/skills/
 ```
 
