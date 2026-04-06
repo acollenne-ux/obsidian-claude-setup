@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family={{FONT_DISPLAY}}:wght@400;700;900&family={{FONT_BODY}}:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --dominant: {{COLOR_DOMINANT}};
+    --secondary: {{COLOR_SECONDARY}};
+    --accent: {{COLOR_ACCENT}};
+    --alt-accent: {{COLOR_ALT_ACCENT}};
+    --text-primary: {{TEXT_PRIMARY}};
+    --text-secondary: {{TEXT_SECONDARY}};
+    --font-display: '{{FONT_DISPLAY}}', sans-serif;
+    --font-body: '{{FONT_BODY}}', sans-serif;
+  }
+
+  html, body {
+    width: 1240px;
+    height: 1754px;
+    font-family: var(--font-body);
+    color: var(--text-primary);
+    overflow: hidden;
+    background: var(--dominant);
+  }
+
+  .flyer {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ═══════════════════════════════════════════ */
+  /* ZONE 1+2 — HEADER + VISUEL PRINCIPAL       */
+  /* ═══════════════════════════════════════════ */
+  .header-zone {
+    position: relative;
+    flex: 0 0 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px 60px;
+    overflow: hidden;
+  }
+
+  .header-zone .bg-image {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: url('{{BACKGROUND_IMAGE}}');
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+  }
+
+  .header-zone .bg-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(0,0,0,0.6) 0%,
+      rgba(0,0,0,0.3) 40%,
+      var(--dominant) 100%
+    );
+    z-index: 1;
+  }
+
+  .header-content {
+    position: relative;
+    z-index: 2;
+    max-width: 90%;
+  }
+
+  .organizer-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin-bottom: 20px;
+    border-radius: 12px;
+  }
+
+  .event-type-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--dominant);
+    padding: 6px 24px;
+    border-radius: 30px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  h1.title {
+    font-family: var(--font-display);
+    font-size: 64px;
+    font-weight: 900;
+    line-height: 1.05;
+    color: var(--text-primary);
+    text-shadow: 0 3px 12px rgba(0,0,0,0.4);
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .subtitle {
+    font-family: var(--font-body);
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  }
+
+  .date-location-banner {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 24px;
+    padding: 12px 30px;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+
+  .date-location-banner .info-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  .date-location-banner .icon {
+    width: 20px;
+    height: 20px;
+    opacity: 0.9;
+  }
+
+  .separator-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  /* ═══════════════════════════════════════════ */
+  /* ZONE 3 — PROGRAMME / CONTENU               */
+  /* ═══════════════════════════════════════════ */
+  .content-zone {
+    flex: 1;
+    padding: 30px 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--accent);
+    display: inline-block;
+  }
+
+  .description {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    max-width: 90%;
+  }
+
+  /* Programme / Horaires */
+  .schedule {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .schedule-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    transition: background 0.2s;
+  }
+
+  .schedule-item:nth-child(odd) {
+    background: rgba(255,255,255,0.05);
+  }
+
+  .schedule-item .time {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--accent);
+    min-width: 60px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .schedule-item .sep {
+    color: var(--text-secondary);
+    opacity: 0.4;
+  }
+
+  .schedule-item .activity {
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--text-primary);
+  }
+
+  /* ═══════════════════════════════════════════ */
+  /* ZONE 4 — PERSONNES / INTERVENANTS          */
+  /* ═══════════════════════════════════════════ */
+  .people-zone {
+    padding: 10px 60px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .people-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+
+  .person-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .person-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--accent);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  }
+
+  .person-name {
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--text-primary);
+    text-align: center;
+  }
+
+  .person-role {
+    font-size: 11px;
+    color: var(--text-secondary);
+    text-align: center;
+    opacity: 0.8;
+  }
+
+  /* ═══════════════════════════════════════════ */
+  /* ZONE 5 — INFORMATIONS PRATIQUES            */
+  /* ═══════════════════════════════════════════ */
+  .info-zone {
+    padding: 20px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    background: rgba(255,255,255,0.05);
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+
+  .contact-item .contact-icon {
+    font-size: 16px;
+    color: var(--accent);
+    width: 24px;
+    text-align: center;
+  }
+
+  .qr-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .qr-code {
+    width: 100px;
+    height: 100px;
+    background: white;
+    padding: 6px;
+    border-radius: 8px;
+  }
+
+  .qr-code img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .qr-label {
+    font-size: 10px;
+    color: var(--text-secondary);
+    opacity: 0.7;
+  }
+
+  /* ═══════════════════════════════════════════ */
+  /* ZONE 6 — SPONSORS                          */
+  /* ═══════════════════════════════════════════ */
+  .sponsors-zone {
+    padding: 14px 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.08);
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .sponsors-label {
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-secondary);
+    opacity: 0.6;
+  }
+
+  .sponsors-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+
+  .sponsor-logo {
+    height: 35px;
+    width: auto;
+    object-fit: contain;
+    opacity: 0.75;
+    filter: brightness(0) invert(1);
+  }
+
+  /* Variante fond clair */
+  .sponsors-zone.light {
+    background: rgba(255,255,255,0.95);
+  }
+  .sponsors-zone.light .sponsors-label {
+    color: #666;
+  }
+  .sponsors-zone.light .sponsor-logo {
+    filter: none;
+    opacity: 0.8;
+  }
+
+  /* ═══════════════════════════════════════════ */
+  /* CTA — CALL TO ACTION                       */
+  /* ═══════════════════════════════════════════ */
+  .cta-button {
+    display: inline-block;
+    padding: 12px 36px;
+    background: var(--accent);
+    color: var(--dominant);
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 8px;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+
+  /* ═══════════════════════════════════════════ */
+  /* ÉLÉMENTS DÉCORATIFS                        */
+  /* ═══════════════════════════════════════════ */
+  .accent-line {
+    width: 60px;
+    height: 3px;
+    background: var(--accent);
+    border-radius: 2px;
+    margin: 0 auto;
+  }
+
+  .divider {
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    margin: 0 auto;
+    opacity: 0.3;
+  }
+</style>
+</head>
+<body>
+  <div class="flyer">
+
+    <!-- ZONE 1+2 — HEADER + VISUEL -->
+    <div class="header-zone">
+      <div class="bg-image"></div>
+      <div class="bg-overlay"></div>
+      <div class="header-content">
+        {{ORGANIZER_LOGO_HTML}}
+        <div class="event-type-badge">{{EVENT_TYPE}}</div>
+        <h1 class="title">{{TITLE}}</h1>
+        <p class="subtitle">{{SUBTITLE}}</p>
+        <div class="date-location-banner">
+          <div class="info-item">
+            <span class="icon">📅</span>
+            <span>{{DATE}}</span>
+          </div>
+          <div class="separator-dot"></div>
+          <div class="info-item">
+            <span class="icon">📍</span>
+            <span>{{LOCATION}}</span>
+          </div>
+          <div class="separator-dot"></div>
+          <div class="info-item">
+            <span class="icon">🕐</span>
+            <span>{{TIME}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ZONE 3 — PROGRAMME / CONTENU -->
+    <div class="content-zone">
+      <p class="description">{{DESCRIPTION}}</p>
+
+      {{SCHEDULE_SECTION}}
+
+      {{CTA_HTML}}
+    </div>
+
+    <!-- ZONE 4 — PERSONNES (optionnel) -->
+    {{PEOPLE_SECTION}}
+
+    <!-- ZONE 5 — INFORMATIONS PRATIQUES -->
+    <div class="info-zone">
+      <div class="contact-list">
+        {{CONTACT_ITEMS}}
+      </div>
+      {{QR_CODE_HTML}}
+    </div>
+
+    <!-- ZONE 6 — SPONSORS (optionnel) -->
+    {{SPONSORS_SECTION}}
+
+  </div>
+</body>
+</html>

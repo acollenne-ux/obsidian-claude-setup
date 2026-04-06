@@ -5,6 +5,25 @@ description: Create and edit Obsidian Bases (.base files) with views, filters, f
 
 # Obsidian Bases Skill
 
+<HARD-GATE>
+JAMAIS de fichier .base sans :
+1. Null-checks `if()` pour TOUTE propriété optionnelle dans les formules
+2. Accéder à `.days`/`.hours` AVANT `.round()` sur les résultats de soustraction de dates (Duration ≠ Number)
+3. Guillemets simples pour les formules contenant des guillemets doubles
+4. Vérification que tout `formula.X` dans `order` a une définition correspondante dans `formulas`
+</HARD-GATE>
+
+## CHECKLIST OBLIGATOIRE
+
+1. **Scope** — Définir les filtres (tag, folder, property, date)
+2. **Formules** — Écrire les computed properties avec null-checks `if()`
+3. **Propriétés** — Configurer displayName pour chaque propriété/formule
+4. **Vues** — Créer table/cards/list/map avec `order` des colonnes
+5. **Validation YAML** — Vérifier syntaxe, quotes, refs formules
+6. **Test Obsidian** — Ouvrir le fichier .base dans Obsidian, confirmer le rendu
+
+---
+
 ## Workflow
 
 1. **Create the file**: Create a `.base` file in the vault with valid YAML content
@@ -495,3 +514,32 @@ formulas:
 - [Views](https://help.obsidian.md/bases/views)
 - [Formulas](https://help.obsidian.md/formulas)
 - [Complete Functions Reference](references/FUNCTIONS_REFERENCE.md)
+
+---
+
+## ANTI-PATTERNS
+
+| Excuse | Réalité |
+|--------|---------|
+| "Les formules n'ont pas besoin de null checks" | TOUJOURS utiliser `if()` pour garder les propriétés optionnelles. Sans guard, la formule crashe sur les notes sans la propriété. |
+| "La durée retournée par soustraction de dates est un nombre" | La soustraction de dates retourne un `Duration`, PAS un nombre. Toujours accéder à `.days`, `.hours`, etc. AVANT d'appliquer `.round()`. |
+| "Les guillemets doubles suffisent partout en YAML" | Si une formule contient des guillemets doubles, il FAUT l'envelopper en guillemets simples. Sinon → erreur YAML silencieuse. |
+| "Pas besoin de valider, c'est du YAML simple" | TOUJOURS vérifier : syntaxe YAML valide, propriétés/formules référencées existent, pas de `formula.X` sans définition dans `formulas`. |
+
+## CROSS-LINKS
+
+| Contexte | Skill |
+|----------|-------|
+| Notes Markdown | `obsidian-markdown` |
+| Fichiers .canvas | `json-canvas` |
+| CLI Obsidian | `obsidian-cli` (commandes `base:query`, `base:views`) |
+| MCP vault | `mcp-obsidian` |
+
+## ÉVOLUTION
+
+Après chaque création de Base :
+- Si une fonction manque dans le référentiel → l'ajouter avec exemple
+- Si un pattern de filtre est récurrent → créer un template réutilisable
+- Si les erreurs Duration sont fréquentes → renforcer les exemples CORRECT/WRONG
+
+Seuils : si > 3 erreurs YAML par session → ajouter un validateur automatique.

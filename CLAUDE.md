@@ -1,41 +1,55 @@
-# Obsidian + Claude Code Setup
+# Instructions globales — Alexandre
 
-Ce projet contient la configuration complete pour connecter Obsidian a Claude Code
-(CLI, Desktop et claude.ai web).
+## Comportement obligatoire sur TOUTES les demandes
 
-## Skills Obsidian disponibles
+### 1. Sélection intelligente des outils
+Utiliser 'deep-research' pour toutes les demandes (elle doit toujours faire appel aux skills 'superpower' et 'team agent' , et c'est elle qui séléctionnera et orchestrera les ia, les connecteurs et les compétences à utiliser
 
-Les skills dans `.claude/skills/` enseignent a Claude comment manipuler les fichiers Obsidian :
+Avant de répondre, déterminer quels skills et connecteurs MCP utiliser selon le contexte :
+- Trading/crypto/actions → `stock-analysis` + LunarCrush + Bigdata.com + Crypto.com
+- Macro → `macro-analysis`
+- Création de code/app → `project-analysis` → `dev-team`
+- Indicateur TradingView → `deep-research` (Pine Script spécialisé)
+- Modèle financier → `financial-modeling`
+- Frontend → `frontend-design`
+- Debug → `code-debug`
+- Recherche générale → `deep-research` + WebSearch + WebFetch
+- Création/modification de skills ou agents → `skill-creator` (custom, JAMAIS le plugin officiel `skill-creator:skill-creator`)
 
-- **obsidian-markdown** : Obsidian Flavored Markdown (wikilinks, embeds, callouts, properties, tags)
-- **obsidian-bases** : Fichiers .base (vues dynamiques, filtres, formules, summaries)
-- **json-canvas** : JSON Canvas (.canvas) pour mind maps, flowcharts, diagrammes
-- **obsidian-cli** : 130+ commandes CLI Obsidian (lecture, ecriture, recherche, taches, proprietes, sync)
-- **defuddle** : Extraction markdown propre depuis pages web
+### 2. Benchmark professionnel systématique
+Avant de produire une réponse importante, chercher ce que font les professionnels sur internet (WebSearch + WebFetch). Ne jamais se fier uniquement à la connaissance de training — les meilleures pratiques évoluent.
 
-## MCP Obsidian
+### 3. Analyse des limitations — TOUJOURS
+Pour toute réponse, identifier les limitations qui pourraient empêcher la solution de fonctionner :
+- Rate limits, quotas, restrictions de plateforme
+- Limites spécifiques TradingView (plots, security() calls, barres historiques, mémoire)
+- Edge cases, cas limites, données manquantes
+- Incompatibilités de versions
 
-Le MCP `mcp-obsidian` (MarkusPfundstein) permet l'acces direct au vault Obsidian via l'API REST.
+### 4. Boucle de vérification avant livraison
+Ne jamais livrer une réponse sans l'avoir relue avec l'œil d'un expert :
+- Analyse : sources citées ? Limitations identifiées ? Cohérence interne ?
+- Code : erreurs de syntaxe ? Logique correcte ? Limites de plateforme respectées ? Edge cases gérés ?
+- Si un problème est détecté → corriger et re-vérifier jusqu'à ce que ce soit bon
 
-### Prerequis
-- Obsidian Desktop v1.12.0+ ouvert
-- Plugin "Local REST API" active (port 27124)
-- Variable `OBSIDIAN_API_KEY` configuree
-
-### Pour claude.ai web
-Claude.ai ne peut pas acceder a localhost. Un tunnel Cloudflare est necessaire :
-```bash
-# Windows
-start-tunnel.bat
-
-# Linux/macOS
-bash start-tunnel.sh
+### 5. Envoi automatique par email en PDF — TOUJOURS
+Après chaque réponse d'analyse, de recherche ou de code importante, générer et envoyer automatiquement un PDF professionnel à **acollenne@gmail.com** via :
 ```
-L'option `--no-tls-verify` est requise car Obsidian utilise un certificat auto-signe.
+python "C:\Users\Alexandre collenne\.claude\tools\send_report.py" "Sujet" "contenu" acollenne@gmail.com
+```
 
-## Conventions pour les fichiers Obsidian
+Le PDF doit être lisible, structuré et professionnel et réalisé par un agent spécialisé. Faire ça après avoir affiché la réponse dans le terminal.
 
-- Utiliser les wikilinks `[[Note]]` pour les liens internes au vault
-- Utiliser le frontmatter YAML pour les proprietes (tags, aliases, cssclasses)
-- Les chemins sont relatifs au vault (pas de chemins absolus)
-- Extension `.md` pour les notes, `.base` pour les bases, `.canvas` pour les canvas
+### 6. Évolution continue des skills
+Après chaque réponse complexe, identifier si une amélioration du skill utilisé est possible et mettre à jour le SKILL.md correspondant si pertinent.
+
+### 7. Langue
+Toujours répondre en **français**.
+
+---
+
+## Profil utilisateur
+- Utilisateur avancé, Windows 10, accès mobile via claude.ai
+- Travaille sur TradingView (Pine Script v6), trading algorithmique, développement
+- Veut des réponses de niveau professionnel qui anticipent les problèmes en production
+- Priorité : qualité > rapidité

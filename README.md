@@ -1,156 +1,148 @@
-# Obsidian + Claude Code — Setup complet
+# Claude Code — Ecosystem complet (Skills, Agents, Tools, MCP)
 
-Configuration complète pour connecter Obsidian à Claude Code (CLI, Desktop et claude.ai web).
+Configuration complète de l'écosystème Claude Code : 28 skills, tools Python, memory, settings.
+Compatible CLI, Desktop et claude.ai web.
 
-## Contenu
+## Structure du repo
 
-### Skills (kepano + pablo-mano)
-| Skill | Description |
-|-------|-------------|
-| `obsidian-markdown` | Obsidian Flavored Markdown, wikilinks, embeds, callouts, properties |
-| `obsidian-bases` | Fichiers .base (vues dynamiques, filtres, formules) |
-| `json-canvas` | JSON Canvas (mind maps, flowcharts, nodes, edges) |
-| `obsidian-cli` | 130+ commandes CLI Obsidian (pablo-mano) |
-| `defuddle` | Extraction markdown propre depuis pages web |
+```
+.
+├── CLAUDE.md              # Instructions globales Claude Code
+├── settings.json          # Configuration plugins/permissions
+├── skills/                # 28 skills (SKILL.md + references/)
+├── tools/                 # Scripts Python (email, multi-IA, charts, etc.)
+└── memory/                # Fichiers mémoire projet/feedback/user
+```
 
-### MCP Server
-- **mcp-obsidian** (MarkusPfundstein) via `uvx`
-- Nécessite le plugin Obsidian **"Local REST API"** (coddingtonbear)
+## Skills installés (28)
 
----
+### Orchestration
+| Skill | Score | Description |
+|-------|-------|-------------|
+| `deep-research` | 80.5% | Orchestrateur principal — dispatch LITE/STANDARD/FULL |
+| `multi-ia-router` | 75.0% | Routage multi-IA, consensus voting, fallback chains |
+| `team-agent` | 78.0% | Orchestration d'agents parallèles |
 
-## Installation rapide
+### Développement
+| Skill | Score | Description |
+|-------|-------|-------------|
+| `code-debug` | 86.5% | Débogage avancé avec root cause analysis |
+| `dev-team` | 76.5% | Création code/app, architecture |
+| `project-analysis` | 81.0% | Analyse projet avant développement |
+| `skill-creator` | 90.0% | Création/amélioration/audit de skills |
 
-### 1. Plugin Obsidian
-1. Ouvre **Obsidian** → Settings → Community plugins → Browse
-2. Cherche **"Local REST API"** → Install → Enable
-3. Va dans Settings → Local REST API → copie la **clé API**
+### Finance & Trading
+| Skill | Score | Description |
+|-------|-------|-------------|
+| `financial-analysis-framework` | 78.5% | 8 types d'actifs + 15 dimensions |
+| `financial-modeling` | 74.0% | DCF, comps, LBO, valorisation |
+| `stock-analysis` | 79.0% | Analyse boursière complète |
+| `macro-analysis` | 79.0% | Macro, politique monétaire, cycles |
 
-### 2. Skills (Claude Code CLI ou Web)
+### Création & Médias
+| Skill | Score | Description |
+|-------|-------|-------------|
+| `flyer-creator` | 73.0% | Flyers pro HTML/CSS + Playwright |
+| `image-detourage` | 73.0% | Détourage IA 7 étapes (rembg + PyMatting) |
+| `image-enhancer` | 75.5% | Upscale/restauration (Real-ESRGAN) |
+| `website-analyzer` | 71.0% | Audit web complet, 4 agents, 10 dimensions |
+| `frontend-design` | — | Design frontend (plugin superpowers) |
+
+### Obsidian
+| Skill | Score | Description |
+|-------|-------|-------------|
+| `obsidian-markdown` | 75.5% | Obsidian Flavored Markdown |
+| `obsidian-bases` | 67.5% | Fichiers .base (vues dynamiques, filtres) |
+| `obsidian-cli` | 70.5% | 130+ commandes CLI Obsidian |
+| `json-canvas` | 77.5% | JSON Canvas (mind maps, flowcharts) |
+
+### Data & Analyse
+| Skill | Score | Description |
+|-------|-------|-------------|
+| `data-analysis` | 86.0% | Pandas, numpy, stats, visualisation |
+| `desktop-control` | 79.0% | Contrôle bureau Windows (PyAutoGUI) |
+| `defuddle` | 64.0% | Extraction markdown depuis pages web |
+
+### Qualité & Feedback
+| Skill | Score | Description |
+|-------|-------|-------------|
+| `qa-pipeline` | 76.0% | QA anti-hallucination, validation sources |
+| `pdf-report-gen` | 76.0% | Rapports PDF Markdown + email |
+| `feedback-loop` | 76.0% | Collecte feedback utilisateur |
+| `retex-evolution` | 76.0% | RETEX + benchmark IAs + amélioration |
+| `install-plugin` | 72.0% | Installation plugins/MCP/skills |
+
+**Score moyen : 75.1%** (audit automatique via `scripts/audit_skills.py`)
+
+## Installation
+
+### Option 1 : Cloner et copier (CLI/Desktop)
 
 ```bash
-# Cloner le repo
 git clone https://github.com/acollenne-ux/obsidian-claude-setup.git
+cd obsidian-claude-setup
 
-# Copier les skills dans le profil Claude Code
-cp -r obsidian-claude-setup/skills/* ~/.claude/skills/
+# Copier les skills
+cp -r skills/* ~/.claude/skills/
+
+# Copier les tools
+cp tools/*.py ~/.claude/tools/
+cp tools/*.bat ~/.claude/tools/
+
+# Copier le CLAUDE.md (instructions globales)
+cp CLAUDE.md ~/.claude/CLAUDE.md
+
+# Copier les settings
+cp settings.json ~/.claude/settings.json
 ```
 
-> **Note :** Les skills sont aussi dans `.claude/skills/` du projet. Si tu ouvres ce repo dans Claude Code (CLI ou web), les skills sont automatiquement disponibles.
+### Option 2 : Ouvrir comme projet (claude.ai web)
 
-### 3. MCP Server (Claude Code CLI)
-```bash
-# Ajouter le MCP
-claude mcp add mcp-obsidian -- uvx mcp-obsidian
+1. Fork ou clone ce repo
+2. Ouvre-le comme projet dans claude.ai
+3. Les skills dans `skills/` sont automatiquement disponibles
+4. Le `CLAUDE.md` à la racine est lu automatiquement
 
-# Configurer la clé API dans ~/.claude.json :
-# "env": { "OBSIDIAN_API_KEY": "TA_CLE_API" }
-```
+## MCP Servers configurés
 
----
+| MCP | Usage | Type |
+|-----|-------|------|
+| `mcp-obsidian` | Accès vault Obsidian | stdio (uvx) |
+| `tradingview-mcp` | 78 outils TradingView | local (port 9222) |
+| `alpha-vantage` | Données financières US | MCP |
+| `google-sheets` | Google Sheets API | MCP |
+| Bigdata.com | Données financières | Remote (claude.ai) |
+| LunarCrush | Sentiment crypto | Remote (claude.ai) |
+| Crypto.com | Prix crypto live | Remote (claude.ai) |
+| Context7 | Docs techniques | Remote (claude.ai) |
+| Hugging Face | Papers académiques | Remote (claude.ai) |
+| Figma | Design UI | Remote (claude.ai) |
 
-## Utiliser sur claude.ai (version web)
+## Tools Python
 
-Claude.ai ne peut pas accéder à `localhost:27124`. Il faut exposer l'API Obsidian via un **tunnel Cloudflare**.
+| Script | Usage |
+|--------|-------|
+| `send_report.py` | Génération PDF + envoi email |
+| `multi_ai.py` | Appels multi-IA (Gemini, Mistral, Groq, etc.) |
+| `chart_generator.py` | Graphiques pro (6 types) |
+| `retex_manager.py` | Gestion RETEX et benchmark IAs |
+| `email_trigger.py` | Bridge email → Claude Code |
 
-### Étape 1 : Installer cloudflared
+## Tunnel Obsidian pour claude.ai web
+
+Pour accéder au vault Obsidian depuis claude.ai :
 
 ```bash
 # Windows
-winget install Cloudflare.cloudflared
-
-# macOS
-brew install cloudflared
-
-# Linux
-sudo apt install cloudflared
-```
-
-### Étape 2 : Lancer le tunnel
-
-**Windows** (double-clic ou cmd) :
-```cmd
 start-tunnel.bat
-```
 
-**Linux/macOS** :
-```bash
+# Linux/macOS
 bash start-tunnel.sh
 ```
 
-**Ou manuellement** :
-```bash
-cloudflared tunnel --url https://localhost:27124 --no-tls-verify
-```
-
-> **IMPORTANT :** L'option `--no-tls-verify` est obligatoire car Obsidian utilise un certificat auto-signé. Sans cette option, le tunnel retourne une erreur 502.
-
-Cloudflared affiche une URL du type :
-```
-https://quelquechose-random.trycloudflare.com
-```
-
-### Étape 3 : Configurer sur claude.ai
-
-1. Va sur **claude.ai** → clique sur ton profil (en bas à gauche)
-2. **Settings** → **Integrations** (ou MCP Servers)
-3. **Add Integration** / Add MCP Server
-4. Configure :
-   - **URL** : colle l'URL du tunnel (ex: `https://xxx.trycloudflare.com`)
-   - **Header Name** : `Authorization`
-   - **Header Value** : `Bearer TA_CLE_API`
-5. Sauvegarde
-
-### Rappels importants
-
-- **Obsidian doit être ouvert** pour que l'API fonctionne
-- **Le terminal cloudflared ne doit pas être fermé** (le tunnel s'arrête sinon)
-- **L'URL change** à chaque relancement de cloudflared
-- **Fonctionne sur tous les projets** claude.ai une fois configuré au niveau du compte
-
----
-
-## Configuration MCP complète (.claude.json)
-
-```json
-{
-  "mcp-obsidian": {
-    "type": "stdio",
-    "command": "uvx",
-    "args": ["mcp-obsidian"],
-    "env": {
-      "OBSIDIAN_API_KEY": "TA_CLE_API",
-      "OBSIDIAN_HOST": "127.0.0.1",
-      "OBSIDIAN_PORT": "27124"
-    }
-  }
-}
-```
-
-## Test de connexion
-
-```bash
-# Test direct (local)
-curl -s -k -H "Authorization: Bearer TA_CLE_API" https://127.0.0.1:27124/
-# Réponse attendue : {"status":"OK","authenticated":true,...}
-
-# Test via tunnel
-curl -s -H "Authorization: Bearer TA_CLE_API" https://xxx.trycloudflare.com/
-# Même réponse attendue
-
-# Lister les fichiers du vault
-curl -s -k -H "Authorization: Bearer TA_CLE_API" https://127.0.0.1:27124/vault/
-```
-
-## Prérequis
-- Obsidian Desktop v1.12.0+
-- Plugin "Local REST API" activé
-- Obsidian doit être **ouvert** pour que l'API fonctionne
-- Python `uvx` (via `uv`) pour le MCP server en local
-- Pour claude.ai web : `cloudflared` pour le tunnel
+Nécessite : Obsidian ouvert + plugin "Local REST API" + cloudflared installé.
 
 ## Sources
 - [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills)
 - [pablo-mano/Obsidian-CLI-skill](https://github.com/pablo-mano/Obsidian-CLI-skill)
 - [MarkusPfundstein/mcp-obsidian](https://github.com/MarkusPfundstein/mcp-obsidian)
-- [coddingtonbear/obsidian-local-rest-api](https://github.com/coddingtonbear/obsidian-local-rest-api)

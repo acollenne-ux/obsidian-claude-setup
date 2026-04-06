@@ -7,6 +7,25 @@ description: Create and edit Obsidian Flavored Markdown with wikilinks, embeds, 
 
 Create and edit valid Obsidian Flavored Markdown. Obsidian extends CommonMark and GFM with wikilinks, embeds, callouts, properties, comments, and other syntax. This skill covers only Obsidian-specific extensions -- standard Markdown (headings, bold, italic, lists, quotes, code blocks, tables) is assumed knowledge.
 
+<HARD-GATE>
+Règles NON-NÉGOCIABLES pour les notes Obsidian :
+1. `[[wikilinks]]` pour les notes internes du vault UNIQUEMENT — liens Markdown `[text](url)` pour les URLs externes
+2. Frontmatter YAML valide au début de chaque note (au minimum `tags` et/ou `aliases`)
+3. Block IDs (`^block-id`) sur une ligne SÉPARÉE pour les listes et quotes
+4. JAMAIS de HTML dans les notes Obsidian — utiliser la syntaxe Obsidian native
+</HARD-GATE>
+
+## CHECKLIST OBLIGATOIRE
+
+1. **Frontmatter** — Ajouter propriétés (title, tags, aliases) en YAML au début
+2. **Contenu** — Rédiger avec Markdown standard + extensions Obsidian
+3. **Liens** — `[[wikilinks]]` pour notes du vault, `[text](url)` pour externe
+4. **Embeds** — `![[embed]]` pour intégrer notes, images, PDFs
+5. **Callouts** — `> [!type]` pour structurer l'information
+6. **Vérification** — Confirmer le rendu en reading view Obsidian
+
+---
+
 ## Workflow: Creating an Obsidian Note
 
 1. **Add frontmatter** with properties (title, tags, aliases) at the top of the file. See [PROPERTIES.md](references/PROPERTIES.md) for all property types.
@@ -194,3 +213,32 @@ Reviewed in [[Meeting Notes 2024-01-10#Decisions]].
 - [Embed files](https://help.obsidian.md/embeds)
 - [Callouts](https://help.obsidian.md/callouts)
 - [Properties](https://help.obsidian.md/properties)
+
+---
+
+## ANTI-PATTERNS
+
+| Excuse | Réalité |
+|--------|---------|
+| "Les liens Markdown standards suffisent dans un vault" | Utiliser `[[wikilinks]]` pour les notes internes — Obsidian suit les renommages automatiquement. Liens Markdown uniquement pour URLs externes. |
+| "Le frontmatter c'est optionnel" | Les propriétés (tags, aliases, dates) sont ESSENTIELLES pour les Bases, la recherche et l'organisation du vault. |
+| "Les callouts c'est du décor" | Les callouts structurent l'information (warning, tip, important). Ils améliorent la lisibilité en reading view. |
+| "Un seul format de bloc ID suffit" | Pour les listes et quotes, le `^block-id` doit être sur une ligne SÉPARÉE après le bloc. Syntaxe différente des paragraphes. |
+
+## CROSS-LINKS
+
+| Contexte | Skill |
+|----------|-------|
+| Fichiers .canvas | `json-canvas` |
+| Fichiers .base | `obsidian-bases` |
+| CLI Obsidian | `obsidian-cli` |
+| Intégration vault | MCP `mcp-obsidian` |
+
+## ÉVOLUTION
+
+Après chaque création de note Obsidian :
+- Si un callout type manque → l'ajouter à la liste des types courants
+- Si un pattern de frontmatter est récurrent → créer un template
+- Si une syntaxe Obsidian évolue → mettre à jour les exemples
+
+Seuils : si > 3 erreurs de syntaxe sur les mêmes éléments → ajouter un exemple explicite.

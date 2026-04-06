@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  :root {
+    --dominant: {{COLOR_DOMINANT}};
+    --secondary: {{COLOR_SECONDARY}};
+    --accent: {{COLOR_ACCENT}};
+    --text: #FFFFFF;
+  }
+
+  html, body {
+    width: 1240px;
+    height: 1754px;
+    font-family: 'Poppins', sans-serif;
+    color: var(--text);
+    overflow: hidden;
+    background: var(--dominant);
+  }
+
+  .flyer {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* HEADER SPORTIF — Diagonale dynamique */
+  .hero {
+    position: relative;
+    flex: 0 0 45%;
+    overflow: hidden;
+  }
+
+  .hero .bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('{{BACKGROUND_IMAGE}}');
+    background-size: cover;
+    background-position: center;
+    filter: contrast(1.1) saturate(1.2);
+  }
+
+  .hero .overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      160deg,
+      var(--dominant) 0%,
+      rgba(0,0,0,0.4) 40%,
+      rgba(0,0,0,0.7) 100%
+    );
+  }
+
+  /* Bande diagonale accent */
+  .hero .diagonal-stripe {
+    position: absolute;
+    bottom: -50px;
+    left: -20px;
+    right: -20px;
+    height: 120px;
+    background: var(--accent);
+    transform: skewY(-3deg);
+    z-index: 2;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 3;
+    padding: 50px 60px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
+  }
+
+  .sport-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: var(--dominant);
+    padding: 6px 20px;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    width: fit-content;
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 80px;
+    line-height: 0.95;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    margin-bottom: 12px;
+  }
+
+  .tagline {
+    font-size: 20px;
+    font-weight: 300;
+    opacity: 0.9;
+    letter-spacing: 0.5px;
+  }
+
+  /* DATE STRIP — Sur la bande diagonale */
+  .date-strip {
+    position: relative;
+    z-index: 4;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 14px 60px;
+    background: var(--accent);
+    color: var(--dominant);
+    font-weight: 700;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: -8px;
+  }
+
+  .date-strip .item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .date-strip .divider {
+    width: 2px;
+    height: 20px;
+    background: var(--dominant);
+    opacity: 0.3;
+  }
+
+  /* CONTENU */
+  .content {
+    flex: 1;
+    padding: 30px 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .content .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 2px;
+    color: var(--accent);
+    border-left: 4px solid var(--accent);
+    padding-left: 16px;
+  }
+
+  .schedule {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .schedule-row {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    border-radius: 6px;
+  }
+
+  .schedule-row:nth-child(odd) {
+    background: rgba(255,255,255,0.05);
+  }
+
+  .schedule-row .time {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--accent);
+    min-width: 70px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .schedule-row .dash {
+    margin: 0 12px;
+    color: rgba(255,255,255,0.3);
+  }
+
+  .schedule-row .event-name {
+    font-size: 15px;
+    font-weight: 400;
+  }
+
+  /* PERSONNES */
+  .athletes {
+    padding: 10px 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .athletes-row {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+  }
+
+  .athlete {
+    text-align: center;
+  }
+
+  .athlete img {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--accent);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  }
+
+  .athlete .name {
+    font-weight: 600;
+    font-size: 12px;
+    margin-top: 6px;
+  }
+
+  .athlete .role {
+    font-size: 10px;
+    opacity: 0.7;
+  }
+
+  /* FOOTER — Contact + Sponsors */
+  .footer {
+    padding: 16px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0,0,0,0.3);
+    border-top: 2px solid var(--accent);
+  }
+
+  .contacts {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13px;
+  }
+
+  .contacts .row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.85;
+  }
+
+  .contacts .icon {
+    color: var(--accent);
+    font-size: 14px;
+    width: 20px;
+    text-align: center;
+  }
+
+  .qr-box {
+    text-align: center;
+  }
+
+  .qr-box img {
+    width: 90px;
+    height: 90px;
+    background: white;
+    padding: 5px;
+    border-radius: 6px;
+  }
+
+  .qr-box .label {
+    font-size: 9px;
+    opacity: 0.5;
+    margin-top: 4px;
+  }
+
+  /* SPONSORS */
+  .sponsors {
+    padding: 12px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    background: rgba(255,255,255,0.95);
+  }
+
+  .sponsors .tag {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #999;
+    font-weight: 500;
+  }
+
+  .sponsors img {
+    height: 30px;
+    width: auto;
+    object-fit: contain;
+    opacity: 0.7;
+  }
+</style>
+</head>
+<body>
+<div class="flyer">
+
+  <div class="hero">
+    <div class="bg"></div>
+    <div class="overlay"></div>
+    <div class="diagonal-stripe"></div>
+    <div class="hero-content">
+      <div class="sport-badge">{{EVENT_TYPE}}</div>
+      <h1>{{TITLE}}</h1>
+      <p class="tagline">{{SUBTITLE}}</p>
+    </div>
+  </div>
+
+  <div class="date-strip">
+    <div class="item">📅 {{DATE}}</div>
+    <div class="divider"></div>
+    <div class="item">📍 {{LOCATION}}</div>
+    <div class="divider"></div>
+    <div class="item">🕐 {{TIME}}</div>
+  </div>
+
+  <div class="content">
+    <p style="font-size:15px; line-height:1.6; opacity:0.85;">{{DESCRIPTION}}</p>
+    {{SCHEDULE_SECTION}}
+    {{CTA_HTML}}
+  </div>
+
+  {{PEOPLE_SECTION}}
+
+  <div class="footer">
+    <div class="contacts">
+      {{CONTACT_ITEMS}}
+    </div>
+    {{QR_CODE_HTML}}
+  </div>
+
+  {{SPONSORS_SECTION}}
+
+</div>
+</body>
+</html>

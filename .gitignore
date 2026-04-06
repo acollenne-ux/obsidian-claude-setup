@@ -1,0 +1,25 @@
+# Fichiers sensibles - JAMAIS commiter
+ai_config.json
+api_keys.json
+email_config.json
+*.json.bak
+tools/__pycache__/
+__pycache__/
+
+# Fichiers temporaires
+*.log
+*.tmp
+temp_*.json
+b64_chunks/
+tunnel.log
+
+# Rapports temporaires
+tools/reports/
+
+# Données encodées
+*.b64
+mega_b64.txt
+skill_b64.txt
+
+# Backups de skills
+*.bak_*

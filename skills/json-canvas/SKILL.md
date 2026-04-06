@@ -5,6 +5,24 @@ description: Create and edit JSON Canvas files (.canvas) with nodes, edges, grou
 
 # JSON Canvas Skill
 
+<HARD-GATE>
+JAMAIS de canvas sans ces vérifications :
+1. Tous les `id` sont des hex 16 caractères UNIQUES (nodes + edges)
+2. Tous les `fromNode`/`toNode` référencent des nodes EXISTANTS
+3. Le JSON est valide et parseable
+4. Newlines en `\n` (JAMAIS `\\n` littéral)
+</HARD-GATE>
+
+## CHECKLIST OBLIGATOIRE
+
+1. **Structure** — Créer le fichier `.canvas` avec `{"nodes": [], "edges": []}`
+2. **Nodes** — Générer des IDs hex 16 chars, positionner avec espacement 50-100px
+3. **Edges** — Connecter les nodes, définir `fromSide`/`toSide` si nécessaire
+4. **Validation** — Parser le JSON, vérifier unicité IDs, vérifier refs edges
+5. **Test** — Ouvrir dans Obsidian, confirmer le rendu correct
+
+---
+
 ## File Structure
 
 A canvas file (`.canvas`) contains two top-level arrays following the [JSON Canvas Spec 1.0](https://jsoncanvas.org/spec/1.0/):
@@ -242,3 +260,32 @@ See [references/EXAMPLES.md](references/EXAMPLES.md) for full canvas examples in
 
 - [JSON Canvas Spec 1.0](https://jsoncanvas.org/spec/1.0/)
 - [JSON Canvas GitHub](https://github.com/obsidianmd/jsoncanvas)
+
+---
+
+## ANTI-PATTERNS
+
+| Excuse | Réalité |
+|--------|---------|
+| "Les IDs peuvent être séquentiels (1, 2, 3)" | Les IDs DOIVENT être des hex 16 caractères aléatoires. Les IDs séquentiels causent des collisions. |
+| "Pas besoin de valider les edge references" | TOUJOURS vérifier que `fromNode` et `toNode` référencent des nodes existants. Les edges orphelins cassent le canvas. |
+| "Le positionnement approximatif suffit" | Aligner sur une grille (multiples de 10/20) et espacer de 50-100px. Un layout désordonné est inutilisable. |
+| "Les newlines littérales marchent dans JSON" | Utiliser `\n` dans les strings JSON. Les `\\n` littéraux s'affichent comme caractères bruts dans Obsidian. |
+
+## CROSS-LINKS
+
+| Contexte | Skill |
+|----------|-------|
+| Notes Obsidian | `obsidian-markdown` |
+| Bases Obsidian | `obsidian-bases` |
+| CLI Obsidian | `obsidian-cli` |
+| Diagrammes | Mermaid dans `obsidian-markdown` |
+
+## ÉVOLUTION
+
+Après chaque création de canvas :
+- Si un nouveau type de node est ajouté à la spec → mettre à jour le schema
+- Si des collisions d'IDs surviennent → renforcer la génération aléatoire
+- Si un pattern de layout est récurrent → l'ajouter comme template
+
+Seuils : si > 2 canvas nécessitent des corrections d'IDs → revoir le générateur.

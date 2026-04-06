@@ -44,6 +44,24 @@ triggers:
 
 # Obsidian CLI
 
+<HARD-GATE>
+JAMAIS de commande CLI Obsidian sans :
+1. Vérifier qu'Obsidian Desktop est EN COURS D'EXÉCUTION (IPC requis)
+2. Utiliser des chemins VAULT-RELATIFS (JAMAIS de chemins absolus du filesystem)
+3. Exécuter dans un terminal avec privilèges NORMAUX (JAMAIS admin sur Windows)
+4. Si Windows Git Bash : vérifier que le wrapper `~/bin/obsidian` existe
+</HARD-GATE>
+
+## CHECKLIST OBLIGATOIRE
+
+1. **Prérequis** — Obsidian v1.12+, CLI activé dans Settings, Obsidian en cours d'exécution
+2. **Commande** — Construire avec syntaxe `key=value`, quotes si espaces
+3. **Exécution** — Lancer la commande, capturer stdout/stderr
+4. **Vérification** — Confirmer le résultat (read, search, ou screenshot)
+5. **Fallback** — Si erreur, consulter le troubleshooting, tenter alternative
+
+---
+
 The official Obsidian CLI (released in v1.12, February 2026) lets you control every aspect of Obsidian from the terminal. It communicates with a running Obsidian desktop instance via IPC.
 
 > Read `references/command-reference.md` when you need specific flags, output formats, or
@@ -287,3 +305,32 @@ obsidian command id="dataview:dataview-force-refresh-views"
 | `property:set` list value is a string | CLI stores value as-is | Edit frontmatter directly or use `eval` |
 | Colon+params exit 127 (missing `.com`) | Outdated installer — `Obsidian.com` absent | Reinstall from [obsidian.md/download](https://obsidian.md/download) |
 | Colon+params exit 127 (Git Bash / MSYS2) | Bash resolves `obsidian` to `.exe` not `.com` | Create `~/bin/obsidian` wrapper: `#!/bin/bash` / `/c/path/to/Obsidian.com "$@"` and add `export PATH="$HOME/bin:$PATH"` to `~/.bashrc` |
+
+---
+
+## ANTI-PATTERNS
+
+| Excuse | Réalité |
+|--------|---------|
+| "On peut utiliser des chemins absolus" | Les chemins CLI sont VAULT-RELATIFS. Jamais de chemins absolus du filesystem. |
+| "Le CLI marche sans Obsidian ouvert" | Le CLI communique via IPC — Obsidian Desktop DOIT être en cours d'exécution. |
+| "Un terminal admin c'est mieux" | Sur Windows, les terminaux admin provoquent des échecs silencieux. Toujours utiliser des privilèges normaux. |
+| "Le multi-vault fonctionne partout" | Le ciblage par nom de vault peut échouer sur certains setups. Préférer omettre le nom et cibler le vault actif. |
+
+## CROSS-LINKS
+
+| Contexte | Skill |
+|----------|-------|
+| Syntaxe Markdown | `obsidian-markdown` |
+| Fichiers .base | `obsidian-bases` |
+| Fichiers .canvas | `json-canvas` |
+| MCP alternatif | `mcp-obsidian` |
+
+## ÉVOLUTION
+
+Après chaque interaction CLI Obsidian :
+- Si une commande échoue avec un nouveau message d'erreur → l'ajouter au troubleshooting
+- Si une nouvelle version Obsidian ajoute des commandes → mettre à jour le command overview
+- Si le wrapper Windows pose problème → documenter les alternatives
+
+Seuils : si > 3 échecs de commande par session → revoir la configuration CLI et les prérequis.
