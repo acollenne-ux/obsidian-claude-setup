@@ -19,7 +19,7 @@ if command -v cloudflared &> /dev/null; then
     echo "[INFO] Lancement du tunnel Cloudflare..."
     echo "[INFO] Copie l'URL affichee ci-dessous et ajoute-la dans claude.ai → Settings → MCP"
     echo ""
-    cloudflared tunnel --url https://localhost:27124
+    cloudflared tunnel --url https://localhost:27124 --no-tls-verify
 else
     echo "[ERREUR] cloudflared non installe."
     echo "  Installation: winget install Cloudflare.cloudflared"

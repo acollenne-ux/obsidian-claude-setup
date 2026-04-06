@@ -1,6 +1,6 @@
 # Obsidian + Claude Code — Setup complet
 
-Configuration complète pour connecter Obsidian à Claude Code (CLI, Desktop et claude.ai).
+Configuration complète pour connecter Obsidian à Claude Code (CLI, Desktop et claude.ai web).
 
 ## Contenu
 
@@ -22,54 +22,91 @@ Configuration complète pour connecter Obsidian à Claude Code (CLI, Desktop et 
 ## Installation rapide
 
 ### 1. Plugin Obsidian
-- Obsidian → Settings → Community plugins → Browse → "Local REST API" → Install → Enable
-- Noter la **clé API** dans Settings → Local REST API
+1. Ouvre **Obsidian** → Settings → Community plugins → Browse
+2. Cherche **"Local REST API"** → Install → Enable
+3. Va dans Settings → Local REST API → copie la **clé API**
 
-### 2. Skills (Claude Code CLI)
+### 2. Skills (Claude Code CLI ou Web)
+
 ```bash
-# Cloner et copier les skills
+# Cloner le repo
 git clone https://github.com/acollenne-ux/obsidian-claude-setup.git
+
+# Copier les skills dans le profil Claude Code
 cp -r obsidian-claude-setup/skills/* ~/.claude/skills/
 ```
+
+> **Note :** Les skills sont aussi dans `.claude/skills/` du projet. Si tu ouvres ce repo dans Claude Code (CLI ou web), les skills sont automatiquement disponibles.
 
 ### 3. MCP Server (Claude Code CLI)
 ```bash
 # Ajouter le MCP
 claude mcp add mcp-obsidian -- uvx mcp-obsidian
 
-# Configurer la clé API (remplacer YOUR_API_KEY)
-# Dans ~/.claude.json, ajouter dans env du MCP :
-# "OBSIDIAN_API_KEY": "YOUR_API_KEY"
+# Configurer la clé API dans ~/.claude.json :
+# "env": { "OBSIDIAN_API_KEY": "TA_CLE_API" }
 ```
 
-### 4. Claude.ai (version web) — Tunnel requis
+---
 
-Claude.ai ne peut pas accéder à `localhost:27124`. Il faut exposer l'API via un tunnel.
+## Utiliser sur claude.ai (version web)
 
-#### Option A : Cloudflare Tunnel (recommandé, gratuit)
+Claude.ai ne peut pas accéder à `localhost:27124`. Il faut exposer l'API Obsidian via un **tunnel Cloudflare**.
+
+### Étape 1 : Installer cloudflared
+
 ```bash
-# Installer cloudflared
+# Windows
 winget install Cloudflare.cloudflared
 
-# Lancer le tunnel (Obsidian doit être ouvert)
-cloudflared tunnel --url https://localhost:27124
-```
-Copier l'URL générée (ex: `https://xxxxx.trycloudflare.com`) et l'ajouter comme MCP dans claude.ai.
+# macOS
+brew install cloudflared
 
-#### Option B : ngrok
+# Linux
+sudo apt install cloudflared
+```
+
+### Étape 2 : Lancer le tunnel
+
+**Windows** (double-clic ou cmd) :
+```cmd
+start-tunnel.bat
+```
+
+**Linux/macOS** :
 ```bash
-# Installer ngrok
-winget install ngrok.ngrok
-
-# Lancer le tunnel
-ngrok http https://localhost:27124
+bash start-tunnel.sh
 ```
 
-#### Ajouter sur claude.ai
-1. Aller sur claude.ai → Settings → MCP Servers
-2. Ajouter un nouveau serveur HTTP
-3. URL : l'URL du tunnel (ex: `https://xxxxx.trycloudflare.com`)
-4. Header Authorization : `Bearer YOUR_API_KEY`
+**Ou manuellement** :
+```bash
+cloudflared tunnel --url https://localhost:27124 --no-tls-verify
+```
+
+> **IMPORTANT :** L'option `--no-tls-verify` est obligatoire car Obsidian utilise un certificat auto-signé. Sans cette option, le tunnel retourne une erreur 502.
+
+Cloudflared affiche une URL du type :
+```
+https://quelquechose-random.trycloudflare.com
+```
+
+### Étape 3 : Configurer sur claude.ai
+
+1. Va sur **claude.ai** → clique sur ton profil (en bas à gauche)
+2. **Settings** → **Integrations** (ou MCP Servers)
+3. **Add Integration** / Add MCP Server
+4. Configure :
+   - **URL** : colle l'URL du tunnel (ex: `https://xxx.trycloudflare.com`)
+   - **Header Name** : `Authorization`
+   - **Header Value** : `Bearer TA_CLE_API`
+5. Sauvegarde
+
+### Rappels importants
+
+- **Obsidian doit être ouvert** pour que l'API fonctionne
+- **Le terminal cloudflared ne doit pas être fermé** (le tunnel s'arrête sinon)
+- **L'URL change** à chaque relancement de cloudflared
+- **Fonctionne sur tous les projets** claude.ai une fois configuré au niveau du compte
 
 ---
 
@@ -82,7 +119,7 @@ ngrok http https://localhost:27124
     "command": "uvx",
     "args": ["mcp-obsidian"],
     "env": {
-      "OBSIDIAN_API_KEY": "YOUR_API_KEY",
+      "OBSIDIAN_API_KEY": "TA_CLE_API",
       "OBSIDIAN_HOST": "127.0.0.1",
       "OBSIDIAN_PORT": "27124"
     }
@@ -93,19 +130,24 @@ ngrok http https://localhost:27124
 ## Test de connexion
 
 ```bash
-curl -s -k -H "Authorization: Bearer YOUR_API_KEY" https://127.0.0.1:27124/
+# Test direct (local)
+curl -s -k -H "Authorization: Bearer TA_CLE_API" https://127.0.0.1:27124/
 # Réponse attendue : {"status":"OK","authenticated":true,...}
 
-curl -s -k -H "Authorization: Bearer YOUR_API_KEY" https://127.0.0.1:27124/vault/
-# Liste les fichiers du vault
+# Test via tunnel
+curl -s -H "Authorization: Bearer TA_CLE_API" https://xxx.trycloudflare.com/
+# Même réponse attendue
+
+# Lister les fichiers du vault
+curl -s -k -H "Authorization: Bearer TA_CLE_API" https://127.0.0.1:27124/vault/
 ```
 
 ## Prérequis
 - Obsidian Desktop v1.12.0+
 - Plugin "Local REST API" activé
 - Obsidian doit être **ouvert** pour que l'API fonctionne
-- Python `uvx` (via `uv`) pour le MCP server
-- Pour claude.ai : cloudflared ou ngrok pour le tunnel
+- Python `uvx` (via `uv`) pour le MCP server en local
+- Pour claude.ai web : `cloudflared` pour le tunnel
 
 ## Sources
 - [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills)
