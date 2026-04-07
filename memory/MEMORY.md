@@ -110,3 +110,4 @@
 - [PDF Report Gen v2 07/04](project_pdf_report_gen_v2_20260407.md) — Refonte complete pdf-report-gen : 5 agents + pdf_engine modulaire (Playwright) + 5 templates CSS + QC auto + Mermaid + modify_pdf.py
 - [pdf-report-pro 07/04](project_pdf_report_pro_20260407.md) — Refonte McKinsey/BCG/Goldman, 6 phases, 5 templates HTML/CSS, WeasyPrint+Playwright, score audit 97/100
 - [ppt-creator 07/04](project_ppt_creator_20260407.md) — Nouveau skill .pptx éditable McKinsey/BCG, ghost deck validé utilisateur, python-pptx, score audit 97/100
+- [Skills carrière 07/04](project_career_skills_20260407.md) — cv-creator + cover-letter-creator (Typst + HTML/Playwright + JSON Resume), 6 templates CV, 4 frameworks lettres, ATS-safe

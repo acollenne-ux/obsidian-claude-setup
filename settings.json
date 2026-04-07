@@ -185,7 +185,11 @@
       "Bash(cp -ru .claude/projects/C--Users-Alexandre-collenne/memory/. obsidian-claude-setup/memory/)",
       "Bash(cp -ru .claude/tools/. obsidian-claude-setup/tools/)",
       "Bash(cp -u .claude/CLAUDE.md obsidian-claude-setup/CLAUDE.md)",
-      "Bash(cp -u .claude/settings.json obsidian-claude-setup/settings.json)"
+      "Bash(cp -u .claude/settings.json obsidian-claude-setup/settings.json)",
+      "Edit(/.claude/skills/cv-creator/**)",
+      "Edit(/.claude/skills/cover-letter-creator/**)",
+      "Bash(\"C:/Users/Alexandre collenne/AppData/Local/Programs/Python/Python313/python.exe\" \"C:/Users/Alexandre collenne/.claude/skills/skill-creator/scripts/audit_skills.py\" cv-creator)",
+      "Bash(\"C:/Users/Alexandre collenne/AppData/Local/Programs/Python/Python313/python.exe\" \"C:/Users/Alexandre collenne/.claude/skills/skill-creator/scripts/audit_skills.py\" cover-letter-creator)"
     ],
     "additionalDirectories": [
       "C:\\Users\\Alexandre collenne\\.claude\\tradingview-app",
