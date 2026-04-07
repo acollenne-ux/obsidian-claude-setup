@@ -135,17 +135,80 @@
       "Bash(cp -r ~/.claude/skills/*/ skills/)",
       "Bash(mkdir -p memory)",
       "Bash(cp ~/.claude/projects/C--Users-Alexandre-collenne/memory/MEMORY.md memory/)",
-      "Bash(ls ~/.claude/projects/C--Users-Alexandre-collenne/memory/*.md)"
+      "Bash(ls ~/.claude/projects/C--Users-Alexandre-collenne/memory/*.md)",
+      "Bash(\"C:/Users/Alexandre collenne/AppData/Local/Programs/Python/Python313/python.exe\" /c/tmp/ferrovial_ppt.py)",
+      "Bash(\"C:/Users/Alexandre collenne/AppData/Local/Programs/Python/Python313/python.exe\" /c/tmp/ferrovial_ppt_v2.py)",
+      "Bash(\"C:/Users/Alexandre collenne/AppData/Local/Programs/Python/Python313/python.exe\" -c \"import pptx;print\\(pptx.__version__\\)\")",
+      "Bash(\"C:/Users/Alexandre collenne/AppData/Local/Programs/Python/Python313/python.exe\" C:/tmp/exosens_ppt.py)",
+      "WebFetch(domain:www.marketscreener.com)",
+      "WebFetch(domain:www.aerotime.aero)",
+      "Bash(\"C:\\\\Users\\\\Alexandre collenne\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python313\\\\python.exe\" \"C:\\\\tmp\\\\build_hensoldt_pptx.py\")",
+      "Bash('C:\\\\Users\\\\Alexandre collenne\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python313\\\\python.exe' -c ':*)",
+      "Bash(\"C:/Users/Alexandre collenne/AppData/Local/Programs/Python/Python313/python.exe\" C:/tmp/exosens_ppt_v2.py)",
+      "Edit(/.claude/skills/image-studio/**)",
+      "Bash(\"C:/Users/Alexandre collenne/AppData/Local/Programs/Python/Python313/python.exe\" \"C:/Users/Alexandre collenne/.claude/hooks/image_studio_trigger.py\")",
+      "Bash(printf '%s' '{\"prompt\":\"cree un flyer soiree\"}')",
+      "Bash(cp \"C:/Users/Alexandre collenne/.claude/skills/pdf-report-gen/SKILL.md\" \"C:/Users/Alexandre collenne/.claude/skills/pdf-report-gen/SKILL.md.bak_v1_20260407\")",
+      "Bash(cp \"C:/Users/Alexandre collenne/.claude/tools/send_report.py\" \"C:/Users/Alexandre collenne/.claude/tools/send_report.py.bak_v1_20260407\")",
+      "Bash(mkdir -p \"C:/Users/Alexandre collenne/.claude/tools/pdf_engine/templates\")",
+      "Bash(mkdir -p \"C:/Users/Alexandre collenne/.claude/skills/pdf-report-gen/agents\")",
+      "Bash(mkdir -p \"C:/Users/Alexandre collenne/.claude/skills/pdf-report-gen/templates\")",
+      "Bash(\"C:/Users/Alexandre collenne/AppData/Local/Programs/Python/Python313/python.exe\" -m pip show weasyprint)",
+      "Bash(\"C:/Users/Alexandre collenne/AppData/Local/Programs/Python/Python313/python.exe\" -m pip show fpdf2)",
+      "Bash(\"C:/Users/Alexandre collenne/AppData/Local/Programs/Python/Python313/python.exe\" -m pip install weasyprint)",
+      "Bash(\"C:/Users/Alexandre collenne/AppData/Local/Programs/Python/Python313/python.exe\" -m pip install pypdf pygments)",
+      "Bash(\"C:/Users/Alexandre collenne/AppData/Local/Programs/Python/Python313/python.exe\" -m pip show playwright)",
+      "Bash(\"C:/Users/Alexandre collenne/AppData/Local/Programs/Python/Python313/python.exe\" -c \"from playwright.sync_api import sync_playwright; print\\('Playwright OK'\\)\")",
+      "Bash(\"C:/Users/Alexandre collenne/AppData/Local/Programs/Python/Python313/python.exe\" \"C:/Users/Alexandre collenne/.claude/tools/send_report.py\" \"PDF Report Gen v2 - Demo complete\" --file \"C:/tmp/demo_pdf_v2.md\" --template financial --check-quality --no-email --output-dir \"C:/tmp\")",
+      "Bash(\"C:/Users/Alexandre collenne/AppData/Local/Programs/Python/Python313/python.exe\" \"C:/Users/Alexandre collenne/.claude/tools/send_report.py\" \"PDF Report Gen v2 - Demonstration complete\" --file \"C:/tmp/demo_pdf_v2.md\" --template financial --check-quality acollenne@gmail.com)",
+      "Bash(\"C:/Users/Alexandre collenne/AppData/Local/Programs/Python/Python313/python.exe\" \"C:/Users/Alexandre collenne/.claude/skills/skill-creator/scripts/audit_skills.py\" pdf-report-gen)",
+      "Bash(\"C:/Users/Alexandre collenne/AppData/Local/Programs/Python/Python313/python.exe\" -m pip install --quiet weasyprint python-pptx)",
+      "Bash(\"C:/Users/Alexandre collenne/AppData/Local/Programs/Python/Python313/python.exe\" -c \"import weasyprint; print\\('WEASY OK', weasyprint.__version__\\)\")",
+      "Bash(\"C:/Users/Alexandre collenne/AppData/Local/Programs/Python/Python313/python.exe\" -c \"import pptx; print\\('PPTX OK', pptx.__version__\\)\")",
+      "Edit(/.claude/skills/pdf-report-pro/**)",
+      "Edit(/.claude/skills/ppt-creator/**)",
+      "Bash(\"C:/Users/Alexandre collenne/AppData/Local/Programs/Python/Python313/python.exe\" \"C:/Users/Alexandre collenne/.claude/skills/skill-creator/scripts/audit_skills.py\" pdf-report-pro)",
+      "Bash(\"C:/Users/Alexandre collenne/AppData/Local/Programs/Python/Python313/python.exe\" \"C:/Users/Alexandre collenne/.claude/skills/skill-creator/scripts/audit_skills.py\" ppt-creator)",
+      "Bash(winget install:*)",
+      "Bash(export PATH=\"$PATH:/c/Users/Alexandre collenne/AppData/Local/Microsoft/WinGet/Links\")",
+      "Bash(typst --version)",
+      "Bash(typst compile:*)",
+      "Bash('/c/Users/Alexandre collenne/AppData/Local/Microsoft/WinGet/Packages/Typst.Typst_Microsoft.Winget.Source_8wekyb3d8bbwe/typst.exe' --version)",
+      "Bash('/c/Users/Alexandre collenne/AppData/Local/Microsoft/WinGet/Packages/Typst.Typst_Microsoft.Winget.Source_8wekyb3d8bbwe/typst.exe' compile board_memo.typ /tmp/test_board_memo.pdf)",
+      "Bash('/c/Users/Alexandre collenne/AppData/Local/Microsoft/WinGet/Packages/Typst.Typst_Microsoft.Winget.Source_8wekyb3d8bbwe/typst-x86_64-pc-windows-msvc/typst.exe' --version)",
+      "Bash('/c/Users/Alexandre collenne/AppData/Local/Microsoft/WinGet/Packages/Typst.Typst_Microsoft.Winget.Source_8wekyb3d8bbwe/typst-x86_64-pc-windows-msvc/typst.exe' compile board_memo.typ /tmp/test_board_memo.pdf)",
+      "Bash('C:/Users/Alexandre collenne/AppData/Local/Programs/Python/Python313/python.exe' -m pip install pypdf pyyaml --quiet)",
+      "Bash(grep -li \"libreoffice\\\\|soffice\" \"C:/Users/Alexandre collenne/.claude/skills/pdf-report-pro/SKILL.md\" \"C:/Users/Alexandre collenne/.claude/skills/ppt-creator/SKILL.md\" \"C:/Users/Alexandre collenne/.claude/skills/ppt-creator/tools/\"*.py \"C:/Users/Alexandre collenne/.claude/skills/pdf-report-pro/tools/\"*.py)",
+      "Bash('C:/Users/Alexandre collenne/AppData/Local/Programs/Python/Python313/python.exe' 'C:/Users/Alexandre collenne/.claude/skills/ppt-creator/tools/build_templates.py')",
+      "Bash('C:/Users/Alexandre collenne/AppData/Local/Programs/Python/Python313/python.exe' C:/tmp/smoke_test.py)",
+      "Bash(cp -ru .claude/skills/. obsidian-claude-setup/skills/)",
+      "Bash(cp -ru .claude/projects/C--Users-Alexandre-collenne/memory/. obsidian-claude-setup/memory/)",
+      "Bash(cp -ru .claude/tools/. obsidian-claude-setup/tools/)",
+      "Bash(cp -u .claude/CLAUDE.md obsidian-claude-setup/CLAUDE.md)",
+      "Bash(cp -u .claude/settings.json obsidian-claude-setup/settings.json)"
     ],
     "additionalDirectories": [
       "C:\\Users\\Alexandre collenne\\.claude\\tradingview-app",
       "C:\\Users\\Alexandre collenne\\.claude\\skills\\website-analyzer",
       "\\tmp",
       "C:\\Users\\Alexandre collenne\\.claude\\skills\\skill-creator",
-      "C:\\Users\\Alexandre collenne\\.claude"
+      "C:\\Users\\Alexandre collenne\\.claude",
+      "C:\\Users\\Alexandre collenne\\.claude\\skills\\image-studio"
     ]
   },
   "model": "claude-opus-4-6",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"C:/Users/Alexandre collenne/AppData/Local/Programs/Python/Python313/python.exe\" \"C:/Users/Alexandre collenne/.claude/hooks/image_studio_trigger.py\""
+          }
+        ]
+      }
+    ]
+  },
   "statusLine": {
     "type": "command",
     "command": "PYTHONUTF8=1 python \"C:/Users/Alexandre collenne/.claude/statusline.py\""

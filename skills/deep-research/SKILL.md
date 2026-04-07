@@ -34,7 +34,7 @@ deep-research invoqué
   → Phase 2 : Plan d'exécution + dispatch skills
   → Phase 3 : Recherche multi-sources
   → Invoquer qa-pipeline (validation)
-  → Invoquer pdf-report-gen (si PDF nécessaire)
+  → Invoquer pdf-report-pro (si PDF nécessaire) OU ppt-creator (si présentation/slides/deck)
   → Invoquer feedback-loop (collecte score)
   → Invoquer retex-evolution (RETEX + amélioration)
 ```
@@ -329,7 +329,8 @@ ALLOCATION — [titre]
 2     | multi-ia-router        | Raisonnement [angle]      | Étape 1   | Non
 3     | [skill spécialisé]     | [tâche domaine]           | Étapes 1+2| Non
 4     | qa-pipeline            | Validation tous outputs   | Étape 3   | Non
-5     | pdf-report-gen         | PDF final                 | Étape 4   | Non
+5     | pdf-report-pro         | PDF institutionnel        | Étape 4   | Non
+5bis  | ppt-creator            | .pptx éditable            | Étape 4bis| Non
 6     | feedback-loop          | Score utilisateur         | Étape 5   | Non
 7     | retex-evolution        | RETEX + amélioration      | Étape 6   | Non
 ```
@@ -393,7 +394,8 @@ Après la collecte de données, invoquer les skills dans l'ordre :
 1. **`multi-ia-router`** (si STANDARD/FULL) → raisonnement multi-IA, consensus
 2. **`financial-analysis-framework`** (si finance) → 8 types + 15 dimensions
 3. **`qa-pipeline`** (TOUJOURS) → validation, sources, confiance
-4. **`pdf-report-gen`** (si PDF demandé ou analyse importante) → synthèse + envoi
+4. **`pdf-report-pro`** (si PDF demandé ou analyse importante) → rapport institutionnel McKinsey/BCG + envoi email
+4bis. **`ppt-creator`** (si mots-clés "présentation", "slides", "ppt", "pptx", "deck", "pitch", "présenter", "powerpoint") → .pptx éditable McKinsey/BCG avec ghost deck validé utilisateur
 5. **`feedback-loop`** (TOUJOURS) → score utilisateur
 6. **`retex-evolution`** (TOUJOURS, en dernier) → RETEX + amélioration
 
@@ -450,7 +452,8 @@ Sous-agents dispatchés : [nombre + rôles]
 IAs mobilisées : [liste via multi-ia-router]
 MCPs utilisés : [liste avec statuts]
 Qualité finale : [X]/10 (via qa-pipeline)
-PDFs envoyés : [liste via pdf-report-gen]
+PDFs envoyés : [liste via pdf-report-pro]
+PPTX livrés : [liste via ppt-creator]
 Score feedback : [X]/10 (via feedback-loop)
 RETEX enregistré : oui (via retex-evolution)
 Skill amélioré : [oui/non] (via retex-evolution)

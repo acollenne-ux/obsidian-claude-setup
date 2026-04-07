@@ -1,1 +1,1 @@
-https://arrangement-rio-telephone-offset.trycloudflare.com
+https://api.trycloudflare.com

@@ -1,0 +1,588 @@
+/* ===================================================================
+   base.css — Styles communs a tous les templates pdf_engine
+   =================================================================== */
+
+@page {
+    size: A4;
+    margin: 20mm 18mm 25mm 18mm;
+    @top-left {
+        content: string(doc-title);
+        font-size: 8pt;
+        color: #718096;
+    }
+    @top-right {
+        content: "REPORT_DATE_PLACEHOLDER";
+        font-size: 8pt;
+        color: #718096;
+    }
+    @bottom-center {
+        content: "Page " counter(page) " / " counter(pages);
+        font-size: 8pt;
+        color: #a0aec0;
+    }
+    @bottom-right {
+        content: "Claude Code";
+        font-size: 7pt;
+        color: #cbd5e0;
+    }
+}
+@page :first {
+    margin: 0;
+    @top-left { content: none; }
+    @top-right { content: none; }
+    @bottom-center { content: none; }
+    @bottom-right { content: none; }
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+
+body {
+    font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10pt;
+    line-height: 1.6;
+    color: #2d3748;
+}
+
+.page-break { page-break-before: always; }
+.no-break    { page-break-inside: avoid; }
+
+/* ===================================================================
+   COVER PAGE (page de garde complete)
+   =================================================================== */
+.cover-page {
+    page-break-after: always;
+    height: 257mm;
+    padding: 25mm 20mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: white;
+}
+.cover-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.cover-logo {
+    max-width: 80px;
+    max-height: 60px;
+}
+.cover-classification {
+    border: 2px solid;
+    padding: 4px 12px;
+    font-size: 9pt;
+    font-weight: 700;
+    letter-spacing: 1px;
+    border-radius: 3px;
+}
+.cover-center {
+    text-align: left;
+    margin-top: 60mm;
+}
+.cover-type {
+    font-size: 11pt;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #718096;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+.cover-title {
+    font-size: 32pt;
+    font-weight: 800;
+    line-height: 1.15;
+    margin: 0 0 12px 0;
+    color: #1a365d;
+    letter-spacing: -0.5px;
+}
+.cover-subtitle {
+    font-size: 13pt;
+    color: #4a5568;
+    margin: 0 0 28px 0;
+    font-weight: 400;
+    line-height: 1.4;
+}
+.cover-divider {
+    width: 80px;
+    height: 4px;
+    background: #2b6cb0;
+    margin: 24px 0;
+}
+.cover-meta {
+    display: flex;
+    gap: 32px;
+    margin-top: 28px;
+}
+.cover-meta > div {
+    display: flex;
+    flex-direction: column;
+}
+.meta-label {
+    font-size: 7pt;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: #a0aec0;
+    font-weight: 600;
+    margin-bottom: 3px;
+}
+.meta-value {
+    font-size: 11pt;
+    color: #2d3748;
+    font-weight: 600;
+}
+.cover-bottom {
+    text-align: center;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 12px;
+}
+.cover-footer {
+    font-size: 8pt;
+    color: #a0aec0;
+    margin: 0;
+}
+
+/* ===================================================================
+   COVER BANNER (variante sans page de garde)
+   =================================================================== */
+.cover-banner {
+    background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 100%);
+    color: white;
+    padding: 28px 32px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+.cover-banner h1 {
+    font-size: 22pt;
+    margin: 0 0 6px 0;
+    font-weight: 700;
+    color: white;
+    border: none;
+}
+.cover-banner .subtitle {
+    font-size: 9pt;
+    opacity: 0.85;
+    margin: 0;
+}
+
+/* ===================================================================
+   EXECUTIVE SUMMARY
+   =================================================================== */
+.executive-summary {
+    background: #ebf8ff;
+    border-left: 4px solid #2b6cb0;
+    padding: 16px 20px;
+    margin: 16px 0;
+    border-radius: 0 6px 6px 0;
+    font-size: 9.5pt;
+    color: #2a4365;
+    line-height: 1.7;
+    page-break-inside: avoid;
+}
+.executive-summary h3 {
+    margin: 0 0 8px 0;
+    color: #1a365d;
+    font-size: 11pt;
+    border: none;
+    padding: 0;
+}
+
+/* ===================================================================
+   CONFIDENCE BAR
+   =================================================================== */
+.confidence-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 12px 0 20px 0;
+    padding: 10px 16px;
+    background: #f7fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+}
+.confidence-title {
+    font-size: 9pt;
+    color: #718096;
+    font-weight: 600;
+}
+.confidence-bar {
+    flex: 1;
+    height: 10px;
+    background: #e2e8f0;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.confidence-bar .fill {
+    height: 100%;
+    border-radius: 5px;
+}
+.confidence-label {
+    font-weight: 700;
+    font-size: 14pt;
+    min-width: 50px;
+    text-align: right;
+}
+.confidence-tag {
+    font-size: 8pt;
+    font-weight: 600;
+}
+
+/* ===================================================================
+   KPI DASHBOARD
+   =================================================================== */
+.kpi-dashboard {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 16px 0;
+    page-break-inside: avoid;
+}
+.kpi-card {
+    flex: 1 1 22%;
+    min-width: 110px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 14px 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+.kpi-label {
+    font-size: 8pt;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #718096;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+.kpi-value {
+    font-size: 18pt;
+    font-weight: 800;
+    color: #1a365d;
+    line-height: 1.1;
+    margin-bottom: 4px;
+}
+.kpi-change {
+    font-size: 9pt;
+    font-weight: 600;
+}
+
+/* ===================================================================
+   TABLE OF CONTENTS
+   =================================================================== */
+.toc {
+    background: #f7fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 16px 24px;
+    margin: 16px 0 24px 0;
+    page-break-inside: avoid;
+}
+.toc h3 {
+    color: #1a365d;
+    margin: 0 0 10px 0;
+    font-size: 11pt;
+    border-bottom: 2px solid #2b6cb0;
+    padding-bottom: 6px;
+}
+.toc ul { list-style: none; padding: 0; margin: 0; }
+.toc li {
+    padding: 3px 0;
+    border-bottom: 1px dotted #e2e8f0;
+    font-size: 9pt;
+}
+.toc li:last-child { border-bottom: none; }
+.toc li.toc-1 { font-weight: 700; color: #1a365d; }
+.toc li.toc-2 { padding-left: 16px; color: #2d3748; }
+.toc li.toc-3 { padding-left: 32px; color: #718096; font-size: 8.5pt; }
+.toc li.toc-4 { padding-left: 48px; color: #a0aec0; font-size: 8pt; }
+.toc li.toc-5 { padding-left: 60px; color: #a0aec0; font-size: 7.5pt; }
+.toc li.toc-6 { padding-left: 72px; color: #cbd5e0; font-size: 7.5pt; }
+.toc a { color: inherit; text-decoration: none; }
+.toc a::after {
+    content: target-counter(attr(href), page);
+    float: right;
+    color: #a0aec0;
+}
+
+/* ===================================================================
+   HEADINGS
+   =================================================================== */
+h1 {
+    font-size: 16pt;
+    color: #1a365d;
+    border-bottom: 3px solid #2b6cb0;
+    padding-bottom: 6px;
+    margin-top: 28px;
+    margin-bottom: 12px;
+    page-break-after: avoid;
+    string-set: doc-title content();
+}
+h2 {
+    font-size: 13pt;
+    color: #2b6cb0;
+    border-bottom: 2px solid #bee3f8;
+    padding-bottom: 4px;
+    margin-top: 22px;
+    margin-bottom: 10px;
+    page-break-after: avoid;
+}
+h3 {
+    font-size: 11pt;
+    color: #2c5282;
+    margin-top: 16px;
+    margin-bottom: 8px;
+    page-break-after: avoid;
+}
+h4 { font-size: 10pt; color: #4a5568; font-weight: 600; margin-top: 12px; margin-bottom: 6px; }
+h5 { font-size: 9pt;  color: #718096; font-weight: 600; margin-top: 10px; margin-bottom: 4px; }
+h6 { font-size: 8pt;  color: #a0aec0; font-weight: 600; margin-top: 8px;  margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* ===================================================================
+   TABLES
+   =================================================================== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 8.5pt;
+    page-break-inside: avoid;
+}
+thead th {
+    background: #1a365d;
+    color: white;
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 8.5pt;
+}
+tbody td {
+    padding: 6px 10px;
+    border-bottom: 1px solid #e2e8f0;
+}
+tbody tr:nth-child(even) { background: #ebf4ff; }
+
+/* ===================================================================
+   CODE BLOCKS
+   =================================================================== */
+pre {
+    background: #1a202c;
+    color: #e2e8f0;
+    padding: 14px 18px;
+    border-radius: 6px;
+    font-family: 'Consolas', 'Fira Code', monospace;
+    font-size: 8pt;
+    line-height: 1.5;
+    overflow-x: auto;
+    margin: 10px 0;
+    page-break-inside: avoid;
+}
+code {
+    background: #edf2f7;
+    color: #c53030;
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Fira Code', monospace;
+    font-size: 8.5pt;
+}
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+}
+
+/* ===================================================================
+   LISTS
+   =================================================================== */
+ul, ol { margin: 8px 0; padding-left: 24px; }
+li { margin-bottom: 4px; line-height: 1.5; }
+
+/* ===================================================================
+   BLOCKQUOTE
+   =================================================================== */
+blockquote {
+    border-left: 4px solid #2b6cb0;
+    margin: 12px 0;
+    padding: 10px 16px;
+    background: #f0f5ff;
+    color: #2a4365;
+    border-radius: 0 4px 4px 0;
+    font-style: italic;
+}
+
+/* ===================================================================
+   CALLOUTS (GitHub-style)
+   =================================================================== */
+.callout {
+    border-left: 4px solid;
+    margin: 14px 0;
+    padding: 12px 16px;
+    border-radius: 0 4px 4px 0;
+    page-break-inside: avoid;
+}
+.callout-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 9.5pt;
+    margin-bottom: 6px;
+}
+.callout-icon {
+    font-weight: 800;
+    font-size: 11pt;
+}
+.callout-label {
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.callout-body {
+    font-size: 9.5pt;
+    color: #2d3748;
+}
+.callout-body p { margin: 4px 0; }
+
+/* ===================================================================
+   SEPARATORS / MISC
+   =================================================================== */
+hr {
+    border: none;
+    border-top: 2px solid #e2e8f0;
+    margin: 20px 0;
+}
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin: 8px 0;
+}
+figure {
+    margin: 12px 0;
+    text-align: center;
+    page-break-inside: avoid;
+}
+figcaption {
+    font-size: 8pt;
+    color: #718096;
+    font-style: italic;
+    margin-top: 4px;
+}
+.image-missing {
+    padding: 12px;
+    background: #fff5f5;
+    border: 1px dashed #fc8181;
+    color: #c53030;
+    font-size: 8.5pt;
+    font-style: italic;
+}
+
+/* ===================================================================
+   FOOTNOTES
+   =================================================================== */
+.fn-ref {
+    font-size: 7pt;
+    vertical-align: super;
+    font-weight: 700;
+}
+.fn-ref a {
+    color: #2b6cb0;
+    text-decoration: none;
+}
+.footnotes {
+    margin-top: 30px;
+    padding-top: 16px;
+    border-top: 2px solid #e2e8f0;
+    page-break-before: auto;
+}
+.footnotes h2 {
+    font-size: 11pt;
+    color: #1a365d;
+    border-bottom: 1px solid #e2e8f0;
+}
+.footnotes-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.footnotes-list li {
+    font-size: 8.5pt;
+    color: #4a5568;
+    padding: 4px 0;
+    border-bottom: 1px dotted #e2e8f0;
+}
+.fn-num {
+    color: #2b6cb0;
+    font-weight: 700;
+    margin-right: 6px;
+}
+
+/* ===================================================================
+   ANNEXES
+   =================================================================== */
+.annexes {
+    margin-top: 30px;
+    padding-top: 16px;
+    border-top: 3px solid #1a365d;
+    page-break-inside: avoid;
+}
+.annexes h2 {
+    color: #1a365d;
+}
+.section-box {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+.source-item {
+    font-size: 8.5pt;
+    color: #4a5568;
+    padding: 4px 0;
+    border-bottom: 1px dotted #e2e8f0;
+}
+.source-item:last-child { border-bottom: none; }
+
+/* ===================================================================
+   MERMAID
+   =================================================================== */
+.mermaid-diagram {
+    margin: 16px 0;
+    text-align: center;
+    page-break-inside: avoid;
+}
+.mermaid-fallback {
+    background: #f7fafc;
+    border: 1px dashed #cbd5e0;
+    padding: 12px;
+    margin: 12px 0;
+    border-radius: 4px;
+}
+.mermaid-label {
+    font-size: 8pt;
+    color: #718096;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+.mermaid-code {
+    font-size: 7.5pt !important;
+}
+.mermaid-hint {
+    font-size: 7pt;
+    color: #a0aec0;
+    font-style: italic;
+}
+
+/* ===================================================================
+   DOCUMENT FOOTER
+   =================================================================== */
+.document-footer {
+    margin-top: 30px;
+    padding-top: 12px;
+    border-top: 2px solid #e2e8f0;
+    text-align: center;
+}
+.document-footer p {
+    font-size: 7.5pt;
+    color: #a0aec0;
+    margin: 2px 0;
+}

@@ -15,6 +15,7 @@ Avant de répondre, déterminer quels skills et connecteurs MCP utiliser selon l
 - Debug → `code-debug`
 - Recherche générale → `deep-research` + WebSearch + WebFetch
 - Création/modification de skills ou agents → `skill-creator` (custom, JAMAIS le plugin officiel `skill-creator:skill-creator`)
+- **Création ou modification d'image, flyer, affiche, poster, visuel, bannière, post social, carte, invitation, menu, mockup, maquette → `image-studio` OBLIGATOIRE (auto-invoqué) avec Canva MCP comme moteur principal. JAMAIS bypasser au profit de Pillow/HTML direct sauf retouche photo pure ou fallback si Canva indisponible.**
 
 ### 2. Benchmark professionnel systématique
 Avant de produire une réponse importante, chercher ce que font les professionnels sur internet (WebSearch + WebFetch). Ne jamais se fier uniquement à la connaissance de training — les meilleures pratiques évoluent.

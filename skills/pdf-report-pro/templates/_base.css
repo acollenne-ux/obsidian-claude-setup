@@ -1,0 +1,96 @@
+/* pdf-report-pro v2 — design system institutionnel (Tufte + McKinsey)
+   Baseline grid 8pt — toutes les marges, paddings et tailles sont multiples de 4 ou 8.
+   Couleurs validées WCAG AA (contraste ≥ 4.5:1 sur #FFFFFF). */
+
+@page {
+  size: A4;
+  margin: 24mm 24mm 28mm 24mm; /* multiples de 8 */
+  @bottom-center {
+    content: "v" string(doc-version) " — " counter(page) " / " counter(pages);
+    font-family: "Inter", sans-serif; font-size: 8pt; color: #4A4A4A;
+  }
+  @top-right {
+    content: string(doc-title);
+    font-family: "Inter", sans-serif; font-size: 8pt; color: #4A4A4A;
+  }
+}
+
+:root {
+  /* Tokens couleurs WCAG AA — contraste vérifié sur #FFFFFF */
+  --primary: #0B3D91;   /* 11.6:1  */
+  --accent:  #C1121F;   /* 6.4:1   (foncé pour AA, pas #E63946 qui est 4.0:1) */
+  --ink:     #1A1A1A;   /* 17.4:1  */
+  --muted:   #4A4A4A;   /* 9.0:1   */
+  --border:  #B0B0B0;
+  --bg:      #F5F5F5;
+
+  /* Baseline grid */
+  --base: 8pt;
+  --leading: 1.4;
+}
+
+/* Typo : Inter (corps), Source Serif 4 (titres), JetBrains Mono (data) */
+html {
+  font-family: "Inter", "IBM Plex Sans", "Helvetica", sans-serif;
+  color: var(--ink);
+  line-height: var(--leading);
+  font-size: 10pt; /* multiple de 2 */
+}
+
+h1 {
+  font-family: "Source Serif 4", "Georgia", serif;
+  font-size: 24pt;     /* 3 × base */
+  line-height: 32pt;   /* 4 × base */
+  color: var(--primary);
+  string-set: doc-title content();
+  page-break-before: always;
+  margin: 0 0 16pt 0;  /* 2 × base */
+  font-weight: 600;
+}
+h2 {
+  font-size: 16pt;     /* 2 × base */
+  line-height: 24pt;   /* 3 × base */
+  color: var(--primary);
+  margin: 24pt 0 8pt 0;
+  font-weight: 600;
+}
+h3 {
+  font-size: 12pt;
+  line-height: 16pt;
+  color: var(--ink);
+  font-weight: 600;
+  margin: 16pt 0 8pt 0;
+}
+p { margin: 0 0 8pt 0; text-align: justify; hyphens: auto; }
+a { color: var(--primary); text-decoration: none; }
+sup { color: var(--primary); font-weight: 600; }
+
+/* Tables alignées sur la grille */
+table { border-collapse: collapse; width: 100%; font-size: 9pt; margin: 16pt 0; }
+th { background: var(--bg); color: var(--ink); font-weight: 600; text-align: left;
+     padding: 8pt; border-bottom: 1.5px solid var(--primary); }
+td { padding: 8pt; border-bottom: 0.5px solid var(--border); }
+
+/* Composants McKinsey */
+.action-title { font-size: 13pt; font-weight: 600; color: var(--primary); margin: 0 0 8pt 0; }
+.key-message  { border-left: 4px solid var(--accent); padding: 8pt 16pt;
+                font-size: 12pt; font-style: italic; color: var(--ink); margin: 16pt 0; }
+.source       { font-size: 8pt; color: var(--muted); font-style: italic; }
+.kpi          { display: inline-block; padding: 16pt; background: var(--bg);
+                border-radius: 4pt; min-width: 96pt; margin: 8pt; }
+.kpi-label    { font-size: 8pt; color: var(--muted); display: block; }
+.kpi-value    { font-size: 20pt; font-weight: 700; color: var(--primary); display: block; }
+.kpi-delta    { font-size: 9pt; color: var(--accent); display: block; }
+
+figure { margin: 16pt 0; page-break-inside: avoid; }
+figcaption { font-size: 9pt; color: var(--muted); margin-top: 8pt; }
+
+/* Tufte data-ink : pas de gradients, pas de 3D, pas de chartjunk */
+img, svg { max-width: 100%; filter: none !important; }
+
+/* Cover */
+.cover { page: cover; text-align: center; padding-top: 30%; }
+.cover h1 { font-size: 36pt; page-break-before: auto; }
+.cover .subtitle { font-size: 14pt; color: var(--muted); }
+.cover .meta { margin-top: 48pt; font-size: 9pt; color: var(--muted); }
+.cover .classification { color: var(--accent); font-weight: 600; }

@@ -1,0 +1,166 @@
+/* ===================================================================
+   research.css — Theme academique pour recherche / synthese
+   Caracteristiques : footnotes prominentes, serif lisible,
+   palette neutre, citations bien marquees
+   =================================================================== */
+
+body {
+    font-family: 'Cambria', 'Georgia', 'Times New Roman', serif;
+    font-size: 10.5pt;
+    line-height: 1.7;
+    color: #1a202c;
+    text-align: justify;
+}
+
+@page {
+    margin: 22mm 22mm 25mm 22mm;
+}
+
+/* Cover academique */
+.cover-title {
+    font-family: 'Cambria', 'Georgia', serif;
+    font-size: 26pt;
+    font-weight: 700;
+    color: #1a202c;
+}
+.cover-subtitle {
+    font-style: italic;
+    font-family: 'Cambria', serif;
+    font-size: 14pt;
+}
+.cover-type {
+    font-family: 'Segoe UI', sans-serif;
+    color: #4a5568;
+}
+.cover-divider {
+    background: #4a5568;
+    height: 2px;
+    width: 100px;
+}
+
+/* Headings serif */
+h1 {
+    font-family: 'Cambria', 'Georgia', serif;
+    font-size: 18pt;
+    color: #1a202c;
+    border-bottom: 1px solid #4a5568;
+    font-weight: 700;
+}
+h2 {
+    font-family: 'Cambria', 'Georgia', serif;
+    font-size: 14pt;
+    color: #2d3748;
+    border-bottom: 1px solid #cbd5e0;
+    font-weight: 700;
+}
+h3 {
+    font-family: 'Cambria', 'Georgia', serif;
+    font-size: 12pt;
+    color: #2d3748;
+    font-weight: 700;
+    font-style: italic;
+}
+
+p {
+    margin: 8px 0;
+    text-indent: 0;
+}
+
+/* Footnotes proeminentes */
+.fn-ref {
+    font-size: 7pt;
+    color: #2b6cb0;
+    font-weight: 600;
+}
+.footnotes {
+    border-top: 2px solid #1a202c;
+    margin-top: 40px;
+}
+.footnotes h2 {
+    font-family: 'Cambria', serif;
+    color: #1a202c;
+}
+.footnotes-list li {
+    font-size: 9pt;
+    line-height: 1.55;
+    padding: 6px 0;
+}
+.fn-num {
+    color: #1a202c;
+    font-weight: 700;
+}
+
+/* Blockquote citation academique */
+blockquote {
+    background: #fafafa;
+    border-left: 3px solid #4a5568;
+    margin: 16px 24px;
+    padding: 12px 18px;
+    font-style: italic;
+    color: #2d3748;
+    border-radius: 0;
+}
+
+/* Tables sobres */
+thead th {
+    background: white;
+    color: #1a202c;
+    border-top: 2px solid #1a202c;
+    border-bottom: 2px solid #1a202c;
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 700;
+    text-align: left;
+}
+tbody td {
+    border-bottom: 1px solid #cbd5e0;
+}
+tbody tr:nth-child(even) { background: white; }
+table {
+    border-bottom: 2px solid #1a202c;
+}
+
+/* Sources/bibliographie style APA */
+.annexes {
+    border-top: 3px solid #1a202c;
+}
+.source-item {
+    font-size: 9pt;
+    padding: 6px 0;
+    text-indent: -20px;
+    padding-left: 20px;
+}
+
+/* Executive summary = "Abstract" */
+.executive-summary {
+    background: white;
+    border: 1px solid #cbd5e0;
+    border-left: 4px solid #1a202c;
+    border-radius: 0;
+    padding: 18px 24px;
+    font-style: italic;
+    font-size: 10pt;
+}
+.executive-summary h3 {
+    font-family: 'Cambria', serif;
+    color: #1a202c;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 11pt;
+    font-style: normal;
+}
+
+/* TOC academique */
+.toc {
+    background: white;
+    border-radius: 0;
+    border-top: 2px solid #1a202c;
+    border-bottom: 1px solid #1a202c;
+    border-left: none;
+    border-right: none;
+}
+.toc h3 {
+    font-family: 'Cambria', serif;
+    color: #1a202c;
+    border-bottom-color: #1a202c;
+}

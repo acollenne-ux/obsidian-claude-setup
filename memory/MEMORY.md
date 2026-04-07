@@ -1,5 +1,12 @@
 # Memory — Alexandre collenne
 
+## Skills pdf-report-pro & ppt-creator (testés 2026-04-07)
+- Les deux skills sont fonctionnels end-to-end sur ce poste.
+- pdf-report-pro : pipeline HTML → Playwright `page.pdf()` (WeasyPrint KO sur Windows, fallback auto via `tools/weasyprint_render.py`).
+- ppt-creator : `tools/build_templates.py` génère les 5 templates `.pptx` ; `tools/pptx_builder.py` produit les decks (bug import `pptx.dgm.color` corrigé).
+- **pptx → pdf : LibreOffice INTERDIT.** Solution retenue = rendu HTML parallèle du deck + Playwright `page.pdf()` (option A). Sinon livraison `.pptx` seul.
+- Démos validées : `C:\tmp\demo_pdf_report_pro.pdf` (75 KB) + `C:\tmp\demo_ppt_creator.pptx` (37 KB, 5 slides).
+
 ## Environnement
 - OS: Windows 10 Home 10.0.19045 (bash via Git Bash)
 - Shell: bash (Unix syntax dans les Bash tool calls)
@@ -26,7 +33,7 @@
 - `multi-ia-router` — Routage IA, curl templates, consensus voting, fallback chains (6 providers)
 - `financial-analysis-framework` — 8 types d'actifs + 15 dimensions + synthèse bull/base/bear
 - `qa-pipeline` — Agents QA anti-hallucination, Source Validator, Confidence Scorer
-- `pdf-report-gen` — Agent Synthèse + PDF Markdown + envoi email
+- `pdf-report-gen` v2 — Pipeline 5 agents (Synthesizer/Designer/Visualizer/Composer/Reviewer) + moteur Playwright + 5 templates CSS + QC auto + Mermaid (07/04/2026)
 - `feedback-loop` — Collecte feedback utilisateur, boucle correction, métriques satisfaction
 - `retex-evolution` — RETEX, benchmark IAs, amélioration continue, monitoring session
 
@@ -81,6 +88,7 @@
 - Email bridge: `start_email_trigger.vbs` dans dossier Démarrage Windows (permanent, invisible)
 
 ## Memory Files
+- [Arbre Skills 5 couches obligatoire](feedback_arbre_skills_obligatoire.md) — Respecter intégralement l'arbre 5 couches + chaque SKILL.md ; livrable C4 obligatoire
 - [PDF Markdown only](feedback_pdf_markdown_only.md) — send_report.py = Markdown, jamais HTML
 - [Always deep-research](feedback_always_deep_research.md) — Toujours invoquer deep-research en premier
 - [Always YES](feedback_always_yes.md) — Ne jamais demander confirmation sauf destructif
@@ -96,3 +104,9 @@
 - [Toujours utiliser skills dédiés](feedback_use_dedicated_skills.md) — Ne JAMAIS bypasser les skills spécialisés au profit d'une analyse manuelle
 - [Obsidian skills 06/04](project_obsidian_skills_20260406.md) — 5 skills kepano + CLI pablo-mano + MCP mcp-obsidian
 - [Skill Creator v2 06/04](project_skill_creator_20260406.md) — Skill architecte: 7 phases, 6 templates, 5 agents, scoring /100, audit Python (score 90%)
+- [Skill image-studio 07/04](project_image_studio_20260407.md) — Studio visuel unifié 8 phases, 5 agents, art-director critique, fidélité brief + images réelles
+- [pdf-report-pro v2 07/04](project_pdf_report_pro_v2_20260407.md) — Refonte : Typst moteur principal, 9 phases, baseline grid 8pt, PDF/UA, checklist 20 critères, score 92/100
+- [Respecter skills intégralement](feedback_respect_skills_integralement.md) — JAMAIS de raccourcis : toutes les phases, tous les agents, tous les outils — qualité > rapidité
+- [PDF Report Gen v2 07/04](project_pdf_report_gen_v2_20260407.md) — Refonte complete pdf-report-gen : 5 agents + pdf_engine modulaire (Playwright) + 5 templates CSS + QC auto + Mermaid + modify_pdf.py
+- [pdf-report-pro 07/04](project_pdf_report_pro_20260407.md) — Refonte McKinsey/BCG/Goldman, 6 phases, 5 templates HTML/CSS, WeasyPrint+Playwright, score audit 97/100
+- [ppt-creator 07/04](project_ppt_creator_20260407.md) — Nouveau skill .pptx éditable McKinsey/BCG, ghost deck validé utilisateur, python-pptx, score audit 97/100

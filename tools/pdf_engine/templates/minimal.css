@@ -1,0 +1,155 @@
+/* ===================================================================
+   minimal.css — Theme N&B austere
+   Caracteristiques : noir et blanc total, sans serif,
+   pas de fioritures, focus lecture pure
+   =================================================================== */
+
+body {
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 10pt;
+    line-height: 1.6;
+    color: #000000;
+}
+
+@page {
+    margin: 22mm 22mm 25mm 22mm;
+    @top-left { color: #000; }
+    @top-right { color: #000; }
+    @bottom-center { color: #000; }
+    @bottom-right { content: none; }
+}
+
+/* Cover ultra epuree */
+.cover-page {
+    padding: 40mm 30mm;
+}
+.cover-title {
+    color: #000;
+    font-size: 30pt;
+    font-weight: 400;
+    letter-spacing: -1px;
+}
+.cover-type {
+    color: #000;
+    font-size: 9pt;
+    letter-spacing: 4px;
+}
+.cover-divider {
+    background: #000;
+    height: 1px;
+    width: 50px;
+}
+.cover-classification {
+    border-color: #000 !important;
+    color: #000 !important;
+}
+.meta-label { color: #555; }
+.meta-value { color: #000; }
+.cover-footer { color: #555; }
+
+/* Headings minimalistes */
+h1 {
+    font-size: 16pt;
+    color: #000;
+    border-bottom: 1px solid #000;
+    font-weight: 600;
+}
+h2 {
+    font-size: 13pt;
+    color: #000;
+    border-bottom: 1px solid #ccc;
+    font-weight: 600;
+}
+h3 {
+    font-size: 11pt;
+    color: #000;
+    font-weight: 600;
+}
+h4 { color: #333; }
+h5, h6 { color: #555; }
+
+/* Tables N&B */
+thead th {
+    background: #000;
+    color: #fff;
+    border: none;
+}
+tbody td {
+    border-bottom: 1px solid #ccc;
+}
+tbody tr:nth-child(even) { background: #f5f5f5; }
+
+/* Code N&B */
+pre {
+    background: #000;
+    color: #fff;
+    border-radius: 0;
+}
+code {
+    background: #f0f0f0;
+    color: #000;
+    border: 1px solid #ccc;
+}
+
+/* Tout en N&B */
+.executive-summary {
+    background: #f5f5f5;
+    border-left-color: #000;
+    color: #000;
+}
+.executive-summary h3 { color: #000; }
+
+.toc {
+    background: white;
+    border: 1px solid #000;
+    border-radius: 0;
+}
+.toc h3 {
+    color: #000;
+    border-bottom-color: #000;
+}
+
+.kpi-card {
+    background: white;
+    border: 1px solid #000;
+    border-radius: 0;
+    box-shadow: none;
+}
+.kpi-value { color: #000; }
+.kpi-label { color: #555; }
+
+.callout {
+    background: #f5f5f5 !important;
+    border-left-color: #000 !important;
+    border-radius: 0;
+}
+.callout-header { color: #000 !important; }
+
+blockquote {
+    background: #f5f5f5;
+    border-left-color: #000;
+    border-radius: 0;
+    color: #000;
+}
+
+.confidence-box {
+    background: white;
+    border: 1px solid #000;
+}
+.confidence-bar { background: #f0f0f0; }
+.confidence-bar .fill { background: #000 !important; }
+.confidence-label { color: #000 !important; }
+.confidence-tag { color: #000 !important; }
+
+.annexes { border-top-color: #000; }
+.section-box { border-color: #000; }
+
+.cover-banner {
+    background: #000 !important;
+    border-radius: 0;
+}
+
+.fn-ref a { color: #000; }
+.footnotes { border-top-color: #000; }
+.footnotes h2 { color: #000; }
+.fn-num { color: #000; }

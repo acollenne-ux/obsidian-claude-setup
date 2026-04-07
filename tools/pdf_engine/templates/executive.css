@@ -1,0 +1,138 @@
+/* ===================================================================
+   executive.css — Theme minimaliste pour synthese executive
+   Caracteristiques : gros titres, beaucoup de blanc, palette sobre,
+   focus sur le contenu, esthetique "consulting/board room"
+   =================================================================== */
+
+body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 10.5pt;
+    line-height: 1.75;
+    color: #1a202c;
+}
+
+@page {
+    margin: 25mm 22mm 30mm 22mm;
+}
+
+/* Cover plus epuree */
+.cover-page {
+    padding: 30mm 25mm;
+}
+.cover-title {
+    font-size: 38pt;
+    font-weight: 700;
+    color: #1a202c;
+    line-height: 1.1;
+    font-family: 'Georgia', serif;
+}
+.cover-type {
+    color: #2d3748;
+    font-size: 10pt;
+}
+.cover-divider {
+    background: #1a202c;
+    width: 60px;
+    height: 3px;
+}
+.cover-subtitle {
+    font-style: italic;
+    color: #4a5568;
+}
+
+/* Headings plus aeres et serif */
+h1 {
+    font-size: 22pt;
+    font-weight: 700;
+    color: #1a202c;
+    border-bottom: 1px solid #1a202c;
+    padding-bottom: 10px;
+    margin-top: 36px;
+    margin-bottom: 18px;
+    font-family: 'Georgia', serif;
+}
+h2 {
+    font-size: 16pt;
+    color: #2d3748;
+    border-bottom: 1px solid #cbd5e0;
+    padding-bottom: 6px;
+    margin-top: 28px;
+    margin-bottom: 14px;
+    font-family: 'Georgia', serif;
+    font-weight: 700;
+}
+h3 {
+    font-size: 12pt;
+    color: #2d3748;
+    font-weight: 700;
+    margin-top: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+p { margin: 10px 0; text-align: justify; }
+
+/* Tables plus epurees */
+thead th {
+    background: #1a202c;
+    color: white;
+    font-size: 9pt;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+tbody td { padding: 10px 12px; }
+tbody tr:nth-child(even) { background: #f7fafc; }
+
+/* Executive summary plus elegant */
+.executive-summary {
+    background: #fafafa;
+    border-left: 5px solid #1a202c;
+    border-radius: 0;
+    padding: 24px 28px;
+    font-size: 10.5pt;
+    font-style: italic;
+}
+.executive-summary h3 {
+    color: #1a202c;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-family: 'Segoe UI', sans-serif;
+    font-style: normal;
+}
+
+/* KPI cards plus board-room */
+.kpi-card {
+    border: none;
+    border-bottom: 3px solid #1a202c;
+    border-radius: 0;
+    box-shadow: none;
+    background: #fafafa;
+    padding: 18px 20px;
+}
+.kpi-value {
+    font-size: 22pt;
+    font-family: 'Georgia', serif;
+    color: #1a202c;
+}
+.kpi-label {
+    font-size: 7pt;
+    letter-spacing: 1.2px;
+}
+
+/* TOC sobre */
+.toc {
+    background: white;
+    border: none;
+    border-top: 2px solid #1a202c;
+    border-bottom: 2px solid #1a202c;
+    border-radius: 0;
+    padding: 20px 24px;
+}
+.toc h3 {
+    color: #1a202c;
+    border: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-family: 'Segoe UI', sans-serif;
+}

@@ -1,0 +1,102 @@
+/* ===================================================================
+   technical.css — Theme pour documentation technique / code
+   Caracteristiques : code colore, monospace prominent,
+   palette terminal sombre, focus lisibilite code
+   =================================================================== */
+
+body {
+    font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10pt;
+    line-height: 1.65;
+    color: #1a202c;
+}
+
+/* Headings techniques */
+h1 {
+    color: #2d3748;
+    border-bottom: 3px solid #38b2ac;
+    font-family: 'Segoe UI', sans-serif;
+}
+h2 {
+    color: #2c7a7b;
+    border-bottom: 2px solid #b2f5ea;
+}
+h3 { color: #285e61; }
+
+/* Code blocks plus prominents */
+pre {
+    background: #1a1b26;
+    color: #c0caf5;
+    border: 1px solid #292e42;
+    border-left: 4px solid #38b2ac;
+    padding: 16px 20px;
+    font-size: 8.5pt;
+    line-height: 1.55;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+pre code {
+    font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+}
+code {
+    background: #edf2f7;
+    color: #285e61;
+    font-weight: 600;
+    padding: 2px 6px;
+    border: 1px solid #b2f5ea;
+}
+
+/* Cover technique */
+.cover-title {
+    font-family: 'Segoe UI', sans-serif;
+    color: #2d3748;
+}
+.cover-divider {
+    background: #38b2ac;
+    width: 100px;
+    height: 4px;
+}
+.cover-type { color: #2c7a7b; }
+
+/* Callouts plus marques pour doc technique */
+.callout {
+    border-left-width: 5px;
+    border-radius: 4px;
+}
+.callout-tip { background: #f0fff4 !important; }
+.callout-note { background: #ebf8ff !important; }
+.callout-warning { background: #fffaf0 !important; }
+.callout-caution { background: #fff5f5 !important; }
+.callout-important { background: #faf5ff !important; }
+
+/* Tables techniques (parametres, options, API) */
+thead th {
+    background: #2c7a7b;
+    color: white;
+    font-family: 'Cascadia Code', 'Consolas', monospace;
+    font-size: 8pt;
+}
+tbody tr:nth-child(even) { background: #f0fdfa; }
+tbody td:first-child {
+    font-family: 'Cascadia Code', 'Consolas', monospace;
+    color: #285e61;
+    font-weight: 600;
+}
+
+/* Listes a puces visibles pour steps */
+ol li {
+    margin-bottom: 6px;
+}
+ol li::marker {
+    color: #38b2ac;
+    font-weight: 700;
+}
+
+/* TOC pour doc technique */
+.toc {
+    background: #f0fdfa;
+    border-color: #b2f5ea;
+}
+.toc h3 {
+    color: #285e61;
+    border-bottom-color: #38b2ac;
+}
