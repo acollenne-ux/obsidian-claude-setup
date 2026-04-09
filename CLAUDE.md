@@ -13,6 +13,7 @@ Avant de répondre, déterminer quels skills et connecteurs MCP utiliser selon l
 - Modèle financier → `financial-modeling`
 - Frontend → `frontend-design`
 - Debug → `code-debug`
+- Audio/voix/TTS/musique/podcast/transcription → `audio-generator` + `audio-studio`
 - Recherche générale → `deep-research` + WebSearch + WebFetch
 - Création/modification de skills ou agents → `skill-creator` (custom, JAMAIS le plugin officiel `skill-creator:skill-creator`)
 - **Création ou modification d'image, flyer, affiche, poster, visuel, bannière, post social, carte, invitation, menu, mockup, maquette → `image-studio` OBLIGATOIRE (auto-invoqué) avec Canva MCP comme moteur principal. JAMAIS bypasser au profit de Pillow/HTML direct sauf retouche photo pure ou fallback si Canva indisponible.**

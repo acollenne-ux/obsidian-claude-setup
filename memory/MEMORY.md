@@ -20,7 +20,7 @@
   - Affiche: CTX%, rate limits 5h + **7d** (avec ↺ temps restant), coût session, modèle
   - Couleurs: vert <60%, jaune 60-85%, rouge >85%
 - Settings: `~/.claude/settings.json`
-- Skills installés: stock-analysis, macro-analysis, dev-team, install-plugin, project-analysis, financial-modeling, code-debug, data-analysis, desktop-control (mars 2026), image-detourage, image-enhancer, flyer-creator (05/04/2026), website-analyzer (06/04/2026), obsidian-markdown, obsidian-bases, json-canvas, obsidian-cli, defuddle (06/04/2026), skill-creator v2 (06/04/2026), gsheet-builder (09/04/2026), image-generator (09/04/2026)
+- Skills installés: stock-analysis, macro-analysis, dev-team, install-plugin, project-analysis, financial-modeling, code-debug, data-analysis, desktop-control (mars 2026), image-detourage, image-enhancer, flyer-creator (05/04/2026), website-analyzer (06/04/2026), obsidian-markdown, obsidian-bases, json-canvas, obsidian-cli, defuddle (06/04/2026), skill-creator v2 (06/04/2026), gsheet-builder (09/04/2026), image-generator (09/04/2026), audio-generator + audio-studio (10/04/2026)
 - MCP Obsidian: `mcp-obsidian` via uvx (nécessite plugin Obsidian "Local REST API" + clé API)
 - PyAutoGUI v0.9.54 installé sur Python 3.13 (contrôle bureau Windows)
 
@@ -125,3 +125,4 @@
 - [Token Economizer Suite 08/04](project_token_economizer_20260408.md) — 5 skills L6 (token-economizer + prompt-cache-manager + haiku-delegator + context-compressor + adaptive-thinking-router), hook Phase 0B-bis deep-research, principe reasoning-first, cible −70% tokens +qualité ≥baseline+10%
 - [gsheet-builder 09/04](project_gsheet_builder_20260409.md) — Skill L4 DELIVERY Google Sheets consulting-grade, 8 phases, 5 agents, 5 themes McKinsey/Goldman, 6 templates YAML, 31 outils MCP, QA 15 critères seuil 85/100
 - [image-generator 09/04](project_image_generator_20260409.md) — Skill L3 text-to-image multi-provider (FLUX/GPT-Image/Nano Banana 2/SDXL), 3 agents, 4 scripts Python, Pipeline E image-enhancer
+- [Audio Skills Suite 10/04](project_audio_skills_20260410.md) — audio-generator (L3) + audio-studio (L4) + 4 scripts + 4 agents + audio_engine.py, routage multi-provider (OpenAI TTS, HF Spaces Kokoro/Dia/Sesame/MusicGen/Tango2)
