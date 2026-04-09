@@ -1,6 +1,6 @@
 ---
 name: diagram-toolkit
-description: "Bibliothèque technique de templates, thèmes et outils de rendu pour schémas professionnels (Mermaid/D2/Graphviz/Typst). Invoqué par idea-to-diagram. Ne s'auto-invoque pas directement."
+description: "Bibliothèque templates, thèmes et rendu pour schémas pro (Mermaid/D2/Graphviz/Typst). Use when: rendre un diagramme, appliquer un thème, valider syntaxe, exporter SVG/PNG/PDF. Déclenché par idea-to-diagram."
 allowed-tools:
   - Bash
   - Read
@@ -22,7 +22,7 @@ Bibliothèque partagée fournissant templates, thèmes et outils CLI pour géné
 
 ## CHECKLIST OBLIGATOIRE (TodoWrite)
 
-1. Identifier le **type de diagramme** demandé — catalogue étendu (43 templates : 31 Mermaid/D2/Dot/Typst + 12 HTML) :
+1. **Identifier le type** de diagramme demandé — catalogue étendu (43 templates : 31 Mermaid/D2/Dot/Typst + 12 HTML) :
    - **Structure/hiérarchie** : `pyramid`, `mece-tree`, `org-chart`, `wbs`, `mindmap`
    - **Processus/flux** : `scqa`, `kanban`, `user-journey`, `sankey`
    - **Temporel** : `sequence`, `timeline`, `gantt`, `roadmap`
@@ -34,12 +34,12 @@ Bibliothèque partagée fournissant templates, thèmes et outils CLI pour géné
    - **Responsabilités** : `raci`
    - **Architecture** : `c4-context`
    - **HTML stratégiques** : `pyramid`, `swot`, `bcg-matrix`, `matrix-2x2`, `mece-tree`, `porter-five-forces`, `value-chain`, `bmc`, `golden-circle`, `scqa`, `process-flow`, `fishbone` (via `render_html.py`)
-2. Charger le **template** correspondant depuis `templates/` (`.mmd`, `.d2`, `.dot`, `.typ` ou `.html`)
-3. Injecter le contenu dans les **placeholders** (`{{SO_WHAT}}`, `{{ARG_1}}`, etc.)
-4. Appliquer le **thème** via `tools/theme_apply.py`
+2. **Charger le template** correspondant depuis `templates/` (`.mmd`, `.d2`, `.dot`, `.typ` ou `.html`)
+3. **Injecter le contenu** dans les placeholders (`{{SO_WHAT}}`, `{{ARG_1}}`, etc.)
+4. **Appliquer le thème** via `tools/theme_apply.py`
 5. **Valider la syntaxe** via `tools/validate_diagram.py`
 6. **Rendre** via `tools/render.py` en SVG + PNG + PDF
-7. Retourner les chemins des fichiers générés au skill appelant
+7. **Retourner les chemins** des fichiers générés au skill appelant
 
 ## PROCESS FLOW
 
@@ -245,7 +245,14 @@ Ces proprietes sont injectees comme variables CSS (`--theme-primary`, `--theme-s
 
 ## ÉVOLUTION
 
-Ce skill s'auto-améliore via RETEX. Après chaque rendu :
+Ce skill s'auto-améliore via RETEX. Après chaque session :
+
+**Métriques à tracker** :
+- Taux de rendu réussi au 1er essai (cible : >90%)
+- Templates les plus/moins utilisés → identifier les gaps
+- Erreurs de syntaxe récurrentes → enrichir `validate_diagram.py`
+
+**Actions d'amélioration** :
 - Si un type de diagramme n'a pas de template dédié → créer le template dans `templates/`
 - Si un thème est régulièrement customisé → ajouter une variante dans `themes/`
 - Si un CLI manque souvent → documenter le fallback dans `tools/render.py`
@@ -253,8 +260,25 @@ Ce skill s'auto-améliore via RETEX. Après chaque rendu :
 
 ```bash
 python "C:/Users/Alexandre collenne/.claude/tools/retex_manager.py" save diagram_toolkit \
-  --quality [score] --notes "[leçons]"
+  --quality [score] --tools-used "[render.py,theme_apply.py]" --notes "[leçons]"
 ```
+
+## TRIGGERS / NO-TRIGGERS (testabilité)
+
+### Scénarios TRIGGER (ce skill DOIT être invoqué)
+| Prompt | Attendu |
+|--------|---------|
+| "Rends ce diagramme Mermaid en PNG avec le thème McKinsey" | diagram-toolkit activé (render.py + theme_apply.py) |
+| "Applique le thème BCG à mon fishbone.dot" | diagram-toolkit activé (theme_apply.py) |
+| "Valide la syntaxe de ce fichier .mmd" | diagram-toolkit activé (validate_diagram.py) |
+| "Exporte ce schéma en SVG + PDF" | diagram-toolkit activé (render.py multi-format) |
+
+### Scénarios NO-TRIGGER (ce skill NE DOIT PAS être invoqué)
+| Prompt | Skill correct |
+|--------|--------------|
+| "Fais-moi un schéma de l'architecture du projet" | idea-to-diagram (orchestrateur) |
+| "Crée un diagramme SWOT pour mon entreprise" | idea-to-diagram → diagram-toolkit |
+| "Génère une image IA d'un paysage" | image-generator |
 
 ## LIVRABLE FINAL
 

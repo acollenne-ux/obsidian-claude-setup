@@ -1,10 +1,16 @@
 ---
 name: layout-qa
-description: "Porte de contrôle qualité visuelle obligatoire avant livraison de tout rendu (PDF, PPTX, image, flyer, diagramme). Rasterize le livrable, détecte géométriquement les overlaps/clipping/débordements via python-pptx+pdfplumber, puis invoque l'agent visual-layout-critic (Gemini 3 Pro) pour une revue vision multimodale. Verdict PASS/FIX/FAIL + boucle de correction vers le Composer. Use when: un skill de Couche 4 (pdf-report-pro, ppt-creator, flyer-creator, image-studio, cv-creator, cover-letter-creator, idea-to-diagram) vient de produire un livrable et avant tout envoi. Triggers: 'vérifier mise en page', 'contrôle visuel', 'layout qa', 'gate rendu', 'avant livraison'."
+description: "Porte QA visuelle obligatoire avant livraison (PDF/PPTX/image/flyer/diagramme). Rasterize + geometric check + vision critique Gemini. Verdict PASS/FIX/FAIL + boucle correction. Use when: avant envoi livrable Couche 4."
 argument-hint: "<chemin_livrable> [--brief <chemin_brief>] [--max-iter 3]"
+domain: qa
 livrable: PDF
 layer: L5
 generator: pdf-report-pro
+allowed-tools:
+  - Bash
+  - Read
+  - Write
+  - Agent
 ---
 
 # Layout-QA — Porte de contrôle visuelle de Couche 4
@@ -15,9 +21,9 @@ Tu es la **porte de qualité visuelle obligatoire** entre un générateur de liv
 Règles non-négociables :
 
 1. **OBLIGATOIRE avant tout envoi** de livrable visuel (email, fichier utilisateur, upload).
-2. **Invoquée par le skill générateur lui-même** à la fin de son pipeline, avant le Reviewer final.
+2. **Invoquée par le skill générateur lui-même** à la fin de son pipeline, avant le Reviewer final. Grille de scoring obligatoire.
 3. **Verdict impératif** : PASS → autorisé • FIX → renvoyer au Composer avec corrections précises (bbox, éléments à repositionner) • FAIL → escalade utilisateur avec screenshots annotés.
-4. **Max 3 itérations** FIX → re-render → re-check. Au-delà, escalade.
+4. **Max 3 itérations** FIX → re-render → re-check. Au-delà, escalade. Seuil vision scoring : ≥ 85/100 pour PASS.
 5. **Fidélité au brief** : le rendu doit exprimer ce que l'utilisateur a demandé. Un contenu correct mal mis en page = FIX.
 </HARD-GATE>
 
@@ -50,8 +56,8 @@ Règles non-négociables :
 - Invoquer l'agent **`visual-layout-critic`** (`agents/visual-layout-critic.md`)
 - Entrée : PNG rasterisés + brief original + rapport géométrique Phase 2
 - Moteur : `gemini_wrapper.py` existant (image-studio/idea-to-diagram)
-- Analyse : clipping visuel, collisions, fidélité intention↔rendu, lisibilité, hiérarchie
-- Sortie : score /100 + anomalies localisées (page, zone, correction) fusionnées avec Phase 2
+- Analyse : clipping visuel, collisions, fidélité intention↔rendu, lisibilité, hiérarchie — grille de scoring 10 dimensions
+- Sortie : scoring /100 + anomalies localisées (page, zone, recommandation de correction) fusionnées avec Phase 2
 
 ### Phase 4 — Verdict & feedback loop
 - Règle de décision :
@@ -113,6 +119,53 @@ Livrable propre : **rapport PDF d'audit visuel** + livrable original validé.
 - **Aval** : feedback-loop (collecte métriques FIX/PASS), retex-evolution (amélioration continue)
 
 ---
+
+## ANTI-PATTERNS
+
+| Excuse | Réalité |
+|--------|---------|
+| "C'est juste un brouillon, pas besoin de QA" | Les brouillons deviennent les livrables. TOUJOURS passer par layout-qa. |
+| "Le contenu est bon, la mise en page on s'en fiche" | Un bon contenu mal mis en page = non livrable. Forme ET fond. |
+| "Ça passe à l'œil, pas besoin du check géométrique" | L'œil rate les overflows de 2px qui deviennent des clippings à l'impression. |
+| "3 itérations c'est trop, je livre en l'état" | Max 3 itérations = protection, pas un inconvénient. Si 3 FIX → le problème est structurel, escalader. |
+| "Le skill appelant gère déjà la qualité" | Layout-qa est la SEULE porte de sortie. Le skill appelant gère le contenu, layout-qa gère le rendu. |
+| "Gemini vision est overkill pour un PDF simple" | Un PDF simple peut avoir des overlaps invisibles. La vision multimodale détecte ce que le code ne peut pas. |
+
+## TRIGGERS / NO-TRIGGERS (testabilité)
+
+### Scénarios TRIGGER
+| Prompt / Contexte | Attendu |
+|-------------------|---------|
+| pdf-report-pro vient de générer un PDF | layout-qa invoqué automatiquement |
+| ppt-creator a fini un .pptx | layout-qa invoqué avant envoi |
+| "vérifie la mise en page de ce document" | layout-qa activé |
+| image-studio Phase 8 — QA final | layout-qa invoqué |
+
+### Scénarios NO-TRIGGER
+| Prompt | Skill correct |
+|--------|--------------|
+| "Crée un PDF sur l'analyse de Tesla" | pdf-report-pro (puis layout-qa en fin de pipeline) |
+| "Améliore la qualité de cette image" | image-enhancer |
+| "Analyse ce site web" | website-analyzer |
+
+## ÉVOLUTION
+
+Ce skill s'auto-améliore via RETEX. Après chaque session :
+
+**Métriques à tracker** :
+- Taux PASS au 1er passage (cible : >70%)
+- Anomalies les plus fréquentes (overflow? clipping? margin?) → enrichir les règles géométriques
+- Nombre moyen d'itérations FIX → si >2 régulier, renforcer les Composers amont
+
+**Actions d'amélioration** :
+- Nouvelle catégorie d'anomalie détectée → l'ajouter dans `layout_check.py`
+- Faux positifs récurrents → ajuster les seuils de détection
+- Nouveau type de livrable supporté → ajouter le backend de rasterisation
+
+```bash
+python "C:/Users/Alexandre collenne/.claude/tools/retex_manager.py" save layout_qa \
+  --quality [score] --tools-used "[rasterize,layout_check,gemini_vision]" --notes "[leçons]"
+```
 
 ## LIMITATIONS CONNUES
 

@@ -407,6 +407,27 @@ Toujours livrer :
 
 ---
 
+## ÉVOLUTION
+
+Ce skill s'auto-améliore via RETEX. Après chaque session :
+
+**Métriques à tracker** :
+- Score art-director moyen (cible : ≥ 85/100 au 1er jet)
+- Nombre d'itérations moyen avant PASS (cible : ≤ 2)
+- Taux d'utilisation Canva vs fallback HTML (cible : >80% Canva)
+- Motifs de FIX récurrents → enrichir la checklist Phase 6
+
+**Actions d'amélioration** :
+- Si score < 80 récurrent → revoir les templates HTML/CSS de base
+- Si itérations > 3 récurrent → renforcer Phase 1 (brief parsing)
+- Si fallback HTML > 30% → diagnostiquer les erreurs Canva MCP
+- Nouveau pattern esthétique validé → l'ajouter dans les références art-director
+
+```bash
+python "C:/Users/Alexandre collenne/.claude/tools/retex_manager.py" save image_studio \
+  --quality [score] --tools-used "[Canva,Playwright,Pillow]" --notes "[leçons]"
+```
+
 ## DELIVERY GATE — layout-qa (OBLIGATOIRE)
 
 **Avant tout envoi du livrable final**, ce skill DOIT invoquer la porte `layout-qa` :

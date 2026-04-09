@@ -307,6 +307,27 @@ L'utilisateur dit "genere moi une photo de..." → image-generator execute direc
 
 ---
 
+## ÉVOLUTION
+
+Ce skill s'auto-améliore via RETEX. Après chaque session :
+
+**Métriques à tracker** :
+- Score quality-scorer moyen par provider (cible : ≥ 80/100)
+- Taux de fallback cascade (cible : <15%)
+- Temps moyen de génération par provider
+- Types de tâches les plus demandés → ajuster la matrice de routage
+
+**Actions d'amélioration** :
+- Si un provider score systématiquement < 70 → le rétrograder dans la matrice
+- Si un nouveau modèle HF apparaît avec meilleur benchmark → l'ajouter en Provider 1
+- Si texte-dans-image échoue souvent → renforcer le prompt-architect pour ce type
+- Nouveau provider testé et validé → mettre à jour PROVIDERS.md + matrice de routage
+
+```bash
+python "C:/Users/Alexandre collenne/.claude/tools/retex_manager.py" save image_generator \
+  --quality [score] --tools-used "[FLUX,GPT-Image,Gemini,SDXL]" --notes "[leçons]"
+```
+
 ## MONITORING
 
 ```
