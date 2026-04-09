@@ -1,0 +1,138 @@
+template: pnl_report
+description: "Compte de resultat (P&L) avec periodes comparatives, variances et subtotaux"
+theme_default: mckinsey_blue
+
+tabs:
+  - name: "P&L"
+    tab_color: primary
+    frozen_rows: 1
+    frozen_cols: 1
+    columns:
+      - name: "Poste"
+        type: text
+        width: 250
+        align: left
+      - name: "Periode N"
+        type: currency
+        width: 120
+        align: right
+        format: "#,##0"
+      - name: "Periode N-1"
+        type: currency
+        width: 120
+        align: right
+        format: "#,##0"
+      - name: "Var %"
+        type: percent
+        width: 80
+        align: right
+        format: "0.0%"
+        formula: "=(B{row}-C{row})/ABS(C{row})"
+      - name: "Budget"
+        type: currency
+        width: 120
+        align: right
+        format: "#,##0"
+      - name: "Ecart Budget %"
+        type: percent
+        width: 100
+        align: right
+        format: "0.0%"
+        formula: "=(B{row}-E{row})/ABS(E{row})"
+    structure:
+      sections:
+        - label: "CHIFFRE D'AFFAIRES"
+          style: section_header
+          rows:
+            - "Ventes produits"
+            - "Ventes services"
+            - "Autres revenus"
+          subtotal: "Total Chiffre d'Affaires"
+          subtotal_style: bold_top_border
+
+        - label: "COUTS DES VENTES"
+          style: section_header
+          rows:
+            - "Matieres premieres"
+            - "Main d'oeuvre directe"
+            - "Couts de production"
+          subtotal: "Total Couts des Ventes"
+          subtotal_style: bold_top_border
+
+        - separator: "MARGE BRUTE"
+          style: highlight_row
+          formula: "=Total_CA - Total_Couts"
+
+        - label: "CHARGES OPERATIONNELLES"
+          style: section_header
+          rows:
+            - "Salaires et charges"
+            - "Loyer et charges locatives"
+            - "Marketing et communication"
+            - "R&D"
+            - "Frais generaux"
+            - "Amortissements"
+          subtotal: "Total Charges Op."
+          subtotal_style: bold_top_border
+
+        - separator: "RESULTAT OPERATIONNEL (EBIT)"
+          style: highlight_row
+
+        - label: "ELEMENTS FINANCIERS"
+          style: section_header
+          rows:
+            - "Produits financiers"
+            - "Charges financieres"
+          subtotal: "Resultat Financier Net"
+
+        - separator: "RESULTAT AVANT IMPOT (EBT)"
+          style: highlight_row
+
+        - row: "Impot sur les societes"
+
+        - separator: "RESULTAT NET"
+          style: highlight_row_primary
+
+    conditional_formatting:
+      - range: "D2:D"
+        type: gradient
+        positive_color: positive
+        negative_color: negative
+      - range: "F2:F"
+        type: gradient
+        positive_color: positive
+        negative_color: negative
+
+  - name: "Hypotheses"
+    tab_color: accent
+    frozen_rows: 1
+    columns:
+      - name: "Hypothese"
+        type: text
+        width: 250
+      - name: "Valeur"
+        type: mixed
+        width: 120
+      - name: "Unite"
+        type: text
+        width: 80
+      - name: "Source"
+        type: text
+        width: 200
+
+  - name: "Config"
+    tab_color: gray
+    frozen_rows: 1
+    columns:
+      - name: "Parametre"
+        type: text
+        width: 200
+      - name: "Valeur"
+        type: mixed
+        width: 150
+    data:
+      - ["Devise", "EUR"]
+      - ["Exercice Fiscal", "2026"]
+      - ["Taux IS", 0.25]
+      - ["Format Negatifs", "parentheses"]
+      - ["Derniere MAJ", "=TODAY()"]

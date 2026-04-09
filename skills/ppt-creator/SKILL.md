@@ -83,7 +83,11 @@ digraph ppt_creator {
 - **Draft rapide** : Marp CLI (Markdown → .pptx).
 - **Premium** : Canva MCP via `image-studio`.
 - Templates dans `templates/` générés par `tools/build_templates.py`.
-- Design system : typo Inter, primaire `#0B3D91`, accent `#E63946`, neutres McKinsey.
+- **5 thèmes professionnels** : `corporate` (McKinsey), `dark` (Tech), `finance` (Goldman), `startup` (Sequoia), `minimal` (Moderne).
+- **7 types de slides** : `cover`, `section`, `content`, `two_col`, `kpi`, `chart`, `closing`.
+- Design system : typo Calibri, palettes inspirées McKinsey/BCG/Goldman/Sequoia.
+- **YAML deck** : passer `--theme corporate|dark|finance|startup|minimal` pour changer le thème.
+- Éléments visuels : barre latérale colorée, ligne accent top, barre de titre teintée, séparateurs, footer structuré, cartes KPI avec deltas colorés.
 
 ### Phase 6 — Reviewer
 - Checklist 15 critères (`references/checklist_mckinsey.md`), seuil 85/100.
@@ -169,3 +173,36 @@ Références : `ppt-creator` `pdf-report-pro` `image-studio` `qa-pipeline` `mult
 5. Benchmark pro trimestriel (McKinsey, BCG, Sequoia, YC guidelines) via WebSearch.
 
 Fichier RETEX : `~/.claude/skills/ppt-creator/references/retex.log`.
+
+## LIVRABLE FINAL
+
+- **Type** : PPT
+- **Généré par** : self
+- **Destination** : acollenne@gmail.com via send_report.py
+
+## CHAÎNAGE ARBORESCENCE
+
+- **Amont** : deep-research (entrée unique)
+- **Aval** : self
+
+
+---
+
+## DELIVERY GATE — layout-qa (OBLIGATOIRE)
+
+**Avant tout envoi du livrable final**, ce skill DOIT invoquer la porte `layout-qa` :
+
+```bash
+python ~/.claude/skills/layout-qa/scripts/run_gate.py \
+    --input <livrable> \
+    --brief <brief.md> \
+    --caller <nom-de-ce-skill> \
+    --max-iter 3 \
+    --out-report qa_report.json
+```
+
+- Exit `0` (PASS) → envoi autorisé (email, téléchargement utilisateur)
+- Exit `1` (FIX) → lire `qa_report.json`, appliquer les corrections au Composer, re-rendre, re-invoquer layout-qa (max 3 itérations)
+- Exit `2` (FAIL) → escalade utilisateur avec les PNG annotés (`annotated_dir`)
+
+La phase vision multimodale est assurée par l'agent `visual-layout-critic` côté Claude après l'exécution déterministe du script. Aucun livrable ne sort sans verdict PASS.

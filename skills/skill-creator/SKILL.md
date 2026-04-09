@@ -63,7 +63,25 @@ Créer une tâche TodoWrite pour chaque étape. Les compléter dans l'ordre :
 6. **Phase 4 : VALIDATION** — scoring qualité, vérification anti-patterns
 7. **Phase 5 : TEST** — scénarios trigger/no-trigger, grading automatisé
 8. **Phase 6 : DEPLOY** — installation + mise à jour MEMORY.md
-9. **Phase 7 : ÉVOLUTION** — RETEX + métriques post-deploy
+9. **Phase 6.5 : REGISTER IN TREE** — invoquer `skill-tree-manager add <nom>` (OBLIGATOIRE). Refuser le deploy si le skill n'a pas déclaré sa section `## LIVRABLE FINAL` (type ∈ {PDF, PPT, DOC, image, vidéo, audio} + skill générateur). Aucun skill n'est considéré déployé tant qu'il n'apparaît pas dans `SKILL_TREE.md`.
+10. **Phase 7 : ÉVOLUTION** — RETEX + métriques post-deploy
+
+### Règle d'arborescence (non-négociable, appliquée en Phase 3)
+
+Tout SKILL.md généré DOIT contenir ces deux sections :
+
+```markdown
+## LIVRABLE FINAL
+- **Type** : [PDF | PPT | DOC | image | vidéo | audio]
+- **Généré par** : [pdf-report-pro | ppt-creator | image-studio | cv-creator | ...]
+- **Destination** : acollenne@gmail.com via send_report.py
+
+## CHAÎNAGE ARBORESCENCE
+- **Amont** : deep-research (entrée unique)
+- **Aval** : [skill de la couche DELIVERY]
+```
+
+Et le skill doit être référencé dans la table de dispatch de `deep-research` (sauf couches CORE/META exemptées). Voir `skill-tree-manager` pour les règles complètes.
 
 ---
 

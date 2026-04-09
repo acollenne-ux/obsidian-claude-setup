@@ -242,3 +242,15 @@ Après chaque création de note Obsidian :
 - Si une syntaxe Obsidian évolue → mettre à jour les exemples
 
 Seuils : si > 3 erreurs de syntaxe sur les mêmes éléments → ajouter un exemple explicite.
+
+## LIVRABLE FINAL
+
+- **Type** : DOC
+- **Généré par** : obsidian-markdown
+- **Destination** : acollenne@gmail.com via send_report.py
+
+## CHAÎNAGE ARBORESCENCE
+
+- **Amont** : deep-research (entrée unique)
+- **Aval** : obsidian-markdown
+

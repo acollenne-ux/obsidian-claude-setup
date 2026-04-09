@@ -1,0 +1,158 @@
+template: kpi_dashboard
+description: "Dashboard KPI avec tiles metriques, charts et table de detail"
+theme_default: dashboard_green
+
+tabs:
+  - name: "Dashboard"
+    tab_color: primary
+    frozen_rows: 2
+    frozen_cols: 0
+    sections:
+      - type: title_bar
+        rows: [1, 2]
+        content: "Dashboard KPI"
+        subtitle: "Mis a jour : =TODAY()"
+
+      - type: kpi_tiles
+        rows: [4, 7]
+        tiles:
+          - label: "Revenue"
+            source: "Data!B:B"
+            aggregation: "SUM"
+            format: "$#,##0"
+            delta_vs: "previous_period"
+          - label: "Clients Actifs"
+            source: "Data!C:C"
+            aggregation: "COUNTA"
+            format: "#,##0"
+            delta_vs: "previous_period"
+          - label: "Taux Conversion"
+            source: "Data!D:D"
+            aggregation: "AVERAGE"
+            format: "0.0%"
+            delta_vs: "target"
+          - label: "NPS Score"
+            source: "Data!E:E"
+            aggregation: "AVERAGE"
+            format: "0"
+            delta_vs: "target"
+          - label: "Churn Rate"
+            source: "Data!F:F"
+            aggregation: "AVERAGE"
+            format: "0.0%"
+            delta_vs: "target"
+            invert_color: true
+          - label: "ARPU"
+            source: "Data!G:G"
+            aggregation: "AVERAGE"
+            format: "$#,##0"
+            delta_vs: "previous_period"
+
+      - type: chart_area
+        rows: [9, 20]
+        charts:
+          - type: LINE
+            title: "Revenue Mensuel"
+            x_axis: "Data!A2:A"
+            y_axis: "Data!B2:B"
+            size: [900, 350]
+          - type: COLUMN
+            title: "Clients par Segment"
+            data_range: "Segments!A2:B"
+            size: [450, 350]
+
+      - type: data_table
+        rows: [22, 40]
+        source: "Data"
+        columns_shown: ["Date", "Revenue", "Clients", "Conversion", "NPS"]
+
+  - name: "Data"
+    tab_color: accent
+    frozen_rows: 1
+    frozen_cols: 1
+    columns:
+      - name: "Date"
+        type: date
+        width: 100
+        align: center
+        format: "MMM yyyy"
+      - name: "Revenue"
+        type: currency
+        width: 120
+        align: right
+        format: "$#,##0"
+      - name: "Clients Actifs"
+        type: number
+        width: 100
+        align: right
+        format: "#,##0"
+      - name: "Taux Conversion"
+        type: percent
+        width: 100
+        align: right
+        format: "0.0%"
+      - name: "NPS Score"
+        type: number
+        width: 80
+        align: right
+        format: "0"
+      - name: "Churn Rate"
+        type: percent
+        width: 80
+        align: right
+        format: "0.0%"
+      - name: "ARPU"
+        type: currency
+        width: 100
+        align: right
+        format: "$#,##0"
+
+  - name: "Segments"
+    tab_color: accent
+    frozen_rows: 1
+    columns:
+      - name: "Segment"
+        type: text
+        width: 150
+        align: left
+      - name: "Clients"
+        type: number
+        width: 100
+        align: right
+      - name: "Revenue"
+        type: currency
+        width: 120
+        align: right
+      - name: "ARPU"
+        type: currency
+        width: 100
+        align: right
+
+  - name: "Targets"
+    tab_color: accent
+    frozen_rows: 1
+    columns:
+      - name: "KPI"
+        type: text
+        width: 200
+      - name: "Target"
+        type: mixed
+        width: 120
+      - name: "Seuil Alerte"
+        type: mixed
+        width: 120
+
+  - name: "Config"
+    tab_color: gray
+    frozen_rows: 1
+    columns:
+      - name: "Parametre"
+        type: text
+        width: 200
+      - name: "Valeur"
+        type: mixed
+        width: 150
+    data:
+      - ["Periode", "Mensuel"]
+      - ["Devise", "USD"]
+      - ["Derniere MAJ", "=TODAY()"]

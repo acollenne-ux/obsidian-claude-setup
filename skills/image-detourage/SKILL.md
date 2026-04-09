@@ -335,3 +335,15 @@ Après chaque détourage :
 - Si le fallback modèle est activé trop souvent → optimiser la gestion mémoire
 
 Seuils : si halo résiduel > 20% des cas → revoir le pipeline de décontamination.
+
+## LIVRABLE FINAL
+
+- **Type** : image
+- **Généré par** : self
+- **Destination** : acollenne@gmail.com via send_report.py
+
+## CHAÎNAGE ARBORESCENCE
+
+- **Amont** : deep-research (entrée unique)
+- **Aval** : self
+

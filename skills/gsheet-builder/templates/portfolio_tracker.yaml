@@ -1,0 +1,131 @@
+template: portfolio_tracker
+description: "Suivi de portefeuille avec positions, P&L, allocation sectorielle et charts"
+theme_default: goldman_dark
+
+tabs:
+  - name: "Dashboard"
+    tab_color: primary
+    frozen_rows: 2
+    frozen_cols: 0
+    sections:
+      - type: title_bar
+        rows: [1, 2]
+        content: "Portfolio Dashboard"
+        subtitle: "=TODAY()"
+      - type: kpi_tiles
+        rows: [4, 7]
+        tiles:
+          - label: "Valeur Totale"
+            formula: "=SUM(Positions!G2:G)"
+            format: "$#,##0"
+          - label: "P&L Total"
+            formula: "=SUM(Positions!H2:H)"
+            format: "$#,##0"
+          - label: "P&L %"
+            formula: "=SUM(Positions!H2:H)/SUM(Positions!F2:F*Positions!E2:E)"
+            format: "0.0%"
+          - label: "Nb Positions"
+            formula: "=COUNTA(Positions!A2:A)"
+            format: "0"
+      - type: chart_area
+        rows: [9, 24]
+        charts:
+          - type: PIE
+            title: "Allocation par Secteur"
+            data_range: "Positions!D2:D,Positions!G2:G"
+            size: [600, 400]
+          - type: COLUMN
+            title: "P&L par Position"
+            data_range: "Positions!A2:A,Positions!H2:H"
+            size: [600, 400]
+
+  - name: "Positions"
+    tab_color: accent
+    frozen_rows: 1
+    frozen_cols: 1
+    columns:
+      - name: "Ticker"
+        type: text
+        width: 80
+        align: left
+      - name: "Nom"
+        type: text
+        width: 180
+        align: left
+      - name: "Date Entree"
+        type: date
+        width: 100
+        align: center
+        format: "yyyy-MM-dd"
+      - name: "Secteur"
+        type: text
+        width: 120
+        align: left
+      - name: "Quantite"
+        type: number
+        width: 80
+        align: right
+        format: "#,##0"
+      - name: "Prix Entree"
+        type: currency
+        width: 100
+        align: right
+        format: "$#,##0.00"
+      - name: "Valeur Marche"
+        type: currency
+        width: 120
+        align: right
+        format: "$#,##0"
+        formula: "=E{row}*F{row}"
+      - name: "P&L"
+        type: currency
+        width: 100
+        align: right
+        format: "$#,##0"
+        formula: "=G{row}-(E{row}*F{row})"
+      - name: "P&L %"
+        type: percent
+        width: 80
+        align: right
+        format: "0.0%"
+        formula: "=H{row}/(E{row}*F{row})"
+      - name: "Poids %"
+        type: percent
+        width: 80
+        align: right
+        format: "0.0%"
+        formula: "=G{row}/SUM(G$2:G)"
+    conditional_formatting:
+      - range: "I2:I"
+        type: gradient
+        positive_color: positive
+        negative_color: negative
+      - range: "H2:H"
+        type: gradient
+        positive_color: positive
+        negative_color: negative
+    summary_row:
+      label: "TOTAL"
+      formulas:
+        G: "=SUM(G2:G)"
+        H: "=SUM(H2:H)"
+        I: "=H_total/SUM(F2:F*E2:E)"
+        J: "=SUM(J2:J)"
+
+  - name: "Config"
+    tab_color: gray
+    frozen_rows: 1
+    columns:
+      - name: "Parametre"
+        type: text
+        width: 200
+      - name: "Valeur"
+        type: mixed
+        width: 150
+    data:
+      - ["Benchmark", "SPY"]
+      - ["Devise", "USD"]
+      - ["Taux Sans Risque", 0.045]
+      - ["Derniere MAJ", "=TODAY()"]
+      - ["Seuil Alerte P&L", -0.10]
+      - ["Objectif Rendement Annuel", 0.12]

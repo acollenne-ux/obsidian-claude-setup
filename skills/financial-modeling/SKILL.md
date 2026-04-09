@@ -169,3 +169,15 @@ Après chaque modélisation :
 - Si le modèle a pris trop de temps → optimiser les appels API
 
 Seuils : si écart moyen DCF vs consensus > 25% sur 3 sessions → revoir les hypothèses par défaut.
+
+## LIVRABLE FINAL
+
+- **Type** : PDF
+- **Généré par** : pdf-report-pro
+- **Destination** : acollenne@gmail.com via send_report.py
+
+## CHAÎNAGE ARBORESCENCE
+
+- **Amont** : deep-research (entrée unique)
+- **Aval** : pdf-report-pro
+

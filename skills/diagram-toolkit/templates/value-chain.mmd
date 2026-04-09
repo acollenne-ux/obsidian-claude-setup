@@ -1,0 +1,14 @@
+%% Porter's Value Chain — activités primaires & support
+flowchart LR
+    subgraph Support["Activités de support"]
+        S1[Infrastructure]
+        S2[RH]
+        S3[R&D / Techno]
+        S4[Achats]
+    end
+    subgraph Primary["Activités primaires"]
+        direction LR
+        P1[Logistique<br/>entrante] --> P2[Opérations] --> P3[Logistique<br/>sortante] --> P4[Marketing<br/>& Ventes] --> P5[Service]
+    end
+    Support --> Primary
+    P5 --> M((Marge))

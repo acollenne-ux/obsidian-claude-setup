@@ -11,7 +11,7 @@ Providers actifs (28 mars 2026, benchmarkés) :
 - **Mistral** : small (chat 5.2s) + large (reason 9.9s), **N°1 français** (10/10), macro, rédaction
 - **Groq** : llama-3.3-70b (chat), qwen3-32b (reason), gpt-oss-120b (large), **N°1 vitesse** ~500tps, 2.8s
 - **OpenRouter** : deepseek-r1 (reason 4.3s le + rapide), llama-3.3-70b (chat), 200+ modèles
-- **HuggingFace** : Llama-3.3-70B (chat **2.0s**), DeepSeek-R1 (reason), endpoint `router.huggingface.co`
+- **HuggingFace** : 2 tokens actifs dans `ai_config.json` (clé primaire `hf_RWke...Voci`) + ancienne (`hf_MDHY...uBXE` — invalide sur whoami mais fonctionne sur inference). Endpoint migré vers `router.huggingface.co/hf-inference/` (ancien `api-inference.huggingface.co` retourne 410). Llama-3.3-70B (chat **2.0s**), DeepSeek-R1 (reason), FLUX.1-schnell (image gen)
 - **DeepSeek** : solde vide — recharger sur platform.deepseek.com
 
 Providers inactifs :

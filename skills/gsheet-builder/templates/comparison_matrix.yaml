@@ -1,0 +1,91 @@
+template: comparison_matrix
+description: "Matrice comparative avec criteres en lignes, options en colonnes et scoring colore"
+theme_default: mckinsey_blue
+
+tabs:
+  - name: "Comparaison"
+    tab_color: primary
+    frozen_rows: 2
+    frozen_cols: 1
+    structure:
+      row_1: "Titre merge sur toute la largeur"
+      row_2: "Headers : Critere | Poids | Option A | Option B | Option C | ..."
+      rows_data: "Criteres d'evaluation avec scores 1-5 ou 1-10"
+      row_total: "Score Pondere Total par option"
+      row_recommendation: "Recommandation finale"
+
+    columns:
+      - name: "Critere"
+        type: text
+        width: 200
+        align: left
+      - name: "Poids"
+        type: percent
+        width: 80
+        align: right
+        format: "0%"
+      # Colonnes options generees dynamiquement (3-6 options)
+      # Chaque option = 2 sous-colonnes : Score (1-5) + Score Pondere
+
+    formulas:
+      score_pondere: "=Score * Poids"
+      total_pondere: "=SUMPRODUCT(Scores, Poids)"
+      recommendation: "=INDEX(Options, MATCH(MAX(Totaux), Totaux, 0))"
+
+    conditional_formatting:
+      - range: "scores"
+        type: color_scale
+        min_color: negative_bg  # rouge clair
+        mid_color: amber_bg     # ambre
+        max_color: positive_bg  # vert clair
+      - range: "totaux"
+        type: highlight_max
+        color: positive_bg
+        font_weight: bold
+
+    sections:
+      categories:
+        - "Fonctionnalite"
+        - "Performance"
+        - "Cout"
+        - "Risque"
+        - "Strategique"
+      # Les criteres specifiques sont definis dans le brief
+
+  - name: "Details"
+    tab_color: accent
+    frozen_rows: 1
+    columns:
+      - name: "Critere"
+        type: text
+        width: 200
+      - name: "Description"
+        type: text
+        width: 300
+      - name: "Methode Evaluation"
+        type: text
+        width: 200
+      - name: "Source"
+        type: text
+        width: 200
+
+  - name: "Config"
+    tab_color: gray
+    frozen_rows: 1
+    columns:
+      - name: "Parametre"
+        type: text
+        width: 200
+      - name: "Valeur"
+        type: mixed
+        width: 150
+    data:
+      - ["Echelle", "1-5"]
+      - ["Nombre Options", 3]
+      - ["Seuil Recommandation", 0.7]
+      - ["Derniere MAJ", "=TODAY()"]
+
+notes: |
+  Adapter le nombre d'options (colonnes) et de criteres (lignes) au brief.
+  Les categories de criteres servent de separateurs visuels (lignes merged, bold).
+  Le scoring colore utilise une echelle 3 couleurs (rouge-ambre-vert).

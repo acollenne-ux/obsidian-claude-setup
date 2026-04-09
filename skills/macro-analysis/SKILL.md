@@ -234,3 +234,15 @@ Après chaque analyse macro :
 - Si un scénario s'est avéré faux rétrospectivement → documenter pourquoi
 
 Seuils : si prédictions fausses > 40% → revoir la méthodologie de scénarisation.
+
+## LIVRABLE FINAL
+
+- **Type** : PDF
+- **Généré par** : pdf-report-pro
+- **Destination** : acollenne@gmail.com via send_report.py
+
+## CHAÎNAGE ARBORESCENCE
+
+- **Amont** : deep-research (entrée unique)
+- **Aval** : pdf-report-pro
+

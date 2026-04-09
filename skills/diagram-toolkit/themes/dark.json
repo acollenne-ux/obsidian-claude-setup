@@ -1,0 +1,31 @@
+{
+  "name": "Dark",
+  "primary": "#58A6FF",
+  "secondary": "#238636",
+  "accent": "#FFA657",
+  "neutral": "#8B949E",
+  "background": "#0D1117",
+  "text": "#F0F6FC",
+  "font_family": "Inter, Helvetica, Arial, sans-serif",
+  "font_sizes": {"title": 24, "h1": 18, "body": 14, "caption": 12},
+  "stroke_width": {"primary": 2, "secondary": 1},
+  "shadow": "0 2px 8px rgba(0,0,0,0.30)",
+  "shadow_lg": "0 8px 24px rgba(0,0,0,0.40)",
+  "border_radius": "8px",
+  "header_gradient": "linear-gradient(135deg, #161B22, #21262D)",
+  "card_bg": "#161B22",
+  "border_color": "#30363D",
+  "letter_spacing": "0.02em",
+  "google_fonts": ["Inter"],
+  "mermaid_theme_variables": {
+    "darkMode": true,
+    "background": "#0D1117",
+    "primaryColor": "#58A6FF",
+    "primaryTextColor": "#F0F6FC",
+    "primaryBorderColor": "#58A6FF",
+    "lineColor": "#8B949E",
+    "secondaryColor": "#238636",
+    "tertiaryColor": "#161B22",
+    "fontFamily": "Inter, Helvetica, Arial, sans-serif"
+  }
+}

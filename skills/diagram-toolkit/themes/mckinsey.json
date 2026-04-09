@@ -1,0 +1,29 @@
+{
+  "name": "McKinsey",
+  "primary": "#002060",
+  "secondary": "#0F62FE",
+  "accent": "#F0A500",
+  "neutral": "#6C6C6C",
+  "background": "#FFFFFF",
+  "text": "#1A1A1A",
+  "font_family": "Inter, Helvetica, Arial, sans-serif",
+  "font_sizes": {"title": 24, "h1": 18, "body": 14, "caption": 12},
+  "stroke_width": {"primary": 2, "secondary": 1},
+  "shadow": "0 2px 8px rgba(0,0,0,0.08)",
+  "shadow_lg": "0 8px 24px rgba(0,0,0,0.12)",
+  "border_radius": "8px",
+  "header_gradient": "linear-gradient(135deg, #002060, #0F62FE)",
+  "card_bg": "#F8F9FA",
+  "border_color": "#E5E7EB",
+  "letter_spacing": "0.02em",
+  "google_fonts": ["Inter"],
+  "mermaid_theme_variables": {
+    "primaryColor": "#002060",
+    "primaryTextColor": "#FFFFFF",
+    "primaryBorderColor": "#002060",
+    "lineColor": "#6C6C6C",
+    "secondaryColor": "#0F62FE",
+    "tertiaryColor": "#F5F5F5",
+    "fontFamily": "Inter, Helvetica, Arial, sans-serif"
+  }
+}

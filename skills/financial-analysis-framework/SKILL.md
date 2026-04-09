@@ -81,6 +81,65 @@ Couverture analyste: Forte (10+) | Moyenne (3-10) | Faible (1-2) | ⚠️ Aucune
 
 ---
 
+### INDICATEURS SECTORIELS AVANCÉS (ajouter aux métriques selon le type détecté)
+
+**SaaS / Tech :**
+| Indicateur | Formule / Description | Seuil excellent | Seuil ⚠️ | Source |
+|-----------|----------------------|----------------|----------|--------|
+| Rule of 40 | Revenue growth % + EBITDA margin % | > 40% | < 20% | INCOME_STATEMENT |
+| NDR / NRR | Net Dollar Retention (expansion - churn) | > 120% | < 100% | Rapport annuel / WebSearch |
+| CAC Payback | CAC / (ARPU × Gross Margin) en mois | < 12 mois | > 24 mois | Rapport annuel |
+| LTV/CAC | Customer Lifetime Value / Coût d'acquisition | > 3x | < 1.5x | Calcul depuis rapport |
+| Magic Number | Net New ARR / S&M spend trimestre précédent | > 0.75 | < 0.5 | INCOME_STATEMENT |
+| Gross Margin | Marge brute (SaaS typiquement >70%) | > 75% | < 60% | INCOME_STATEMENT |
+
+**Banques / Finance :**
+| Indicateur | Formule / Description | Seuil excellent | Seuil ⚠️ | Source |
+|-----------|----------------------|----------------|----------|--------|
+| CET1 Ratio | Common Equity Tier 1 / RWA | > 12% | < 10% | Rapport annuel / WebSearch |
+| NIM | (Intérêts perçus - Intérêts payés) / Actifs productifs | > 3% | < 1.5% | INCOME_STATEMENT |
+| NPL Ratio | Non-Performing Loans / Total Loans | < 1% | > 3% | Rapport annuel |
+| Cost-to-Income | Charges exploitation / PNB | < 50% | > 70% | INCOME_STATEMENT |
+| LCR | Actifs liquides haute qualité / Sorties nettes 30j | > 130% | < 110% | Rapport annuel |
+| PPNR | Pre-Provision Net Revenue, tendance YoY | En hausse | En baisse | INCOME_STATEMENT |
+
+**Biotech / Pharma :**
+| Indicateur | Description | Comment calculer | Source |
+|-----------|------------|-----------------|--------|
+| Pipeline NPV prob-weighted | Σ (NPV par phase × probabilité succès phase) | Phase I: 10%, II: 25%, III: 55%, NDA: 85% | WebSearch + rapport annuel |
+| Patent cliff exposure | % CA protégé par brevets expirant < 5 ans | Identifier top 5 molécules + dates expiration | Rapport annuel + WebSearch |
+| R&D Productivity | NME approuvées / R&D $ cumulé (10 ans) | Nombre nouveaux médicaments / dépenses R&D | WebSearch |
+| Pipeline depth | Nb molécules Phase I / II / III + diversité thérapeutique | Compter par phase et aire thérapeutique | Pipeline tracker (rapport annuel) |
+
+**Mining / Oil & Gas :**
+| Indicateur | Formule / Description | Seuil excellent | Seuil ⚠️ | Source |
+|-----------|----------------------|----------------|----------|--------|
+| Reserve Life | Réserves prouvées / Production annuelle | > 15 ans | < 8 ans | Rapport annuel |
+| AISC | All-In Sustaining Cost par once/baril | Quartile inférieur secteur | Quartile supérieur | Rapport annuel |
+| Netback | Prix vente - royalties - coûts production - transport | En hausse YoY | En baisse > 2 trimestres | INCOME_STATEMENT |
+| Reserve Replacement Ratio | Nouvelles réserves ajoutées / Production | > 100% | < 80% | Rapport annuel |
+| Finding & Development Cost | Coût découverte par baril/once ajouté | En baisse vs historique | En hausse > 20% YoY | Rapport annuel |
+
+**Retail / Distribution :**
+| Indicateur | Formule / Description | Seuil excellent | Seuil ⚠️ | Source |
+|-----------|----------------------|----------------|----------|--------|
+| Same-Store Sales growth | Croissance CA magasins existants > 1 an | > 3% | < 0% (négatif) | Rapport trimestriel |
+| Sales per sqft (ou m²) | CA / Surface de vente totale | Au-dessus médiane secteur | En baisse > 2 trimestres | Rapport annuel |
+| Inventory Turnover | COGS / Stock moyen | En hausse YoY | En baisse > 2 trimestres | BALANCE_SHEET + INCOME_STATEMENT |
+| E-commerce mix | % CA réalisé en ligne | En hausse + > 20% | En baisse | Rapport annuel |
+| Shrinkage rate | Démarque connue + inconnue / CA | < 1.5% | > 3% | Rapport annuel |
+
+**Insurance / Assurance :**
+| Indicateur | Formule / Description | Seuil excellent | Seuil ⚠️ | Source |
+|-----------|----------------------|----------------|----------|--------|
+| Combined Ratio | (Sinistres + Frais) / Primes acquises | < 95% | > 100% | Rapport annuel |
+| Investment Yield | Rendement portefeuille placements | Stable ou en hausse | En forte baisse YoY | Rapport annuel |
+| Book Value CAGR (5 ans) | Croissance annualisée valeur comptable | > 8% | < 3% | BALANCE_SHEET |
+| P/Embedded Value | Cours / Valeur intrinsèque actuarielle | < 1.0x (décote) | > 1.5x (surévalué) | WebSearch |
+| Solvency II ratio | Fonds propres éligibles / SCR | > 180% | < 130% | Rapport annuel |
+
+---
+
 ## ÉTAPE 1 — ANALYSE 15 DIMENSIONS (avec notes /10)
 
 ### Dimension 1 — MOAT & AVANTAGES CONCURRENTIELS (analyse approfondie)
@@ -171,6 +230,20 @@ Couverture analyste: Forte (10+) | Moyenne (3-10) | Faible (1-2) | ⚠️ Aucune
 - Working capital : BFR, DSO, DPO, DIO
 - Cash burn rate et runway (si négatif)
 - **Owner's Earnings** = Résultat net + D&A + variations BFR - capex maintenance (formule Buffett)
+- **Cash Conversion Cycle (CCC)** = DSO + DIO - DPO (en jours)
+  → Tendance YoY : CCC en baisse = amélioration efficience ; CCC en hausse > 15j YoY = ⚠️ dégradation BFR
+  → Comparer au CCC médian du secteur (source : WebSearch "[secteur] average cash conversion cycle")
+- **Sloan Accruals Ratio** = (ΔCA - ΔCash - ΔCL + ΔSTD + ΔTP - D&A) / Avg Total Assets
+  → Ratio > 10% = ⚠️ qualité bénéfices douteuse (bénéfices "papier" non soutenus par le cash)
+  → Ratio < 5% = ✅ bonne qualité cash — bénéfices réels
+  → Source : BALANCE_SHEET (2 années) + INCOME_STATEMENT (D&A)
+- **Earnings Quality Score composite** (3 composantes) :
+  (a) **Accruals ratio** = (Net Income - OCF) / Total Assets → plus proche de 0 = meilleur
+  (b) **Persistance des bénéfices** : corrélation EPS année N vs EPS année N+1 sur 5 ans (>0.8 = stable ✅, <0.5 = volatile ⚠️)
+  (c) **Divergence Revenue/Earnings** : si CA croît mais bénéfices stagnent ou baissent → ⚠️ compression marges ou charges exceptionnelles
+- **Shareholder Yield** = Dividend yield + Buyback yield + Debt paydown yield
+  → Mesure plus complète du retour actionnarial que le dividende seul
+  → Source : CASH_FLOW (dividends paid + share repurchases + net debt change) / Market Cap
 
 ### Dimension 12 — QUALITÉ ALLOCATION DU CAPITAL
 - Historique : investissements organiques, M&A, buybacks, dividendes
@@ -185,6 +258,20 @@ Couverture analyste: Forte (10+) | Moyenne (3-10) | Faible (1-2) | ⚠️ Aucune
 - Comparaison vs WACC → l'entreprise crée-t-elle de la valeur ?
 - Comparaison vs pairs secteur
 - Spread ROIC - WACC = indicateur de création de valeur
+- **DuPont 5-Factor Decomposition** :
+  ROE = (Net Income/EBT) × (EBT/EBIT) × (EBIT/Revenue) × (Revenue/Assets) × (Assets/Equity)
+  = **Tax Burden** × **Interest Burden** × **EBIT Margin** × **Asset Turnover** × **Equity Multiplier**
+  → Identifier le MOTEUR principal du ROE : marge opérationnelle (sain ✅) vs levier financier (risqué ⚠️ si Equity Multiplier > 3x et en hausse)
+  → Comparer la décomposition vs 3 pairs directs pour détecter les anomalies
+  → Source : INCOME_STATEMENT + BALANCE_SHEET
+- **CROCI (Cash Return on Capital Invested)** = Gross Cash Flow / Gross Invested Capital
+  → Métrique favorite de Goldman Sachs — plus fiable que le ROIC comptable car élimine les biais d'amortissement et de goodwill
+  → Gross Cash Flow = Net Income + D&A + intérêts nets d'impôt
+  → Gross Invested Capital = Total Assets - Cash - Goodwill amortissements cumulés + ajustements leasing
+  → CROCI > 15% = excellent ✅ | < 8% = faible ⚠️
+- **Magic Formula Score (Greenblatt)** = classement par Earnings Yield (EBIT/EV) + classement par ROIC → rang combiné vs pairs
+  → Plus le rang combiné est bas, plus l'entreprise est "cheap + quality"
+  → Source : INCOME_STATEMENT (EBIT) + quote (EV) + calcul ROIC
 
 ### Dimension 14 — RISQUE DE DILUTION
 - Nombre d'actions : évolution 3-5 ans
@@ -357,6 +444,131 @@ OE yield (OE / market cap)      : [X]%
 Tendance OE sur 5 ans           : [↑↗→↘↓]
 ```
 
+### 2K — SCORING COMPOSITES (Piotroski, Altman, Beneish)
+
+**OBLIGATOIRE pour toute analyse d'action cotée (types A à E). Non applicable aux crypto/obligations/ETF.**
+
+```
+SCORING COMPOSITES — [entreprise] ([ticker]) — [année]
+
+PIOTROSKI F-SCORE (0-9) :
+| # | Critère                    | Résultat  | Score |
+|---|----------------------------|-----------|-------|
+| 1 | ROA > 0                    | [oui/non] | [1/0] |
+| 2 | CFO > 0                    | [oui/non] | [1/0] |
+| 3 | ΔROA > 0 (vs N-1)          | [oui/non] | [1/0] |
+| 4 | CFO > Net Income (qualité) | [oui/non] | [1/0] |
+| 5 | ΔLeverage < 0 (dette/actif)| [oui/non] | [1/0] |
+| 6 | ΔCurrent Ratio > 0         | [oui/non] | [1/0] |
+| 7 | ΔShares ≤ 0 (pas dilution) | [oui/non] | [1/0] |
+| 8 | ΔGross Margin > 0          | [oui/non] | [1/0] |
+| 9 | ΔAsset Turnover > 0        | [oui/non] | [1/0] |
+| **TOTAL**                      |           | **[X]/9** |
+
+Interprétation : 8-9 = Fondamentaux solides ✅ | 5-7 = Neutre | 0-4 = Détérioration 🔴
+Source : Alpha Vantage INCOME_STATEMENT + BALANCE_SHEET + CASH_FLOW (3 dernières années)
+```
+
+```
+ALTMAN Z-SCORE (risque faillite) :
+Variables :
+  X1 = Working Capital / Total Assets        = [X]
+  X2 = Retained Earnings / Total Assets      = [X]
+  X3 = EBIT / Total Assets                   = [X]
+  X4 = Market Value Equity / Total Liabilities = [X]
+  X5 = Sales / Total Assets                  = [X]
+
+Z-Score = 1.2×X1 + 1.4×X2 + 3.3×X3 + 0.6×X4 + 1.0×X5 = [X.XX]
+
+Zone : [Safe (>2.99) ✅ | Grey (1.81-2.99) ⚠️ | Distress (<1.81) 🔴]
+
+⚠️ Variantes :
+- Manufacturiers : formule originale ci-dessus
+- Non-manufacturiers (Z'') : Z'' = 6.56×X1 + 3.26×X2 + 6.72×X3 + 1.05×X4 (seuils : >2.60 safe, <1.10 distress)
+- NE PAS appliquer aux banques/assurances (structure bilan incompatible)
+Source : BALANCE_SHEET + INCOME_STATEMENT + GLOBAL_QUOTE (market cap)
+```
+
+```
+BENEISH M-SCORE (détection manipulation comptable) :
+Variables (calculées sur 2 années consécutives) :
+  DSRI = Days Sales Receivable Index         = [X]   (>1.0 = créances gonflées)
+  GMI  = Gross Margin Index                  = [X]   (<1.0 = marge en baisse)
+  AQI  = Asset Quality Index                 = [X]   (>1.0 = actifs intangibles en hausse)
+  SGI  = Sales Growth Index                  = [X]   (>1.0 = croissance rapide)
+  DEPI = Depreciation Index                  = [X]   (>1.0 = amortissement ralenti)
+  SGAI = SGA Expense Index                   = [X]   (>1.0 = frais généraux en hausse)
+  LVGI = Leverage Index                      = [X]   (>1.0 = endettement en hausse)
+  TATA = Total Accruals to Total Assets      = [X]   (>0 = accruals importants)
+
+M-Score = -4.84 + 0.920×DSRI + 0.528×GMI + 0.404×AQI + 0.892×SGI + 0.115×DEPI - 0.172×SGAI + 4.679×TATA - 0.327×LVGI
+
+M-Score = [X.XX] → [Clean (<-1.78) ✅ | Manipulation probable (>-1.78) 🔴]
+Taux de détection historique : 76% des manipulations détectées (Beneish 1999)
+Source : INCOME_STATEMENT + BALANCE_SHEET (2 années consécutives minimum)
+```
+
+**Intégration dans le scoring /10 des 15 dimensions :**
+| Résultat | Impact sur dimensions |
+|----------|---------------------|
+| Piotroski 8-9 | **+0.5** à Dimension 3 (Solidité) ET Dimension 11 (Cash-Flow) |
+| Piotroski 0-4 | **-1.0** à Dimension 3 ET Dimension 11 |
+| Altman Z < 1.81 | Dimension 3 (Solidité) **plafonnée à 4/10 maximum** |
+| Altman Z < 1.10 (non-manuf.) | Dimension 3 **plafonnée à 2/10** + alerte rouge dans synthèse |
+| Beneish M > -1.78 | Dimension 4 (Gouvernance) **plafonnée à 3/10** + 🔴 alerte manipulation |
+| Les 3 scores positifs simultanément | **+0.5** bonus à la note globale finale |
+
+### 2L — MOMENTUM FONDAMENTAL
+
+**Applicable si couverture analyste ≥ 3 analystes. Si couverture < 3, noter "N/A — couverture insuffisante".**
+
+```
+MOMENTUM FONDAMENTAL — [entreprise] ([ticker])
+
+EARNINGS REVISION MOMENTUM :
+| Période | Nb analystes | Révisions ↑ | Révisions ↓ | Net (↑-↓) | Magnitude moy. |
+|---------|-------------|------------|------------|-----------|----------------|
+| 1 mois  | [X]         | [X]        | [X]        | [+/-X]    | [+/-X]%        |
+| 3 mois  | [X]         | [X]        | [X]        | [+/-X]    | [+/-X]%        |
+
+Signal : Net positif 1m ET 3m = momentum haussier ✅ | Net négatif = momentum baissier 🔴
+
+EARNINGS SURPRISE (8 derniers trimestres) :
+| Trimestre | EPS attendu | EPS réel | Surprise % | Réaction cours J+1 |
+|-----------|------------|---------|-----------|-------------------|
+| Q[X] [Y]  | [X]        | [X]     | [+/-X]%   | [+/-X]%           |
+| ...        |            |         |           |                   |
+
+Beat rate : [X]/8 trimestres ([Y]%)
+Surprise moyenne : [+/-X]%
+Signal : Beat rate > 75% = récurrence positive ✅ | < 50% = société qui déçoit ⚠️
+
+ESTIMATE DISPERSION :
+Écart-type estimations EPS FY  : [X]
+Moyenne estimations EPS FY     : [X]
+Dispersion ratio               : [X]% (= écart-type / moyenne × 100)
+Signal : < 5% = consensus fort ✅ | 5-15% = incertitude moyenne | > 15% = forte incertitude ⚠️
+
+SUE SCORE (Standardized Unexpected Earnings — dernier trimestre) :
+Formule : SUE = (EPS actual - EPS consensus) / écart-type des surprises passées (4-8 trim.)
+SUE = [X]
+Signal : SUE > 2.0 = surprise positive forte ✅ | SUE < -2.0 = surprise négative forte 🔴
+```
+
+**Sources données :**
+- Alpha Vantage `EARNINGS` (historical quarterly EPS + surprise)
+- WebSearch "[ticker] earnings estimates revisions consensus" → TipRanks, MarketScreener, Seeking Alpha
+- WebSearch "[ticker] analyst estimates dispersion" → FactSet, Bloomberg consensus
+
+**Intégration dans le scoring /10 :**
+| Résultat | Impact sur dimensions |
+|----------|---------------------|
+| Revision momentum net positif (1m+3m) + SUE > 1.0 | **+0.5** à Dimension 5 (Croissance) |
+| Revision momentum net négatif (1m+3m) + SUE < -1.0 | **-0.5** à Dimension 5 (Croissance) |
+| Dispersion > 15% | **-0.5** à Dimension 6 (Visibilité) |
+| Beat rate > 75% sur 8 trimestres | **+0.3** à Dimension 4 (Gouvernance — management crédible) |
+| Beat rate < 50% sur 8 trimestres | **-0.3** à Dimension 4 |
+
 ---
 
 ## ÉTAPE 3 — PONDÉRATION OPTIMALE DES NOTES
@@ -455,16 +667,16 @@ Si il existe → ajouter une ligne.
 
 ## TABLEAU RÉCAP MÉTRIQUES PAR TYPE
 
-| Type | Métrique N°1 | Métrique N°2 | Métrique N°3 | Valorisation | Piège à éviter |
-|------|-------------|-------------|-------------|-------------|----------------|
-| Mega/Large Growth | ROIC | FCF yield | PEG | DCF + comps | P/E seul |
-| Micro/Small-cap | Liquidité | Cash burn | Insider % | EV/EBITDA + NAV | Dilution/faillite |
-| Cyclique | EBITDA normalisé | Backlog | Bilan | EV/EBITDA cycle | P/E bas = piège haut cycle |
-| Défensif/Dividend | Div. yield | Payout ratio | CAGR div. | DDM + P/E hist. | Rendement élevé = coupe |
-| Immobilier/REIT | FFO/AFFO | NAV | Occupation | Price/AFFO + NAV | P/E classique |
-| Crypto | AT | On-chain | Sentiment | Pas de DCF | Métriques actions |
-| Obligation | YTM | Duration | Rating | Spread analysis | Risque taux |
-| ETF | TER | Tracking error | Sharpe | vs Benchmark | Frais cachés |
+| Type | Métrique N°1 | Métrique N°2 | Métrique N°3 | Valorisation | Piège à éviter | Indicateurs avancés obligatoires |
+|------|-------------|-------------|-------------|-------------|----------------|-------------------------------|
+| Mega/Large Growth | ROIC | FCF yield | PEG | DCF + comps | P/E seul | DuPont 5-Factor, Magic Formula, CROCI, Earnings Revisions |
+| Micro/Small-cap | Liquidité | Cash burn | Insider % | EV/EBITDA + NAV | Dilution/faillite | Altman Z-Score, Piotroski F-Score, Shareholder Yield |
+| Cyclique | EBITDA normalisé | Backlog | Bilan | EV/EBITDA cycle | P/E bas = piège haut cycle | Altman Z-Score, CCC, Earnings Surprise, Beneish M-Score |
+| Défensif/Dividend | Div. yield | Payout ratio | CAGR div. | DDM + P/E hist. | Rendement élevé = coupe | Shareholder Yield, Piotroski, DuPont (levier vs marge) |
+| Immobilier/REIT | FFO/AFFO | NAV | Occupation | Price/AFFO + NAV | P/E classique | CCC, Altman Z (adapté Z''), Piotroski |
+| Crypto | AT | On-chain | Sentiment | Pas de DCF | Métriques actions | N/A (pas de fondamentaux classiques) |
+| Obligation | YTM | Duration | Rating | Spread analysis | Risque taux | Altman Z-Score de l'émetteur |
+| ETF | TER | Tracking error | Sharpe | vs Benchmark | Frais cachés | N/A (analyse au niveau du fonds) |
 
 ## ANTI-PATTERNS — CE QU'IL NE FAUT JAMAIS FAIRE
 
@@ -505,3 +717,15 @@ Ce skill s'auto-améliore. Après chaque utilisation :
 Seuils d'action :
 - Score QA < 7/10 → revoir les dimensions d'analyse
 - Sources < 5 → enrichir la matrice de sources par type d'actif
+
+## LIVRABLE FINAL
+
+- **Type** : PDF
+- **Généré par** : pdf-report-pro
+- **Destination** : acollenne@gmail.com via send_report.py
+
+## CHAÎNAGE ARBORESCENCE
+
+- **Amont** : deep-research (entrée unique)
+- **Aval** : pdf-report-pro
+

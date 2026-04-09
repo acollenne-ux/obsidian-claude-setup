@@ -20,7 +20,7 @@
   - Affiche: CTX%, rate limits 5h + **7d** (avec ↺ temps restant), coût session, modèle
   - Couleurs: vert <60%, jaune 60-85%, rouge >85%
 - Settings: `~/.claude/settings.json`
-- Skills installés: stock-analysis, macro-analysis, dev-team, install-plugin, project-analysis, financial-modeling, code-debug, data-analysis, desktop-control (mars 2026), image-detourage, image-enhancer, flyer-creator (05/04/2026), website-analyzer (06/04/2026), obsidian-markdown, obsidian-bases, json-canvas, obsidian-cli, defuddle (06/04/2026), skill-creator v2 (06/04/2026)
+- Skills installés: stock-analysis, macro-analysis, dev-team, install-plugin, project-analysis, financial-modeling, code-debug, data-analysis, desktop-control (mars 2026), image-detourage, image-enhancer, flyer-creator (05/04/2026), website-analyzer (06/04/2026), obsidian-markdown, obsidian-bases, json-canvas, obsidian-cli, defuddle (06/04/2026), skill-creator v2 (06/04/2026), gsheet-builder (09/04/2026), image-generator (09/04/2026)
 - MCP Obsidian: `mcp-obsidian` via uvx (nécessite plugin Obsidian "Local REST API" + clé API)
 - PyAutoGUI v0.9.54 installé sur Python 3.13 (contrôle bureau Windows)
 
@@ -52,6 +52,9 @@
 - `flyer-creator` — AUTO sur création flyers/affiches/posters (HTML/CSS + Playwright + post-processing Pillow)
 - `website-analyzer` — AUTO sur analyse/audit sites web (Playwright crawler + 4 agents UX/Marketing/Conversion/Brand + scoring 10 dimensions + rapport PDF)
 - `skill-creator` — AUTO sur création/amélioration/audit de skills (7 phases, 6 templates, 5 agents, scoring 10 critères /100, script audit Python)
+- `idea-to-diagram` — AUTO sur schéma/diagramme/synthèse visuelle/mind map/flowchart (6 phases + 5 agents : extractor, architect MECE, selector Abela, generator, qa-critic Tufte)
+- `diagram-toolkit` — Bibliothèque technique : 10 templates (pyramid/scqa/mece/matrix2x2/c4/fishbone/causal-loop/roadmap/sequence/venn) + 4 thèmes (mckinsey/bcg/mono/dark) + render.py multi-format
+- `image-generator` — AUTO sur génération image IA/text-to-image (multi-provider FLUX/GPT-Image/Nano Banana 2/SDXL, 3 agents, routeur intelligent)
 
 ### Ancien monolithe
 - Backup : `~/.claude/skills/deep-research/SKILL.md.bak_monolith_2201lines`
@@ -88,6 +91,7 @@
 - Email bridge: `start_email_trigger.vbs` dans dossier Démarrage Windows (permanent, invisible)
 
 ## Memory Files
+- [Deep-research v3 règles](feedback_deep_research_v3.md) — Pas de LITE, choix user STANDARD/FULL avant exécution, multi-skills par couche, aller-retours L3↔L2 obligatoires
 - [Arbre Skills 5 couches obligatoire](feedback_arbre_skills_obligatoire.md) — Respecter intégralement l'arbre 5 couches + chaque SKILL.md ; livrable C4 obligatoire
 - [PDF Markdown only](feedback_pdf_markdown_only.md) — send_report.py = Markdown, jamais HTML
 - [Always deep-research](feedback_always_deep_research.md) — Toujours invoquer deep-research en premier
@@ -111,3 +115,13 @@
 - [pdf-report-pro 07/04](project_pdf_report_pro_20260407.md) — Refonte McKinsey/BCG/Goldman, 6 phases, 5 templates HTML/CSS, WeasyPrint+Playwright, score audit 97/100
 - [ppt-creator 07/04](project_ppt_creator_20260407.md) — Nouveau skill .pptx éditable McKinsey/BCG, ghost deck validé utilisateur, python-pptx, score audit 97/100
 - [Skills carrière 07/04](project_career_skills_20260407.md) — cv-creator + cover-letter-creator (Typst + HTML/Playwright + JSON Resume), 6 templates CV, 4 frameworks lettres, ATS-safe
+- [idea-to-diagram + diagram-toolkit 08/04](project_idea_to_diagram_20260408.md) — 2 skills + 5 agents pour synthèse visuelle pro (Pyramid/MECE/Abela/Tufte), Mermaid/D2/Graphviz/Typst, thèmes McKinsey/BCG
+- [N8N Management 08/04](project_n8n_management_20260408.md) — Skill orchestrateur n8n-management (89/100) + 7 skills officiels czlonkowski + 3 agents (architect/debugger/validator) + MCP n8n-mcp **mode docs-only** (✓ Connected, install globale, démarrage via `node` direct — pas de `npx -y` qui timeout)
+- [Antigravity skill 08/04](project_antigravity_skill_20260408.md) — Connecteur Google Antigravity free tier (Claude Opus 4.6 natif inclus), L3 SPECIALIST, bridge MCP unidirectionnel Claude→Antigravity, **hard-gate anti-ban-wave** (jamais antigravity-cli/openclaw/proxies tiers)
+- [Gemini CLI skill 08/04](project_gemini_cli_skill_20260408.md) — Wrapper Gemini CLI officiel, ~1000 req/jour Gemini 3 Pro OAuth gratuit, fallback auto multi-ia-router
+- [Gemini co-moteur vision](feedback_gemini_for_visuals.md) — OBLIGATOIRE : Claude Opus appelle Gemini 3 Pro via gemini-cli pour toute image/diagramme/visuel (hard-gates ajoutés à image-studio et idea-to-diagram)
+- [Gemini CLI skill 08/04](project_gemini_cli_skill_20260408.md) — Wrapper Gemini CLI officiel Google (~1000 req/jour Gemini 3 Pro gratuit via OAuth), skill utilitaire L3, fallback auto multi-ia-router, pour vision image→code / diagrammes / fallback quand quotas Claude tapés
+- [Deep-research FULL strict](feedback_deep_research_full_pipeline_strict.md) — Mode FULL = toutes couches L1→L6, multi-IA, PDF+PPT, QA, retex. Zéro raccourci. Incident Indra 09/04.
+- [Token Economizer Suite 08/04](project_token_economizer_20260408.md) — 5 skills L6 (token-economizer + prompt-cache-manager + haiku-delegator + context-compressor + adaptive-thinking-router), hook Phase 0B-bis deep-research, principe reasoning-first, cible −70% tokens +qualité ≥baseline+10%
+- [gsheet-builder 09/04](project_gsheet_builder_20260409.md) — Skill L4 DELIVERY Google Sheets consulting-grade, 8 phases, 5 agents, 5 themes McKinsey/Goldman, 6 templates YAML, 31 outils MCP, QA 15 critères seuil 85/100
+- [image-generator 09/04](project_image_generator_20260409.md) — Skill L3 text-to-image multi-provider (FLUX/GPT-Image/Nano Banana 2/SDXL), 3 agents, 4 scripts Python, Pipeline E image-enhancer

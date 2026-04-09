@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1600">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Ansoff Growth Matrix</title>
+<style>
+  :root {
+    --primary: {{PRIMARY}};
+    --secondary: {{SECONDARY}};
+    --accent: {{ACCENT}};
+    --neutral: {{NEUTRAL}};
+    --background: {{BACKGROUND}};
+    --text: {{TEXT}};
+    --font: {{FONT_FAMILY}};
+    --shadow: {{SHADOW}};
+    --radius: {{BORDER_RADIUS}};
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1600px; height: 900px;
+    font-family: var(--font), 'Inter', sans-serif;
+    background: var(--background);
+    color: var(--text);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  .so-what {
+    text-align: center;
+    padding: 28px 48px 8px;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--primary);
+    line-height: 1.3;
+  }
+  .container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 80px 36px;
+  }
+  .matrix-outer {
+    display: flex;
+    gap: 0;
+    position: relative;
+  }
+  /* Row headers (Markets) */
+  .row-headers {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 12px;
+    margin-top: 56px;
+  }
+  .row-label {
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 16px;
+  }
+  .row-label span {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--neutral);
+  }
+  .axis-title-y {
+    position: absolute;
+    left: -36px;
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--primary);
+    white-space: nowrap;
+  }
+  .matrix-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  /* Column headers (Products) */
+  .col-headers {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+    padding-left: 0;
+  }
+  .axis-title-x {
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 6px;
+  }
+  .col-label {
+    width: 440px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--neutral);
+    padding: 8px 0;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 440px 440px;
+    grid-template-rows: 300px 300px;
+    gap: 8px;
+  }
+  .quadrant {
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  .quadrant::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+  }
+  .q-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .q-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .q-title {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  .q-risk {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-top: 2px;
+    opacity: 0.65;
+  }
+  .q-body {
+    flex: 1;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--text);
+    opacity: 0.88;
+    padding: 8px 0 0 56px;
+  }
+  /* Penetration — low risk */
+  .q-penetration {
+    background: linear-gradient(135deg, rgba(76,175,80,0.08) 0%, rgba(76,175,80,0.02) 100%);
+    border: 1px solid rgba(76,175,80,0.15);
+  }
+  .q-penetration::before { background: #43a047; }
+  .q-penetration .q-icon { background: #43a047; }
+  .q-penetration .q-title { color: #2e7d32; }
+  .q-penetration .q-risk { color: #43a047; }
+  /* Product Dev — medium risk */
+  .q-product {
+    background: linear-gradient(135deg, rgba(33,150,243,0.08) 0%, rgba(33,150,243,0.02) 100%);
+    border: 1px solid rgba(33,150,243,0.15);
+  }
+  .q-product::before { background: #1e88e5; }
+  .q-product .q-icon { background: #1e88e5; }
+  .q-product .q-title { color: #1565c0; }
+  .q-product .q-risk { color: #1e88e5; }
+  /* Market Dev — medium risk */
+  .q-market {
+    background: linear-gradient(135deg, rgba(255,152,0,0.08) 0%, rgba(255,152,0,0.02) 100%);
+    border: 1px solid rgba(255,152,0,0.15);
+  }
+  .q-market::before { background: #fb8c00; }
+  .q-market .q-icon { background: #fb8c00; }
+  .q-market .q-title { color: #e65100; }
+  .q-market .q-risk { color: #fb8c00; }
+  /* Diversification — high risk */
+  .q-diversification {
+    background: linear-gradient(135deg, rgba(244,67,54,0.08) 0%, rgba(244,67,54,0.02) 100%);
+    border: 1px solid rgba(244,67,54,0.15);
+  }
+  .q-diversification::before { background: #e53935; }
+  .q-diversification .q-icon { background: #e53935; }
+  .q-diversification .q-title { color: #c62828; }
+  .q-diversification .q-risk { color: #e53935; }
+</style>
+</head>
+<body>
+  <div class="so-what">{{SO_WHAT}}</div>
+  <div class="container">
+    <div class="matrix-outer">
+      <div class="axis-title-y">Markets</div>
+      <div class="row-headers">
+        <div class="row-label"><span>Existing</span></div>
+        <div class="row-label"><span>New</span></div>
+      </div>
+      <div class="matrix-inner">
+        <div class="axis-title-x">Products</div>
+        <div class="col-headers">
+          <div class="col-label">Existing</div>
+          <div class="col-label">New</div>
+        </div>
+        <div class="grid">
+          <!-- Existing Market x Existing Product -->
+          <div class="quadrant q-penetration">
+            <div class="q-header">
+              <div class="q-icon">&#9650;</div>
+              <div>
+                <div class="q-title">Market Penetration</div>
+                <div class="q-risk">Low Risk</div>
+              </div>
+            </div>
+            <div class="q-body">{{PENETRATION}}</div>
+          </div>
+          <!-- Existing Market x New Product -->
+          <div class="quadrant q-product">
+            <div class="q-header">
+              <div class="q-icon">&#9881;</div>
+              <div>
+                <div class="q-title">Product Development</div>
+                <div class="q-risk">Medium Risk</div>
+              </div>
+            </div>
+            <div class="q-body">{{PRODUCT_DEV}}</div>
+          </div>
+          <!-- New Market x Existing Product -->
+          <div class="quadrant q-market">
+            <div class="q-header">
+              <div class="q-icon">&#127758;</div>
+              <div>
+                <div class="q-title">Market Development</div>
+                <div class="q-risk">Medium Risk</div>
+              </div>
+            </div>
+            <div class="q-body">{{MARKET_DEV}}</div>
+          </div>
+          <!-- New Market x New Product -->
+          <div class="quadrant q-diversification">
+            <div class="q-header">
+              <div class="q-icon">&#128640;</div>
+              <div>
+                <div class="q-title">Diversification</div>
+                <div class="q-risk">High Risk</div>
+              </div>
+            </div>
+            <div class="q-body">{{DIVERSIFICATION}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

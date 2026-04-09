@@ -1,0 +1,18 @@
+// Fishbone / Ishikawa — {{SO_WHAT}}
+digraph fishbone {
+    rankdir=LR;
+    node [shape=box, style=filled, fillcolor="{{SECONDARY}}", fontcolor="white", fontname="Inter"];
+    edge [color="{{PRIMARY}}"];
+
+    effect [label="{{EFFECT}}", fillcolor="{{PRIMARY}}", shape=ellipse];
+
+    c1 [label="{{CAUSE_1}}"];
+    c2 [label="{{CAUSE_2}}"];
+    c3 [label="{{CAUSE_3}}"];
+    c4 [label="{{CAUSE_4}}"];
+
+    c1 -> effect;
+    c2 -> effect;
+    c3 -> effect;
+    c4 -> effect;
+}

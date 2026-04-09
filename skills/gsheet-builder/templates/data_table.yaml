@@ -1,0 +1,49 @@
+template: data_table
+description: "Table de donnees generique propre avec headers, alternating rows et filtres"
+theme_default: minimal_gray
+
+tabs:
+  - name: "Data"
+    tab_color: primary
+    frozen_rows: 1
+    frozen_cols: 1
+    columns: []  # Defini dynamiquement selon le brief
+    features:
+      - alternating_rows: true
+      - auto_filter: true
+      - summary_row: true
+      - conditional_formatting: optional
+    formatting:
+      header:
+        background: header_bg
+        font_weight: bold
+        font_size: 11
+        border_bottom: medium
+      data:
+        font_size: 10
+        alternating: alt_row
+        border_bottom: thin_light
+      summary:
+        font_weight: bold
+        border_top: medium
+        background: header_bg
+
+  - name: "Config"
+    tab_color: gray
+    frozen_rows: 1
+    columns:
+      - name: "Parametre"
+        type: text
+        width: 200
+      - name: "Valeur"
+        type: mixed
+        width: 150
+    data:
+      - ["Source Donnees", ""]
+      - ["Derniere MAJ", "=TODAY()"]
+      - ["Nombre Lignes", "=COUNTA(Data!A2:A)"]
+
+notes: |
+  Template generique : les colonnes sont definies dynamiquement en Phase 1 (Architect)
+  selon le brief utilisateur. Ce template fournit uniquement le cadre de formatage.
+  Adapter le nombre et le type de colonnes au cas d'usage specifique.

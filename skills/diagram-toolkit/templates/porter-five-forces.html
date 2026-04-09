@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1600">
+<title>Porter Five Forces</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: {{PRIMARY}};
+    --secondary: {{SECONDARY}};
+    --accent: {{ACCENT}};
+    --neutral: {{NEUTRAL}};
+    --background: {{BACKGROUND}};
+    --text: {{TEXT}};
+    --font: {{FONT_FAMILY}};
+    --shadow: {{SHADOW}};
+    --radius: {{BORDER_RADIUS}};
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1600px; height: 900px;
+    background: var(--background);
+    font-family: var(--font), 'Inter', sans-serif;
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* ── Header ── */
+  .header {
+    padding: 24px 64px 8px;
+    text-align: center;
+  }
+  .header .label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--neutral);
+    margin-bottom: 4px;
+  }
+  .header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--primary);
+  }
+
+  /* ── Forces Layout ── */
+  .forces-container {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .force-card {
+    position: absolute;
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 24px 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    z-index: 2;
+  }
+  .force-card .f-icon {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    font-size: 20px;
+    color: #fff;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .force-card .f-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .force-card .f-content {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.55;
+    opacity: 0.85;
+  }
+
+  /* ── Center: Industry Rivalry ── */
+  .f-center {
+    width: 320px;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    padding: 32px;
+  }
+  .f-center .f-icon {
+    background: rgba(255,255,255,0.2);
+    border: 2px solid rgba(255,255,255,0.4);
+  }
+  .f-center .f-title {
+    color: #fff;
+    font-size: 15px;
+  }
+  .f-center .f-content {
+    color: rgba(255,255,255,0.9);
+    opacity: 1;
+  }
+
+  /* ── Peripheral forces ── */
+  .f-top {
+    width: 300px;
+    left: 50%; top: 30px;
+    transform: translateX(-50%);
+  }
+  .f-top .f-icon { background: var(--secondary); }
+  .f-top .f-title { color: var(--secondary); }
+
+  .f-bottom {
+    width: 300px;
+    left: 50%; bottom: 30px;
+    transform: translateX(-50%);
+  }
+  .f-bottom .f-icon { background: var(--accent); }
+  .f-bottom .f-title { color: var(--accent); }
+
+  .f-left {
+    width: 280px;
+    left: 80px; top: 50%;
+    transform: translateY(-50%);
+  }
+  .f-left .f-icon { background: #7b1fa2; }
+  .f-left .f-title { color: #7b1fa2; }
+
+  .f-right {
+    width: 280px;
+    right: 80px; top: 50%;
+    transform: translateY(-50%);
+  }
+  .f-right .f-icon { background: #00838f; }
+  .f-right .f-title { color: #00838f; }
+
+  /* ── Arrows ── */
+  .arrow {
+    position: absolute;
+    z-index: 1;
+  }
+  .arrow-line {
+    stroke: var(--neutral);
+    stroke-width: 2.5;
+    opacity: 0.4;
+  }
+  .arrow-head {
+    fill: var(--neutral);
+    opacity: 0.5;
+  }
+
+  /* SVG overlay for arrows */
+  .arrows-svg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+</style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="label">Porter's Five Forces</div>
+    <h1>{{SO_WHAT}}</h1>
+  </div>
+
+  <div class="forces-container">
+    <!-- Arrows SVG -->
+    <svg class="arrows-svg" viewBox="0 0 1600 820">
+      <defs>
+        <marker id="arrowDown" markerWidth="12" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L12,4 L0,8 Z" class="arrow-head"/>
+        </marker>
+        <marker id="arrowUp" markerWidth="12" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L12,4 L0,8 Z" class="arrow-head"/>
+        </marker>
+        <marker id="arrowRight" markerWidth="12" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L12,4 L0,8 Z" class="arrow-head"/>
+        </marker>
+        <marker id="arrowLeft" markerWidth="12" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L12,4 L0,8 Z" class="arrow-head"/>
+        </marker>
+      </defs>
+      <!-- Top to Center -->
+      <line x1="800" y1="200" x2="800" y2="320" class="arrow-line" marker-end="url(#arrowDown)"/>
+      <!-- Bottom to Center -->
+      <line x1="800" y1="620" x2="800" y2="500" class="arrow-line" marker-end="url(#arrowUp)"/>
+      <!-- Left to Center -->
+      <line x1="420" y1="410" x2="560" y2="410" class="arrow-line" marker-end="url(#arrowRight)"/>
+      <!-- Right to Center -->
+      <line x1="1180" y1="410" x2="1040" y2="410" class="arrow-line" marker-end="url(#arrowLeft)"/>
+    </svg>
+
+    <!-- Center: Industry Rivalry -->
+    <div class="force-card f-center">
+      <div class="f-icon">R</div>
+      <div class="f-title">Industry Rivalry</div>
+      <div class="f-content">{{RIVALRY}}</div>
+    </div>
+
+    <!-- Top: New Entrants -->
+    <div class="force-card f-top">
+      <div class="f-icon">N</div>
+      <div class="f-title">Threat of New Entrants</div>
+      <div class="f-content">{{NEW_ENTRANTS}}</div>
+    </div>
+
+    <!-- Bottom: Substitutes -->
+    <div class="force-card f-bottom">
+      <div class="f-icon">S</div>
+      <div class="f-title">Threat of Substitutes</div>
+      <div class="f-content">{{SUBSTITUTES}}</div>
+    </div>
+
+    <!-- Left: Supplier Power -->
+    <div class="force-card f-left">
+      <div class="f-icon">SP</div>
+      <div class="f-title">Supplier Power</div>
+      <div class="f-content">{{SUPPLIER_POWER}}</div>
+    </div>
+
+    <!-- Right: Buyer Power -->
+    <div class="force-card f-right">
+      <div class="f-icon">BP</div>
+      <div class="f-title">Buyer Power</div>
+      <div class="f-content">{{BUYER_POWER}}</div>
+    </div>
+  </div>
+
+</body>
+</html>

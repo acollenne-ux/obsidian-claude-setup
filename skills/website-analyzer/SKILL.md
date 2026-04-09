@@ -319,3 +319,15 @@ Après chaque audit web :
 - Si une dimension manque (ex: performance Core Web Vitals) → l'ajouter à la grille
 
 Seuils : si fallback WebFetch > 30% des audits → améliorer la robustesse du crawler Playwright.
+
+## LIVRABLE FINAL
+
+- **Type** : PDF
+- **Généré par** : pdf-report-pro
+- **Destination** : acollenne@gmail.com via send_report.py
+
+## CHAÎNAGE ARBORESCENCE
+
+- **Amont** : deep-research (entrée unique)
+- **Aval** : pdf-report-pro
+

@@ -231,3 +231,15 @@ Après chaque développement :
 - Si un outil manque → l'ajouter dans la matrice d'outils
 
 Seuils : si > 3 bugs dans le code produit → revoir le processus de validation.
+
+## LIVRABLE FINAL
+
+- **Type** : PDF
+- **Généré par** : pdf-report-pro
+- **Destination** : acollenne@gmail.com via send_report.py
+
+## CHAÎNAGE ARBORESCENCE
+
+- **Amont** : deep-research (entrée unique)
+- **Aval** : pdf-report-pro
+

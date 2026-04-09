@@ -1,0 +1,15 @@
+// Causal loop — {{SO_WHAT}}
+digraph causal {
+    layout=neato;
+    overlap=false;
+    node [shape=ellipse, style=filled, fillcolor="{{SECONDARY}}", fontcolor="white", fontname="Inter"];
+    edge [color="{{PRIMARY}}", penwidth=1.5];
+
+    A [label="{{VAR_A}}"];
+    B [label="{{VAR_B}}"];
+    C [label="{{VAR_C}}"];
+
+    A -> B [label="+"];
+    B -> C [label="+"];
+    C -> A [label="-"];
+}

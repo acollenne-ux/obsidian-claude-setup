@@ -1,0 +1,13 @@
+---
+title: "{{SO_WHAT}}"
+---
+gantt
+    title {{TITLE}}
+    dateFormat YYYY-MM-DD
+    axisFormat %b %Y
+    section {{PHASE_1}}
+    {{TASK_1_1}} :a1, {{START_1}}, {{DUR_1}}
+    section {{PHASE_2}}
+    {{TASK_2_1}} :a2, after a1, {{DUR_2}}
+    section {{PHASE_3}}
+    {{TASK_3_1}} :a3, after a2, {{DUR_3}}

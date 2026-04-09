@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Layout QA — Rapport d'audit visuel</title>
+<style>
+  :root { --ink:#0f172a; --muted:#64748b; --ok:#16a34a; --fix:#ea580c; --fail:#dc2626; }
+  body { font-family: Inter, Arial, sans-serif; color: var(--ink); margin: 40px; line-height: 1.45; }
+  h1 { margin: 0 0 4px; font-size: 28px; }
+  .verdict { display:inline-block; padding:6px 14px; border-radius:999px; font-weight:600; color:#fff; }
+  .verdict.PASS { background: var(--ok); }
+  .verdict.FIX  { background: var(--fix); }
+  .verdict.FAIL { background: var(--fail); }
+  table { border-collapse: collapse; width:100%; margin-top:20px; font-size: 14px; }
+  th, td { border-bottom:1px solid #e2e8f0; padding:8px 10px; text-align:left; vertical-align:top; }
+  th { background:#f8fafc; color: var(--muted); font-weight:600; }
+  .sev-critical { color: var(--fail); font-weight:600; }
+  .sev-high     { color: var(--fix); font-weight:600; }
+  .sev-medium   { color: #ca8a04; }
+  .sev-low      { color: #2563eb; }
+  .page-grid { display:grid; grid-template-columns: repeat(2,1fr); gap:16px; margin-top:24px; }
+  .page-card { border:1px solid #e2e8f0; border-radius:8px; padding:8px; }
+  .page-card img { width:100%; height:auto; display:block; border-radius:4px; }
+  .meta { color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+  <h1>Layout QA — Rapport d'audit visuel</h1>
+  <div class="meta">Livrable : <strong>{{INPUT}}</strong> · Appelant : {{CALLER}} · Run : {{RUN_ID}}</div>
+  <p>Verdict : <span class="verdict {{VERDICT}}">{{VERDICT}}</span></p>
+
+  <h2>Anomalies détectées ({{ANOMALY_COUNT}})</h2>
+  <table>
+    <thead><tr><th>Page</th><th>Élément</th><th>Type</th><th>Sévérité</th><th>Correction</th></tr></thead>
+    <tbody>{{ROWS}}</tbody>
+  </table>
+
+  <h2>Pages annotées</h2>
+  <div class="page-grid">{{PAGES}}</div>
+</body>
+</html>

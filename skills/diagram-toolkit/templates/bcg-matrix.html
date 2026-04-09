@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1600">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>BCG Growth-Share Matrix</title>
+<style>
+  :root {
+    --primary: {{PRIMARY}};
+    --secondary: {{SECONDARY}};
+    --accent: {{ACCENT}};
+    --neutral: {{NEUTRAL}};
+    --background: {{BACKGROUND}};
+    --text: {{TEXT}};
+    --font: {{FONT_FAMILY}};
+    --shadow: {{SHADOW}};
+    --radius: {{BORDER_RADIUS}};
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1600px; height: 900px;
+    font-family: var(--font), 'Inter', sans-serif;
+    background: var(--background);
+    color: var(--text);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  .so-what {
+    text-align: center;
+    padding: 28px 48px 12px;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--primary);
+    line-height: 1.3;
+  }
+  .container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 60px 32px;
+  }
+  .matrix-wrapper {
+    position: relative;
+    width: 1100px;
+    height: 720px;
+  }
+  /* Axis labels */
+  .axis-y {
+    position: absolute;
+    left: -8px;
+    top: 50%;
+    transform: translateX(-100%) rotate(-90deg);
+    transform-origin: right center;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--neutral);
+    white-space: nowrap;
+  }
+  .axis-x {
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100%);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--neutral);
+    white-space: nowrap;
+  }
+  .axis-tick {
+    position: absolute;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--neutral);
+    opacity: 0.7;
+  }
+  .tick-y-high { left: 46px; top: 60px; }
+  .tick-y-low  { left: 46px; bottom: 20px; }
+  .tick-x-high { left: 80px; bottom: -4px; }
+  .tick-x-low  { right: 80px; bottom: -4px; }
+  .grid {
+    position: absolute;
+    top: 40px; left: 70px; right: 40px; bottom: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 6px;
+  }
+  .quadrant {
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: transform 0.2s;
+  }
+  .quadrant-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .quadrant-icon {
+    font-size: 32px;
+    line-height: 1;
+  }
+  .quadrant-title {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  .quadrant-subtitle {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    opacity: 0.7;
+    margin-top: 2px;
+  }
+  .quadrant-items {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .item {
+    background: rgba(255,255,255,0.55);
+    border-radius: calc(var(--radius) * 0.6);
+    padding: 10px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+    border-left: 3px solid currentColor;
+  }
+  /* Stars — top-left */
+  .q-stars {
+    background: linear-gradient(135deg, rgba(255,193,7,0.12) 0%, rgba(255,193,7,0.06) 100%);
+    border: 1px solid rgba(255,193,7,0.2);
+  }
+  .q-stars .quadrant-title { color: #e6a800; }
+  .q-stars .item { border-left-color: #e6a800; }
+  /* Question Marks — top-right */
+  .q-question {
+    background: linear-gradient(135deg, rgba(156,39,176,0.10) 0%, rgba(156,39,176,0.04) 100%);
+    border: 1px solid rgba(156,39,176,0.18);
+  }
+  .q-question .quadrant-title { color: #8e24aa; }
+  .q-question .item { border-left-color: #8e24aa; }
+  /* Cash Cows — bottom-left */
+  .q-cashcow {
+    background: linear-gradient(135deg, rgba(76,175,80,0.10) 0%, rgba(76,175,80,0.04) 100%);
+    border: 1px solid rgba(76,175,80,0.18);
+  }
+  .q-cashcow .quadrant-title { color: #2e7d32; }
+  .q-cashcow .item { border-left-color: #2e7d32; }
+  /* Dogs — bottom-right */
+  .q-dogs {
+    background: linear-gradient(135deg, rgba(244,67,54,0.10) 0%, rgba(244,67,54,0.04) 100%);
+    border: 1px solid rgba(244,67,54,0.18);
+  }
+  .q-dogs .quadrant-title { color: #c62828; }
+  .q-dogs .item { border-left-color: #c62828; }
+  /* Divider lines */
+  .grid::before, .grid::after {
+    content: '';
+    position: absolute;
+    background: var(--neutral);
+    opacity: 0.15;
+  }
+  .grid::before {
+    width: 1px; height: 100%;
+    left: 50%; top: 0;
+  }
+  .grid::after {
+    width: 100%; height: 1px;
+    top: 50%; left: 0;
+  }
+</style>
+</head>
+<body>
+  <div class="so-what">{{SO_WHAT}}</div>
+  <div class="container">
+    <div class="matrix-wrapper">
+      <div class="axis-y">Market Growth Rate</div>
+      <div class="axis-x">Relative Market Share</div>
+      <div class="axis-tick tick-y-high">HIGH</div>
+      <div class="axis-tick tick-y-low">LOW</div>
+      <div class="axis-tick tick-x-high">HIGH</div>
+      <div class="axis-tick tick-x-low">LOW</div>
+      <div class="grid">
+        <!-- Top-left: Stars (high share, high growth) -->
+        <div class="quadrant q-stars">
+          <div class="quadrant-header">
+            <span class="quadrant-icon">&#11088;</span>
+            <div>
+              <div class="quadrant-title">Stars</div>
+              <div class="quadrant-subtitle">Invest &amp; Grow</div>
+            </div>
+          </div>
+          <div class="quadrant-items">
+            <div class="item">{{STAR_1}}</div>
+            <div class="item">{{STAR_2}}</div>
+          </div>
+        </div>
+        <!-- Top-right: Question Marks (low share, high growth) -->
+        <div class="quadrant q-question">
+          <div class="quadrant-header">
+            <span class="quadrant-icon">&#10067;</span>
+            <div>
+              <div class="quadrant-title">Question Marks</div>
+              <div class="quadrant-subtitle">Evaluate &amp; Decide</div>
+            </div>
+          </div>
+          <div class="quadrant-items">
+            <div class="item">{{QUESTION_1}}</div>
+            <div class="item">{{QUESTION_2}}</div>
+          </div>
+        </div>
+        <!-- Bottom-left: Cash Cows (high share, low growth) -->
+        <div class="quadrant q-cashcow">
+          <div class="quadrant-header">
+            <span class="quadrant-icon">&#128004;</span>
+            <div>
+              <div class="quadrant-title">Cash Cows</div>
+              <div class="quadrant-subtitle">Harvest &amp; Maintain</div>
+            </div>
+          </div>
+          <div class="quadrant-items">
+            <div class="item">{{CASHCOW_1}}</div>
+            <div class="item">{{CASHCOW_2}}</div>
+          </div>
+        </div>
+        <!-- Bottom-right: Dogs (low share, low growth) -->
+        <div class="quadrant q-dogs">
+          <div class="quadrant-header">
+            <span class="quadrant-icon">&#128054;</span>
+            <div>
+              <div class="quadrant-title">Dogs</div>
+              <div class="quadrant-subtitle">Divest or Reposition</div>
+            </div>
+          </div>
+          <div class="quadrant-items">
+            <div class="item">{{DOG_1}}</div>
+            <div class="item">{{DOG_2}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

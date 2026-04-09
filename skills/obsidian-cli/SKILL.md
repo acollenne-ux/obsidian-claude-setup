@@ -334,3 +334,15 @@ Après chaque interaction CLI Obsidian :
 - Si le wrapper Windows pose problème → documenter les alternatives
 
 Seuils : si > 3 échecs de commande par session → revoir la configuration CLI et les prérequis.
+
+## LIVRABLE FINAL
+
+- **Type** : DOC
+- **Généré par** : obsidian-cli
+- **Destination** : acollenne@gmail.com via send_report.py
+
+## CHAÎNAGE ARBORESCENCE
+
+- **Amont** : deep-research (entrée unique)
+- **Aval** : obsidian-cli
+

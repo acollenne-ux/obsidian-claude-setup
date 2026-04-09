@@ -202,3 +202,36 @@ Après chaque création de flyer :
 - Si le rendu Playwright est lent → optimiser le HTML/CSS
 
 Seuils : si > 2 flyers nécessitent des retouches manuelles → revoir les templates de base.
+
+## LIVRABLE FINAL
+
+- **Type** : image
+- **Généré par** : self
+- **Destination** : acollenne@gmail.com via send_report.py
+
+## CHAÎNAGE ARBORESCENCE
+
+- **Amont** : deep-research (entrée unique)
+- **Aval** : self
+
+
+---
+
+## DELIVERY GATE — layout-qa (OBLIGATOIRE)
+
+**Avant tout envoi du livrable final**, ce skill DOIT invoquer la porte `layout-qa` :
+
+```bash
+python ~/.claude/skills/layout-qa/scripts/run_gate.py \
+    --input <livrable> \
+    --brief <brief.md> \
+    --caller <nom-de-ce-skill> \
+    --max-iter 3 \
+    --out-report qa_report.json
+```
+
+- Exit `0` (PASS) → envoi autorisé (email, téléchargement utilisateur)
+- Exit `1` (FIX) → lire `qa_report.json`, appliquer les corrections au Composer, re-rendre, re-invoquer layout-qa (max 3 itérations)
+- Exit `2` (FAIL) → escalade utilisateur avec les PNG annotés (`annotated_dir`)
+
+La phase vision multimodale est assurée par l'agent `visual-layout-critic` côté Claude après l'exécution déterministe du script. Aucun livrable ne sort sans verdict PASS.

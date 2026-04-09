@@ -31,6 +31,7 @@ Pour toute réponse, identifier les limitations qui pourraient empêcher la solu
 Ne jamais livrer une réponse sans l'avoir relue avec l'œil d'un expert :
 - Analyse : sources citées ? Limitations identifiées ? Cohérence interne ?
 - Code : erreurs de syntaxe ? Logique correcte ? Limites de plateforme respectées ? Edge cases gérés ?
+- **Mise en page (OBLIGATOIRE) : tout livrable visuel (PDF, PPT/PPTX, image, flyer, diagramme, CV, lettre) DOIT passer par le skill `layout-qa` avant envoi. Verdict PASS requis. FIX → boucle de correction (max 3 itérations). FAIL → escalade utilisateur avec screenshots annotés. Aucune exception.**
 - Si un problème est détecté → corriger et re-vérifier jusqu'à ce que ce soit bon
 
 ### 5. Envoi automatique par email en PDF — TOUJOURS

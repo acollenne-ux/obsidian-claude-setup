@@ -1,0 +1,20 @@
+%% Business Model Canvas (Osterwalder) — 9 blocs
+flowchart TB
+    subgraph BMC["Business Model Canvas"]
+        direction TB
+        KP[Key Partners]
+        KA[Key Activities]
+        KR[Key Resources]
+        VP[Value Propositions]
+        CR[Customer Relationships]
+        CH[Channels]
+        CS[Customer Segments]
+        CO[Cost Structure]
+        RS[Revenue Streams]
+    end
+    KP --> KA --> VP
+    KP --> KR --> VP
+    VP --> CR --> CS
+    VP --> CH --> CS
+    CO --- BMC
+    RS --- BMC

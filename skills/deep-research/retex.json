@@ -295,6 +295,66 @@
       "quality_final": 7,
       "time_minutes": 15,
       "timestamp": "2026-04-02T07:43:36.849911"
+    },
+    {
+      "task_type": "stock_analysis",
+      "title": "Indra Sistemas FULL pipeline recovery",
+      "tools": [
+        "multi-ia-router",
+        "WebSearch",
+        "pdf-report-pro",
+        "ppt-creator"
+      ],
+      "score": 8,
+      "notes": "Pipeline FULL execute apres incident de raccourci. Multi-IA consensus 3/3 BUY cible ~66 EUR. PDF+PPT envoyes. Feedback memoire strict cree.",
+      "timestamp": "2026-04-09T01:15:10.921690"
+    },
+    {
+      "task_type": "stock_analysis",
+      "summary": "Analyse FULL Indra Sistemas IDR.MC - Defense EU mid-cap - 25 sources, DCF+Comps+SOTP, F-Score 7/9, PT 62 EUR",
+      "tool_results": {
+        "bigdata_com": {
+          "success": false,
+          "quality": 0,
+          "note": "abo expire - fallback WebSearch"
+        },
+        "websearch": {
+          "success": true,
+          "quality": 9,
+          "note": "12 queries paralleles, donnees riches"
+        },
+        "webfetch": {
+          "success": true,
+          "quality": 7,
+          "note": "Seeking Alpha 403, MarketScreener 403, StockAnalysis OK, Investing.com consensus OK"
+        },
+        "alpha_vantage_mcp": {
+          "success": false,
+          "quality": 0,
+          "note": "non appele, couverture EU incertaine"
+        },
+        "tradingview_mcp": {
+          "success": false,
+          "quality": 0,
+          "note": "non appele en mode plan, donnees techniques via WebSearch"
+        },
+        "send_report": {
+          "success": true,
+          "quality": 9,
+          "note": "PDF 261KB envoye"
+        },
+        "agents_background": {
+          "success": false,
+          "quality": 0,
+          "note": "4 agents lances mais non termines, analyse compilee directement"
+        }
+      },
+      "what_worked": "WebSearch x12 paralleles tres efficace, donnees FY2025 completes via Indra IR + Investing.com + StockAnalysis. Consensus 15 analystes avec Goldman 85 EUR. Gouvernance timeline complete via presse espagnole. ReArm Europe/FCAS bien documentes. DCF+Comps+SOTP cross-validates convergent vers 62-65 EUR.",
+      "what_failed": "Bigdata.com abo expire (3eme fois). Seeking Alpha 403 Forbidden. Yahoo Finance 503. Agents background trop lents (pas termines). TradingView MCP non utilise (session plan mode). Alpha Vantage non teste pour EU stocks.",
+      "improvement": "1. Tester Alpha Vantage MCP pour IDR.MC au prochain run. 2. Utiliser TradingView MCP pour les screenshots techniques (pas en plan mode). 3. Agents background: ne pas les lancer si on peut compiler directement - gain de temps. 4. Ajouter FMP API curl directe comme fallback systematique. 5. Pour comps EU defense, pre-enregistrer les multiples dans un fichier de reference.",
+      "quality_final": 8,
+      "time_minutes": 15,
+      "timestamp": "2026-04-09T15:49:35.437996"
     }
   ],
   "tool_scores": {
@@ -329,10 +389,10 @@
       "avg_quality": 6.2
     },
     "send_report": {
-      "uses": 9,
-      "successes": 9,
+      "uses": 10,
+      "successes": 10,
       "failures": 0,
-      "avg_quality": 8.72
+      "avg_quality": 8.75
     },
     "LunarCrush": {
       "uses": 2,
@@ -399,6 +459,42 @@
       "successes": 1,
       "failures": 0,
       "avg_quality": 8.0
+    },
+    "bigdata_com": {
+      "uses": 1,
+      "successes": 0,
+      "failures": 1,
+      "avg_quality": 0.0
+    },
+    "websearch": {
+      "uses": 1,
+      "successes": 1,
+      "failures": 0,
+      "avg_quality": 9.0
+    },
+    "webfetch": {
+      "uses": 1,
+      "successes": 1,
+      "failures": 0,
+      "avg_quality": 7.0
+    },
+    "alpha_vantage_mcp": {
+      "uses": 1,
+      "successes": 0,
+      "failures": 1,
+      "avg_quality": 0.0
+    },
+    "tradingview_mcp": {
+      "uses": 1,
+      "successes": 0,
+      "failures": 1,
+      "avg_quality": 0.0
+    },
+    "agents_background": {
+      "uses": 1,
+      "successes": 0,
+      "failures": 1,
+      "avg_quality": 0.0
     }
   },
   "agent_scores": {},

@@ -1,0 +1,156 @@
+template: project_tracker
+description: "Suivi de projet avec taches, statuts, assignees, dates et vue timeline"
+theme_default: startup_orange
+
+tabs:
+  - name: "Dashboard"
+    tab_color: primary
+    frozen_rows: 2
+    frozen_cols: 0
+    sections:
+      - type: title_bar
+        rows: [1, 2]
+        content: "Project Tracker"
+        subtitle: "=TODAY()"
+
+      - type: kpi_tiles
+        rows: [4, 7]
+        tiles:
+          - label: "Total Taches"
+            formula: "=COUNTA(Taches!A2:A)"
+            format: "0"
+          - label: "Completees"
+            formula: "=COUNTIF(Taches!D2:D,\"Done\")"
+            format: "0"
+          - label: "% Avancement"
+            formula: "=COUNTIF(Taches!D2:D,\"Done\")/COUNTA(Taches!A2:A)"
+            format: "0%"
+          - label: "En Retard"
+            formula: "=COUNTIFS(Taches!D2:D,\"<>Done\",Taches!G2:G,\"<\"&TODAY())"
+            format: "0"
+
+      - type: chart_area
+        rows: [9, 20]
+        charts:
+          - type: PIE
+            title: "Repartition par Statut"
+            data_range: "Stats!A:B"
+            size: [450, 350]
+          - type: BAR
+            title: "Charge par Assignee"
+            data_range: "Stats!D:E"
+            size: [450, 350]
+
+  - name: "Taches"
+    tab_color: accent
+    frozen_rows: 1
+    frozen_cols: 1
+    columns:
+      - name: "ID"
+        type: text
+        width: 60
+        align: center
+      - name: "Tache"
+        type: text
+        width: 300
+        align: left
+      - name: "Priorite"
+        type: text
+        width: 80
+        align: center
+        validation:
+          type: dropdown
+          values: ["P0 - Critique", "P1 - Haute", "P2 - Moyenne", "P3 - Basse"]
+      - name: "Statut"
+        type: text
+        width: 100
+        align: center
+        validation:
+          type: dropdown
+          values: ["Backlog", "To Do", "In Progress", "Review", "Done"]
+      - name: "Assignee"
+        type: text
+        width: 120
+        align: left
+        validation:
+          type: dropdown
+          source: "Config!B2:B"
+      - name: "Date Debut"
+        type: date
+        width: 100
+        align: center
+        format: "dd/MM/yyyy"
+      - name: "Date Fin"
+        type: date
+        width: 100
+        align: center
+        format: "dd/MM/yyyy"
+      - name: "Jours Restants"
+        type: number
+        width: 80
+        align: right
+        format: "0"
+        formula: "=IF(D{row}=\"Done\",0,MAX(0,G{row}-TODAY()))"
+      - name: "Notes"
+        type: text
+        width: 250
+        align: left
+
+    conditional_formatting:
+      - range: "D2:D"
+        type: traffic_light
+        rules:
+          - value: "Done"
+            background: positive_bg
+          - value: "In Progress"
+            background: amber_bg
+          - value: "Backlog"
+            background: "#F3F4F6"
+      - range: "C2:C"
+        type: traffic_light
+        rules:
+          - value: "P0 - Critique"
+            background: negative_bg
+          - value: "P1 - Haute"
+            background: amber_bg
+      - range: "H2:H"
+        type: threshold
+        rules:
+          - condition: "<=0"
+            background: negative_bg
+          - condition: "<=3"
+            background: amber_bg
+
+  - name: "Stats"
+    tab_color: accent
+    frozen_rows: 1
+    description: "Agrege automatiquement depuis Taches pour alimenter les charts Dashboard"
+    columns:
+      - name: "Statut"
+        type: text
+        width: 120
+      - name: "Nombre"
+        type: number
+        width: 80
+        formula: "=COUNTIF(Taches!D:D, A{row})"
+    data_col_a: ["Backlog", "To Do", "In Progress", "Review", "Done"]
+
+  - name: "Config"
+    tab_color: gray
+    frozen_rows: 1
+    columns:
+      - name: "Parametre"
+        type: text
+        width: 200
+      - name: "Valeur"
+        type: mixed
+        width: 150
+    data:
+      - ["Nom Projet", ""]
+      - ["Chef de Projet", ""]
+      - ["Date Lancement", ""]
+      - ["Date Limite", ""]
+      - ["Derniere MAJ", "=TODAY()"]
+    members_list:
+      description: "Liste des membres pour dropdown Assignee (colonne B a partir de B10)"
+      start_row: 10

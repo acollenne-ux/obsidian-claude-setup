@@ -235,3 +235,15 @@ Après chaque session de contrôle bureau :
 - Si une tâche d'automatisation est récurrente → créer un template dédié
 
 Seuils : si taux d'échec actions > 20% → revoir la stratégie de vérification pré/post-action.
+
+## LIVRABLE FINAL
+
+- **Type** : PDF
+- **Généré par** : pdf-report-pro
+- **Destination** : acollenne@gmail.com via send_report.py
+
+## CHAÎNAGE ARBORESCENCE
+
+- **Amont** : deep-research (entrée unique)
+- **Aval** : pdf-report-pro
+

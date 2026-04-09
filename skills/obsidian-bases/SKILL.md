@@ -543,3 +543,15 @@ Après chaque création de Base :
 - Si les erreurs Duration sont fréquentes → renforcer les exemples CORRECT/WRONG
 
 Seuils : si > 3 erreurs YAML par session → ajouter un validateur automatique.
+
+## LIVRABLE FINAL
+
+- **Type** : DOC
+- **Généré par** : obsidian-bases
+- **Destination** : acollenne@gmail.com via send_report.py
+
+## CHAÎNAGE ARBORESCENCE
+
+- **Amont** : deep-research (entrée unique)
+- **Aval** : obsidian-bases
+

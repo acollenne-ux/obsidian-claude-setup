@@ -71,6 +71,64 @@ print(f"Megapixels: {w * h / 1e6:.2f} MP")
 | Artefacts JPEG visibles | Débruitage préalable | +Denoise avant upscale |
 | Image anime/illustration | Utiliser modèle anime | Modèle spécialisé |
 | Photo ancienne N&B | Pipeline restauration complète | Pipeline D (restauration) |
+| Deps locales absentes + visage | CodeFormer via HF Space | Pipeline E (API) |
+| Deps locales absentes + general | SUPIR via HF Space | Pipeline E (API) |
+| Deps locales absentes + rapide | Aura SR via HF Space | Pipeline E (API) |
+
+---
+
+## PIPELINE E — ENHANCEMENT VIA API (quand deps locales absentes)
+
+**Declencheur** : `torch`, `realesrgan`, `gfpgan` non installes sur le systeme (situation actuelle Windows 10, 12 GB RAM, pas de GPU).
+
+Ce pipeline utilise les HuggingFace Spaces via le MCP `dynamic_space` pour faire l'upscale/restauration en cloud, sans aucune dependance locale.
+
+### Spaces HuggingFace pour Pipeline E
+
+| Tache | HF Space | Methode |
+|-------|----------|---------|
+| Upscale general (meilleur qualite) | `Fabrice-TIERCELIN/SUPIR` | SUPIR (SDXL-based, 2.6B params) |
+| Upscale general (rapide) | `finegrain/finegrain-image-enhancer` | Aura SR |
+| Face restoration | `sczhou/CodeFormer` | CodeFormer (fidelity_weight 0-1) |
+| Face restoration alt | `hysts/GFPGAN` | GFPGAN v1.4 |
+| Denoise + enhance | `OzzyGT/UltraPixel` | UltraPixel |
+
+### Workflow Pipeline E
+
+1. **Detection auto** : verifier si `import realesrgan` reussit
+   - Si oui → utiliser Pipeline A/B/C/D local
+   - Si non → activer Pipeline E (API)
+
+2. **Diagnostic** : analyser l'image (dimensions, visages, anime?)
+
+3. **Routage** :
+   - Visage detecte → `sczhou/CodeFormer` (fidelity_weight=0.7)
+   - General < 1024px → `Fabrice-TIERCELIN/SUPIR` (scale x2 ou x4)
+   - General rapide → `finegrain/finegrain-image-enhancer`
+   - Photo ancienne → CodeFormer + SUPIR en cascade
+
+4. **Appel** via MCP `mcp__claude_ai_Hugging_Face__dynamic_space` :
+   ```
+   Tool: mcp__claude_ai_Hugging_Face__dynamic_space
+   Args: {
+     "space_id": "sczhou/CodeFormer",
+     "inputs": {"image": "<base64 ou URL>", "fidelity_weight": 0.7}
+   }
+   ```
+
+5. **Sauvegarde** : PNG dans le meme dossier que l'original, suffixe `_enhanced`
+
+### Script Pipeline E
+
+```bash
+python "C:/Users/Alexandre collenne/.claude/skills/image-enhancer/scripts/enhance_api.py" \
+  --input "image.jpg" \
+  --output "image_enhanced.png" \
+  --pipeline auto \
+  --face_restore auto
+```
+
+Le script `enhance_api.py` detecte automatiquement si les deps locales sont presentes et bascule sur l'API si necessaire.
 
 ---
 
@@ -316,3 +374,15 @@ Après chaque amélioration d'image :
 - Si un nouveau modèle surpasse Real-ESRGAN → l'ajouter au catalogue
 
 Seuils : si fallback CPU > 50% des sessions → revoir l'installation des dépendances GPU.
+
+## LIVRABLE FINAL
+
+- **Type** : image
+- **Généré par** : self
+- **Destination** : acollenne@gmail.com via send_report.py
+
+## CHAÎNAGE ARBORESCENCE
+
+- **Amont** : deep-research (entrée unique)
+- **Aval** : self
+

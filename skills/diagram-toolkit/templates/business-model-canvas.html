@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1600">
+<title>Business Model Canvas</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: {{PRIMARY}};
+    --secondary: {{SECONDARY}};
+    --accent: {{ACCENT}};
+    --neutral: {{NEUTRAL}};
+    --background: {{BACKGROUND}};
+    --text: {{TEXT}};
+    --font: {{FONT_FAMILY}};
+    --shadow: {{SHADOW}};
+    --radius: {{BORDER_RADIUS}};
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1600px; height: 900px;
+    background: var(--background);
+    font-family: var(--font), 'Inter', sans-serif;
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* ── Header ── */
+  .header {
+    padding: 24px 64px 12px;
+    text-align: center;
+  }
+  .header .label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--neutral);
+    margin-bottom: 4px;
+  }
+  .header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--primary);
+    line-height: 1.3;
+  }
+
+  /* ── Canvas Grid ── */
+  .canvas {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 6px;
+    padding: 8px 32px 24px;
+  }
+
+  .block {
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  .block::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+  }
+  .block .b-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 10px;
+    line-height: 1.2;
+  }
+  .block .b-content {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.55;
+    flex: 1;
+    color: var(--text);
+    opacity: 0.85;
+  }
+
+  /* ── Grid Placement ── */
+  .b-partners     { grid-column: 1; grid-row: 1 / 3; }
+  .b-activities   { grid-column: 2; grid-row: 1; }
+  .b-resources    { grid-column: 2; grid-row: 2; }
+  .b-value        { grid-column: 3; grid-row: 1 / 3; }
+  .b-relations    { grid-column: 4; grid-row: 1; }
+  .b-channels     { grid-column: 4; grid-row: 2; }
+  .b-segments     { grid-column: 5; grid-row: 1 / 3; }
+  .b-costs        { grid-column: 1 / 4; grid-row: 3; }
+  .b-revenue      { grid-column: 4 / 6; grid-row: 3; }
+
+  /* ── Color Accents ── */
+  .b-partners::before   { background: var(--neutral); }
+  .b-activities::before { background: var(--secondary); }
+  .b-resources::before  { background: var(--secondary); }
+  .b-value::before      { background: var(--primary); }
+  .b-relations::before  { background: var(--accent); }
+  .b-channels::before   { background: var(--accent); }
+  .b-segments::before   { background: var(--accent); }
+  .b-costs::before      { background: #c62828; }
+  .b-revenue::before    { background: #2e7d32; }
+
+  .b-partners .b-title   { color: var(--neutral); }
+  .b-activities .b-title { color: var(--secondary); }
+  .b-resources .b-title  { color: var(--secondary); }
+  .b-value .b-title      { color: var(--primary); }
+  .b-relations .b-title  { color: var(--accent); }
+  .b-channels .b-title   { color: var(--accent); }
+  .b-segments .b-title   { color: var(--accent); }
+  .b-costs .b-title      { color: #c62828; }
+  .b-revenue .b-title    { color: #2e7d32; }
+
+  /* Value prop highlight */
+  .b-value {
+    background: linear-gradient(180deg, #f5f7ff 0%, #fff 40%);
+    border: 2px solid var(--primary);
+  }
+  .b-value .b-content {
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 1;
+  }
+</style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="label">Business Model Canvas</div>
+    <h1>{{SO_WHAT}}</h1>
+  </div>
+
+  <div class="canvas">
+    <div class="block b-partners">
+      <div class="b-title">Key Partners</div>
+      <div class="b-content">{{KEY_PARTNERS}}</div>
+    </div>
+
+    <div class="block b-activities">
+      <div class="b-title">Key Activities</div>
+      <div class="b-content">{{KEY_ACTIVITIES}}</div>
+    </div>
+
+    <div class="block b-resources">
+      <div class="b-title">Key Resources</div>
+      <div class="b-content">{{KEY_RESOURCES}}</div>
+    </div>
+
+    <div class="block b-value">
+      <div class="b-title">Value Proposition</div>
+      <div class="b-content">{{VALUE_PROP}}</div>
+    </div>
+
+    <div class="block b-relations">
+      <div class="b-title">Customer Relationships</div>
+      <div class="b-content">{{CUSTOMER_REL}}</div>
+    </div>
+
+    <div class="block b-channels">
+      <div class="b-title">Channels</div>
+      <div class="b-content">{{CHANNELS}}</div>
+    </div>
+
+    <div class="block b-segments">
+      <div class="b-title">Customer Segments</div>
+      <div class="b-content">{{CUSTOMER_SEGMENTS}}</div>
+    </div>
+
+    <div class="block b-costs">
+      <div class="b-title">Cost Structure</div>
+      <div class="b-content">{{COST_STRUCTURE}}</div>
+    </div>
+
+    <div class="block b-revenue">
+      <div class="b-title">Revenue Streams</div>
+      <div class="b-content">{{REVENUE_STREAMS}}</div>
+    </div>
+  </div>
+
+</body>
+</html>

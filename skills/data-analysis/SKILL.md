@@ -225,3 +225,15 @@ Après chaque analyse de données :
 - Si le profiling automatique est trop lent → ajuster les seuils
 
 Seuils : si > 30% du temps est passé en nettoyage → automatiser les étapes récurrentes.
+
+## LIVRABLE FINAL
+
+- **Type** : PDF
+- **Généré par** : pdf-report-pro
+- **Destination** : acollenne@gmail.com via send_report.py
+
+## CHAÎNAGE ARBORESCENCE
+
+- **Amont** : deep-research (entrée unique)
+- **Aval** : pdf-report-pro
+

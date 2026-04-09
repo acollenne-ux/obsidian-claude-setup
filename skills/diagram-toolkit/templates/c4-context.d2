@@ -1,0 +1,22 @@
+# C4 Context — {{SO_WHAT}}
+title: {{SO_WHAT}}
+
+user: {
+  shape: person
+  label: "{{USER}}"
+}
+
+system: {
+  label: "{{SYSTEM}}"
+  style.fill: "{{PRIMARY}}"
+  style.font-color: "#ffffff"
+}
+
+external: {
+  label: "{{EXTERNAL}}"
+  style.fill: "{{SECONDARY}}"
+  style.font-color: "#ffffff"
+}
+
+user -> system: uses
+system -> external: calls

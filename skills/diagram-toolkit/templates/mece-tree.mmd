@@ -1,0 +1,14 @@
+---
+title: "{{SO_WHAT}}"
+---
+graph TD
+    R["{{SO_WHAT}}"]:::root
+    B1["{{BRANCH_1}}"]:::b
+    B2["{{BRANCH_2}}"]:::b
+    B3["{{BRANCH_3}}"]:::b
+    R --> B1
+    R --> B2
+    R --> B3
+    %% Leaves injected dynamically
+    classDef root fill:{{PRIMARY}},color:#fff,font-weight:bold
+    classDef b fill:{{SECONDARY}},color:#fff

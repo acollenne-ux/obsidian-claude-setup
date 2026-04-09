@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1600">
+<title>Porter Value Chain</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: {{PRIMARY}};
+    --secondary: {{SECONDARY}};
+    --accent: {{ACCENT}};
+    --neutral: {{NEUTRAL}};
+    --background: {{BACKGROUND}};
+    --text: {{TEXT}};
+    --font: {{FONT_FAMILY}};
+    --shadow: {{SHADOW}};
+    --radius: {{BORDER_RADIUS}};
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1600px; height: 900px;
+    background: var(--background);
+    font-family: var(--font), 'Inter', sans-serif;
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* ── Header ── */
+  .header {
+    padding: 24px 64px 12px;
+    text-align: center;
+  }
+  .header .label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--neutral);
+    margin-bottom: 4px;
+  }
+  .header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--primary);
+  }
+
+  /* ── Value Chain Container ── */
+  .chain-wrapper {
+    flex: 1;
+    display: flex;
+    padding: 12px 48px 32px;
+    gap: 0;
+  }
+
+  /* ── Main area (support + primary) ── */
+  .chain-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* ── Support Activities (top) ── */
+  .support-section {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+  }
+  .support-row {
+    flex: 1;
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    padding: 0 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .support-row::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 4px;
+  }
+  .support-row .s-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--secondary);
+    width: 160px;
+    flex-shrink: 0;
+  }
+  .support-row .s-content {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.5;
+    opacity: 0.85;
+    flex: 1;
+  }
+  .support-row:nth-child(1)::before { background: #5c6bc0; }
+  .support-row:nth-child(2)::before { background: #7e57c2; }
+  .support-row:nth-child(3)::before { background: #26a69a; }
+  .support-row:nth-child(4)::before { background: #8d6e63; }
+
+  /* ── Support label ── */
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--neutral);
+    margin-bottom: 4px;
+    padding-left: 4px;
+  }
+
+  /* ── Primary Activities (bottom) ── */
+  .primary-section {
+    height: 280px;
+  }
+  .primary-row {
+    display: flex;
+    gap: 0;
+    height: 100%;
+  }
+  .primary-activity {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px 16px 20px 28px;
+    background: var(--primary);
+    color: #fff;
+    overflow: hidden;
+  }
+  /* Arrow shape via clip-path */
+  .primary-activity:nth-child(1) {
+    clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 50%, calc(100% - 24px) 100%, 0 100%);
+    background: #1565c0;
+  }
+  .primary-activity:nth-child(2) {
+    clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 50%, calc(100% - 24px) 100%, 0 100%, 24px 50%);
+    margin-left: -12px;
+    background: #0d47a1;
+  }
+  .primary-activity:nth-child(3) {
+    clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 50%, calc(100% - 24px) 100%, 0 100%, 24px 50%);
+    margin-left: -12px;
+    background: #1a237e;
+  }
+  .primary-activity:nth-child(4) {
+    clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 50%, calc(100% - 24px) 100%, 0 100%, 24px 50%);
+    margin-left: -12px;
+    background: #283593;
+  }
+  .primary-activity:nth-child(5) {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 24px 50%);
+    margin-left: -12px;
+    background: #3949ab;
+  }
+
+  .primary-activity .p-title {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 10px;
+    opacity: 0.85;
+  }
+  .primary-activity .p-content {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.5;
+    opacity: 0.9;
+    max-width: 200px;
+  }
+
+  /* ── Margin indicator (right edge) ── */
+  .margin-bar {
+    width: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .margin-inner {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #fff;
+    background: linear-gradient(180deg, #2e7d32, #43a047);
+    padding: 32px 16px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="label">Porter's Value Chain</div>
+    <h1>{{SO_WHAT}}</h1>
+  </div>
+
+  <div class="chain-wrapper">
+    <div class="chain-main">
+      <!-- Support Activities -->
+      <div class="support-section">
+        <div class="section-label">Support Activities</div>
+        <div class="support-row">
+          <div class="s-title">Firm Infrastructure</div>
+          <div class="s-content">{{INFRASTRUCTURE}}</div>
+        </div>
+        <div class="support-row">
+          <div class="s-title">Human Resources</div>
+          <div class="s-content">{{HR}}</div>
+        </div>
+        <div class="support-row">
+          <div class="s-title">Technology Dev.</div>
+          <div class="s-content">{{TECH_DEV}}</div>
+        </div>
+        <div class="support-row">
+          <div class="s-title">Procurement</div>
+          <div class="s-content">{{PROCUREMENT}}</div>
+        </div>
+      </div>
+
+      <!-- Primary Activities -->
+      <div class="primary-section">
+        <div class="section-label">Primary Activities</div>
+        <div class="primary-row">
+          <div class="primary-activity">
+            <div class="p-title">Inbound Logistics</div>
+            <div class="p-content">{{INBOUND}}</div>
+          </div>
+          <div class="primary-activity">
+            <div class="p-title">Operations</div>
+            <div class="p-content">{{OPERATIONS}}</div>
+          </div>
+          <div class="primary-activity">
+            <div class="p-title">Outbound Logistics</div>
+            <div class="p-content">{{OUTBOUND}}</div>
+          </div>
+          <div class="primary-activity">
+            <div class="p-title">Marketing & Sales</div>
+            <div class="p-content">{{MARKETING}}</div>
+          </div>
+          <div class="primary-activity">
+            <div class="p-title">Service</div>
+            <div class="p-content">{{SERVICE}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Margin -->
+    <div class="margin-bar">
+      <div class="margin-inner">Margin</div>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -120,6 +120,115 @@ Ajouter disclaimer : "Ceci n'est pas un conseil en investissement."
 
 ---
 
+## 5B. INDICATEURS AVANCÉS (OBLIGATOIRE — calculer pour TOUTE action cotée)
+
+**Ces indicateurs complètent l'analyse fondamentale classique. Ils sont OBLIGATOIRES pour les types A à E (Growth, Micro-cap, Cyclique, Défensif, REIT). Non applicables aux crypto/obligations/ETF.**
+
+### A. Scores Composites (3 checks obligatoires)
+
+**1. Piotroski F-Score (0-9) — Qualité fondamentale**
+
+| # | Signal | Critère | Source Alpha Vantage |
+|---|--------|---------|---------------------|
+| 1 | Profitabilité | ROA > 0 (Net Income / Total Assets) | INCOME_STATEMENT + BALANCE_SHEET |
+| 2 | Cash-flow | CFO > 0 | CASH_FLOW |
+| 3 | Tendance ROA | ΔROA > 0 vs année N-1 | Calcul sur 2 ans |
+| 4 | Qualité bénéfice | CFO > Net Income (cash > accruals) | CASH_FLOW vs INCOME_STATEMENT |
+| 5 | Désendettement | ΔDette LT/Actifs en baisse YoY | BALANCE_SHEET |
+| 6 | Liquidité | ΔCurrent ratio en hausse YoY | BALANCE_SHEET |
+| 7 | Pas de dilution | Pas d'émission nette d'actions YoY | BALANCE_SHEET |
+| 8 | Marge brute | ΔGross margin en hausse YoY | INCOME_STATEMENT |
+| 9 | Efficience | ΔAsset turnover (CA/Actifs) en hausse YoY | INCOME_STATEMENT + BALANCE_SHEET |
+
+**Interprétation :** 8-9 = Fondamentaux solides ✅ (Strong Buy signal) | 5-7 = Neutre | 0-4 = Détérioration 🔴
+
+**2. Altman Z-Score — Risque de faillite**
+
+Z = 1.2×(Working Capital/Total Assets) + 1.4×(Retained Earnings/TA) + 3.3×(EBIT/TA) + 0.6×(Market Cap/Total Liabilities) + 1.0×(Sales/TA)
+
+| Zone | Z-Score | Signal |
+|------|---------|--------|
+| Safe | > 2.99 | ✅ Risque faillite très faible |
+| Grey | 1.81 — 2.99 | ⚠️ Zone d'incertitude |
+| Distress | < 1.81 | 🔴 Probabilité faillite élevée |
+
+⚠️ **Non-manufacturiers** (Z'') : Z'' = 6.56×X1 + 3.26×X2 + 6.72×X3 + 1.05×X4 (seuils : >2.60 safe, <1.10 distress)
+⚠️ **Ne PAS appliquer aux banques/assurances** (structure bilan incompatible)
+
+**3. Beneish M-Score — Détection manipulation comptable**
+
+8 variables (DSRI, GMI, AQI, SGI, DEPI, SGAI, LVGI, TATA) calculées sur 2 années consécutives.
+M-Score = -4.84 + 0.920×DSRI + 0.528×GMI + 0.404×AQI + 0.892×SGI + 0.115×DEPI - 0.172×SGAI + 4.679×TATA - 0.327×LVGI
+
+| M-Score | Signal |
+|---------|--------|
+| < -1.78 | ✅ Pas de signal de manipulation |
+| > -1.78 | 🔴 Manipulation probable (76% détection historique) |
+
+**Livrable obligatoire :**
+```
+INDICATEURS AVANCÉS — [TICKER]
+Piotroski F-Score : [X]/9  → [Solide/Neutre/Détérioration]
+Altman Z-Score    : [X.XX] → [Safe/Grey/Distress]
+Beneish M-Score   : [X.XX] → [Clean/Manipulation probable]
+```
+
+### B. Métriques Qualité & Efficience
+
+- **DuPont 5-Factor Decomposition** : ROE = Tax Burden × Interest Burden × EBIT Margin × Asset Turnover × Equity Multiplier
+  → Identifier si le ROE est porté par la marge (sain ✅) ou par le levier financier (risqué ⚠️ si Equity Multiplier > 3x)
+- **Earnings Quality Score** : Accruals Ratio = (Net Income - OCF) / Total Assets
+  → Plus proche de 0 = meilleure qualité | > 10% = ⚠️ bénéfices "papier"
+- **Sloan Accruals Ratio** : (ΔCA - ΔCash - ΔCL + ΔSTD + ΔTP - D&A) / Avg Total Assets
+  → > 10% = ⚠️ qualité douteuse | < 5% = ✅ bonne qualité
+- **Cash Conversion Cycle (CCC)** : DSO + DIO - DPO (en jours)
+  → Tendance YoY : en baisse = ✅ amélioration | en hausse > 15j = ⚠️ dégradation BFR
+- **Shareholder Yield** : Dividend yield + Buyback yield + Debt paydown yield
+  → Mesure complète du retour actionnarial vs dividende seul
+
+### C. Scores de Classement
+
+- **Magic Formula (Greenblatt)** : Classement par Earnings Yield (EBIT/EV) + classement par ROIC → rang combiné. Plus le rang est bas = "cheap + quality"
+- **CROCI (Cash Return on Capital Invested)** : Gross Cash Flow / Gross Invested Capital → > 15% excellent ✅ | < 8% faible ⚠️
+
+### D. Momentum Fondamental (si couverture analyste ≥ 3)
+
+- **Earnings Revision Momentum** : % analystes en révision haussière vs baissière (1m/3m). Net positif = momentum ✅
+- **Earnings Surprise Factor** : Beat rate sur 8 trimestres. > 75% = récurrence ✅ | < 50% = déception ⚠️
+- **Estimate Dispersion** : écart-type estimations / moyenne. < 5% = consensus fort ✅ | > 15% = forte incertitude ⚠️
+- **SUE Score** : (EPS actual - EPS consensus) / écart-type surprises passées. > 2.0 = forte surprise positive | < -2.0 = forte surprise négative
+
+Source : Alpha Vantage `EARNINGS` + WebSearch "[ticker] earnings estimates revisions consensus"
+
+### E. Indicateurs Sectoriels Avancés (selon classification Étape 0)
+
+**Si SaaS/Tech :** Rule of 40, NDR/NRR (>120% ✅, <100% ⚠️), CAC Payback (<12m ✅), LTV/CAC (>3x ✅), Magic Number (>0.75 ✅)
+**Si Banque/Finance :** CET1 (>12% ✅), NIM (>3% ✅), NPL ratio (<1% ✅), Cost-to-Income (<50% ✅), LCR, PPNR
+**Si Biotech/Pharma :** Pipeline NPV prob-weighted (Phase I:10%, II:25%, III:55%), patent cliff %, R&D productivity
+**Si Mining/Oil :** Reserve Life (>15 ans ✅), AISC (quartile inf. ✅), netback, reserve replacement ratio (>100% ✅)
+**Si Retail :** Same-store sales (>3% ✅), sales/sqft, inventory turnover, e-commerce mix
+**Si Insurance :** Combined ratio (<95% ✅), investment yield, book value CAGR (>8% ✅), P/Embedded Value (<1.0x ✅)
+
+---
+
+### RED FLAGS — INDICATEURS AVANCÉS (applicable à TOUTE action)
+
+| Indicateur | Seuil d'alerte | Action requise |
+|-----------|---------------|---------------|
+| Piotroski F-Score | ≤ 3 | 🔴 Détérioration fondamentale — réduire conviction d'un cran |
+| Altman Z-Score | < 1.81 | 🔴 Risque faillite — ne pas acheter / envisager sortie |
+| Beneish M-Score | > -1.78 | 🔴 Manipulation probable — investigation approfondie requise |
+| Accruals Ratio | > 10% | ⚠️ Qualité bénéfices douteuse — vérifier divergence cash/earnings |
+| CCC en hausse | > +15 jours YoY | ⚠️ Dégradation BFR — analyser DSO/DIO/DPO individuellement |
+| Estimate Dispersion | > 15% | ⚠️ Forte incertitude — réduire taille position recommandée |
+| Shareholder Yield | < 0% (négatif) | ⚠️ Destruction de valeur pour l'actionnaire |
+| DuPont Equity Multiplier | > 3x et en hausse | ⚠️ ROE artificiellement gonflé par le levier |
+| Earnings Beat Rate | < 50% sur 8 trim. | ⚠️ Management non crédible — réduire conviction |
+
+**Règle :** Si **3+ red flags avancés** sont déclenchés simultanément → **downgrade automatique** de la recommandation d'un cran (ex: ACHETER → ACCUMULER, CONSERVER → ALLÉGER).
+
+---
+
 ## TYPE I — ANALYSE D'IPO (Introduction en Bourse)
 
 **Ce framework s'applique à TOUTE entreprise en cours d'IPO, récemment introduite (< 12 mois), ou en phase pré-IPO.**
@@ -636,6 +745,23 @@ Indicateurs techniques à consulter :
 - EARNINGS : surprises EPS
 - INSTITUTIONAL_HOLDINGS, INSIDER_TRANSACTIONS : alignement intérêts
 
+**Indicateurs avancés — mapping sources :**
+
+| Groupe d'indicateurs | Endpoints Alpha Vantage | Fallback FMP | Fallback WebSearch |
+|---------------------|------------------------|-------------|-------------------|
+| Piotroski F-Score | INCOME_STATEMENT + BALANCE_SHEET + CASH_FLOW (3 ans) | /income-statement + /balance-sheet + /cash-flow-statement | Macrotrends, SimplyWallSt |
+| Altman Z-Score | BALANCE_SHEET + INCOME_STATEMENT + GLOBAL_QUOTE (market cap) | /balance-sheet + /income-statement + /profile | FinViz, GuruFocus |
+| Beneish M-Score | INCOME_STATEMENT + BALANCE_SHEET (2 années consécutives) | /income-statement + /balance-sheet | GuruFocus "[ticker] m-score" |
+| DuPont Decomposition | INCOME_STATEMENT + BALANCE_SHEET | /ratios | Macrotrends, SimplyWallSt |
+| CCC (DSO/DIO/DPO) | BALANCE_SHEET (receivables, inventory, payables) + INCOME_STATEMENT (COGS, revenue) | /ratios | "[ticker] cash conversion cycle" |
+| Shareholder Yield | CASH_FLOW (dividends, buybacks, debt change) | /cash-flow-statement | "[ticker] shareholder yield" |
+| CROCI | CASH_FLOW + BALANCE_SHEET (gross invested capital) | /cash-flow-statement + /balance-sheet | "[ticker] CROCI" |
+| Magic Formula | INCOME_STATEMENT (EBIT) + GLOBAL_QUOTE (EV) + ROIC | /enterprise-values + /ratios | GuruFocus Magic Formula |
+| Earnings Revisions | EARNINGS | /analyst-estimates | TipRanks, MarketScreener, Seeking Alpha |
+| Earnings Surprise/SUE | EARNINGS (historical quarterly) | /earnings-surprises | "[ticker] earnings surprise history" |
+| Estimate Dispersion | Non disponible | /analyst-estimates (high/low/avg) | "[ticker] estimate dispersion" FactSet |
+| Sectoriels | Non disponible | Selon secteur | Rapport annuel + WebSearch spécialisé |
+
 ## ANTI-PATTERNS
 
 | Excuse | Réalité |
@@ -664,3 +790,15 @@ Après chaque analyse :
 - Si un edge case non couvert → l'ajouter dans les anti-patterns
 
 Seuils : qualité < 7/10 → revoir la méthodologie pour ce type d'actif.
+
+## LIVRABLE FINAL
+
+- **Type** : PDF
+- **Généré par** : pdf-report-pro
+- **Destination** : acollenne@gmail.com via send_report.py
+
+## CHAÎNAGE ARBORESCENCE
+
+- **Amont** : deep-research (entrée unique)
+- **Aval** : pdf-report-pro
+

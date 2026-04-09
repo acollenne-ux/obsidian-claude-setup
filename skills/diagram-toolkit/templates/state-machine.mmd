@@ -1,0 +1,9 @@
+%% State Diagram — machine à états
+stateDiagram-v2
+    [*] --> Idle
+    Idle --> Processing: start
+    Processing --> Success: ok
+    Processing --> Error: fail
+    Success --> [*]
+    Error --> Idle: retry
+    Error --> [*]: abort

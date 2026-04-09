@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1600">
+<title>Pyramid Principle — Minto</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: {{PRIMARY}};
+    --secondary: {{SECONDARY}};
+    --accent: {{ACCENT}};
+    --neutral: {{NEUTRAL}};
+    --background: {{BACKGROUND}};
+    --text: {{TEXT}};
+    --font: {{FONT_FAMILY}};
+    --shadow: {{SHADOW}};
+    --radius: {{BORDER_RADIUS}};
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1600px; height: 900px;
+    background: var(--background);
+    font-family: var(--font), 'Inter', sans-serif;
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  /* ── So-What Title ── */
+  .so-what-bar {
+    width: 100%;
+    padding: 28px 64px 20px;
+    text-align: center;
+  }
+  .so-what-bar h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--primary);
+    line-height: 1.3;
+  }
+  .so-what-bar .subtitle {
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--neutral);
+    margin-bottom: 6px;
+  }
+
+  /* ── Pyramid Container ── */
+  .pyramid {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding-bottom: 40px;
+  }
+
+  /* ── Layer (trapezoid) ── */
+  .layer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: #fff;
+    position: relative;
+    transition: transform 0.2s;
+  }
+
+  /* Top — So-What / Key Message */
+  .layer--top {
+    width: 440px;
+    height: 160px;
+    background: var(--primary);
+    clip-path: polygon(18% 0%, 82% 0%, 100% 100%, 0% 100%);
+    font-size: 20px;
+    padding: 30px 80px 20px;
+    line-height: 1.4;
+    box-shadow: var(--shadow);
+  }
+
+  /* Middle — Arguments */
+  .layer--mid {
+    width: 900px;
+    height: 160px;
+    background: var(--secondary);
+    clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    padding: 20px 100px 16px;
+    gap: 24px;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.45;
+    box-shadow: var(--shadow);
+  }
+  .layer--mid .arg {
+    text-align: center;
+    padding: 0 8px;
+  }
+  .layer--mid .arg-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.7;
+    margin-bottom: 6px;
+  }
+
+  /* Bottom — Evidence */
+  .layer--bot {
+    width: 1300px;
+    height: 160px;
+    background: var(--accent);
+    clip-path: polygon(6% 0%, 94% 0%, 100% 100%, 0% 100%);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    padding: 20px 120px 16px;
+    gap: 24px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--text);
+    box-shadow: var(--shadow);
+  }
+  .layer--bot .ev {
+    text-align: center;
+    padding: 0 8px;
+  }
+  .layer--bot .ev-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.55;
+    margin-bottom: 6px;
+  }
+
+  /* ── Decorative connector lines ── */
+  .connectors {
+    position: absolute;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+  <div class="so-what-bar">
+    <div class="subtitle">Key Message</div>
+    <h1>{{SO_WHAT}}</h1>
+  </div>
+
+  <div class="pyramid">
+    <!-- Top: So-What / Governing Thought -->
+    <div class="layer layer--top">
+      {{SO_WHAT}}
+    </div>
+
+    <!-- Middle: Supporting Arguments -->
+    <div class="layer layer--mid">
+      <div class="arg">
+        <div class="arg-label">Argument 1</div>
+        {{ARG_1}}
+      </div>
+      <div class="arg">
+        <div class="arg-label">Argument 2</div>
+        {{ARG_2}}
+      </div>
+      <div class="arg">
+        <div class="arg-label">Argument 3</div>
+        {{ARG_3}}
+      </div>
+    </div>
+
+    <!-- Bottom: Evidence -->
+    <div class="layer layer--bot">
+      <div class="ev">
+        <div class="ev-label">Evidence 1</div>
+        {{EVIDENCE_1}}
+      </div>
+      <div class="ev">
+        <div class="ev-label">Evidence 2</div>
+        {{EVIDENCE_2}}
+      </div>
+      <div class="ev">
+        <div class="ev-label">Evidence 3</div>
+        {{EVIDENCE_3}}
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

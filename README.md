@@ -1,7 +1,9 @@
 # Claude Code — Ecosystem complet (Skills, Agents, Tools, MCP)
 
-Configuration complète de l'écosystème Claude Code : 28 skills, tools Python, memory, settings.
+Configuration complète de l'écosystème Claude Code : **54 skills**, tools Python, hooks, memory, settings.
 Compatible CLI, Desktop et claude.ai web.
+
+> Dernière sync : 09/04/2026
 
 ## Structure du repo
 
@@ -9,70 +11,121 @@ Compatible CLI, Desktop et claude.ai web.
 .
 ├── CLAUDE.md              # Instructions globales Claude Code
 ├── settings.json          # Configuration plugins/permissions
-├── skills/                # 28 skills (SKILL.md + references/)
-├── tools/                 # Scripts Python (email, multi-IA, charts, etc.)
-└── memory/                # Fichiers mémoire projet/feedback/user
+├── settings.local.json    # Permissions locales (machine-specific)
+├── statusline.py          # Barre de statut custom (CTX%, rate limits, coûts)
+├── skills/                # 54 skills (SKILL.md + references/)
+├── tools/                 # Scripts Python (email, multi-IA, charts, PDF engine)
+├── hooks/                 # Hooks automatiques (image studio, skill tree)
+├── memory/                # Fichiers mémoire projet/feedback/reference
+└── .claude/skills/        # Skills Obsidian (symlinks)
 ```
 
-## Skills installés (28)
+## Skills installés (54)
 
-### Orchestration
-| Skill | Score | Description |
-|-------|-------|-------------|
-| `deep-research` | 80.5% | Orchestrateur principal — dispatch LITE/STANDARD/FULL |
-| `multi-ia-router` | 75.0% | Routage multi-IA, consensus voting, fallback chains |
-| `team-agent` | 78.0% | Orchestration d'agents parallèles |
+### Orchestration & Routage (8)
+| Skill | Description |
+|-------|-------------|
+| `deep-research` | Orchestrateur principal — dispatch STANDARD/FULL, multi-skills |
+| `multi-ia-router` | Routage multi-IA, consensus voting, fallback chains (6 providers) |
+| `team-agent` | Orchestration d'agents parallèles |
+| `adaptive-thinking-router` | Pilotage thinking.effort (low/medium/high) |
+| `haiku-delegator` | Délégation tâches mécaniques vers Haiku |
+| `token-economizer` | Économie de tokens reasoning-first (-70% cible) |
+| `context-compressor` | Compression hiérarchique 4 niveaux |
+| `prompt-cache-manager` | Prompt caching Anthropic (ephemeral + 1h TTL) |
 
-### Développement
-| Skill | Score | Description |
-|-------|-------|-------------|
-| `code-debug` | 86.5% | Débogage avancé avec root cause analysis |
-| `dev-team` | 76.5% | Création code/app, architecture |
-| `project-analysis` | 81.0% | Analyse projet avant développement |
-| `skill-creator` | 90.0% | Création/amélioration/audit de skills |
+### Développement (3)
+| Skill | Description |
+|-------|-------------|
+| `code-debug` | Débogage avancé avec root cause analysis |
+| `dev-team` | Création code/app, architecture multi-agents |
+| `project-analysis` | Analyse projet avant développement |
 
-### Finance & Trading
-| Skill | Score | Description |
-|-------|-------|-------------|
-| `financial-analysis-framework` | 78.5% | 8 types d'actifs + 15 dimensions |
-| `financial-modeling` | 74.0% | DCF, comps, LBO, valorisation |
-| `stock-analysis` | 79.0% | Analyse boursière complète |
-| `macro-analysis` | 79.0% | Macro, politique monétaire, cycles |
+### Skills Management (2)
+| Skill | Description |
+|-------|-------------|
+| `skill-creator` | Création/amélioration/audit de skills (7 phases, scoring /100) |
+| `skill-tree-manager` | Gestion arborescence intelligente des skills |
 
-### Création & Médias
-| Skill | Score | Description |
-|-------|-------|-------------|
-| `flyer-creator` | 73.0% | Flyers pro HTML/CSS + Playwright |
-| `image-detourage` | 73.0% | Détourage IA 7 étapes (rembg + PyMatting) |
-| `image-enhancer` | 75.5% | Upscale/restauration (Real-ESRGAN) |
-| `website-analyzer` | 71.0% | Audit web complet, 4 agents, 10 dimensions |
-| `frontend-design` | — | Design frontend (plugin superpowers) |
+### Finance & Trading (4)
+| Skill | Description |
+|-------|-------------|
+| `financial-analysis-framework` | 8 types d'actifs + 15 dimensions + bull/base/bear |
+| `financial-modeling` | DCF, comps, LBO, valorisation |
+| `stock-analysis` | Analyse boursière complète |
+| `macro-analysis` | Macro, politique monétaire, cycles |
 
-### Obsidian
-| Skill | Score | Description |
-|-------|-------|-------------|
-| `obsidian-markdown` | 75.5% | Obsidian Flavored Markdown |
-| `obsidian-bases` | 67.5% | Fichiers .base (vues dynamiques, filtres) |
-| `obsidian-cli` | 70.5% | 130+ commandes CLI Obsidian |
-| `json-canvas` | 77.5% | JSON Canvas (mind maps, flowcharts) |
+### Création & Médias (10)
+| Skill | Description |
+|-------|-------------|
+| `image-studio` | Studio visuel unifié 8 phases, 5 agents, art-director |
+| `image-generator` | Text-to-image multi-provider (FLUX/GPT-Image/SDXL) |
+| `image-enhancer` | Upscale/restauration (Real-ESRGAN, GFPGAN) |
+| `image-detourage` | Détourage IA 7 étapes (rembg + PyMatting) |
+| `flyer-creator` | Flyers pro HTML/CSS + Playwright |
+| `idea-to-diagram` | Synthèse visuelle (Pyramid/MECE/Abela/Tufte) |
+| `diagram-toolkit` | 10 templates + 4 thèmes (McKinsey/BCG/mono/dark) |
+| `layout-qa` | QA visuelle obligatoire avant livraison |
+| `website-analyzer` | Audit web complet, 4 agents, 10 dimensions |
+| `frontend-design` | Design frontend (plugin superpowers) |
 
-### Data & Analyse
-| Skill | Score | Description |
-|-------|-------|-------------|
-| `data-analysis` | 86.0% | Pandas, numpy, stats, visualisation |
-| `desktop-control` | 79.0% | Contrôle bureau Windows (PyAutoGUI) |
-| `defuddle` | 64.0% | Extraction markdown depuis pages web |
+### Documents & Rapports (6)
+| Skill | Description |
+|-------|-------------|
+| `pdf-report-gen` | Pipeline 5 agents + Playwright + 5 templates CSS |
+| `pdf-report-pro` | Rapports McKinsey/BCG/Goldman 9 phases |
+| `ppt-creator` | Présentations .pptx éditables McKinsey/BCG |
+| `cv-creator` | CV pro ATS-friendly (6 templates, Typst + HTML) |
+| `cover-letter-creator` | Lettres de motivation (4 frameworks) |
+| `gsheet-builder` | Google Sheets consulting-grade (8 phases, 5 thèmes) |
 
-### Qualité & Feedback
-| Skill | Score | Description |
-|-------|-------|-------------|
-| `qa-pipeline` | 76.0% | QA anti-hallucination, validation sources |
-| `pdf-report-gen` | 76.0% | Rapports PDF Markdown + email |
-| `feedback-loop` | 76.0% | Collecte feedback utilisateur |
-| `retex-evolution` | 76.0% | RETEX + benchmark IAs + amélioration |
-| `install-plugin` | 72.0% | Installation plugins/MCP/skills |
+### n8n / Automation (8)
+| Skill | Description |
+|-------|-------------|
+| `n8n-management` | Orchestrateur n8n : créer, déboguer, déployer |
+| `n8n-code-javascript` | Code JavaScript dans n8n Code nodes |
+| `n8n-code-python` | Code Python dans n8n Code nodes |
+| `n8n-expression-syntax` | Validation syntaxe expressions n8n |
+| `n8n-mcp-tools-expert` | Guide expert outils MCP n8n |
+| `n8n-node-configuration` | Configuration nodes (operation-aware) |
+| `n8n-validation-expert` | Interprétation erreurs validation |
+| `n8n-workflow-patterns` | Patterns architecturaux workflows n8n |
 
-**Score moyen : 75.1%** (audit automatique via `scripts/audit_skills.py`)
+### Obsidian (5)
+| Skill | Description |
+|-------|-------------|
+| `obsidian-markdown` | Obsidian Flavored Markdown (wikilinks, embeds) |
+| `obsidian-bases` | Fichiers .base (vues dynamiques, filtres) |
+| `obsidian-cli` | 130+ commandes CLI Obsidian |
+| `json-canvas` | JSON Canvas (mind maps, flowcharts) |
+| `defuddle` | Extraction markdown depuis pages web |
+
+### Data & Système (2)
+| Skill | Description |
+|-------|-------------|
+| `data-analysis` | Pandas, numpy, stats, visualisation |
+| `desktop-control` | Contrôle bureau Windows (PyAutoGUI) |
+
+### Qualité & Feedback (4)
+| Skill | Description |
+|-------|-------------|
+| `qa-pipeline` | QA anti-hallucination, validation sources |
+| `feedback-loop` | Collecte feedback utilisateur |
+| `retex-evolution` | RETEX + benchmark IAs + amélioration continue |
+| `install-plugin` | Installation plugins/MCP/skills |
+
+### Utilitaires (2)
+| Skill | Description |
+|-------|-------------|
+| `gemini-cli` | Wrapper Gemini CLI (~1000 req/jour gratuit via OAuth) |
+| `antigravity` | Connecteur Google Antigravity free tier |
+
+## Hooks automatiques
+
+| Hook | Trigger | Fichier |
+|------|---------|---------|
+| Image Studio Auto | `UserPromptSubmit` | `hooks/image_studio_trigger.py` |
+| Skill Tree Rebuild | `PostToolUse` (Write/Edit) | `hooks/skill_tree_autorebuild.py` |
 
 ## Installation
 
@@ -88,12 +141,19 @@ cp -r skills/* ~/.claude/skills/
 # Copier les tools
 cp tools/*.py ~/.claude/tools/
 cp tools/*.bat ~/.claude/tools/
+cp -r tools/pdf_engine ~/.claude/tools/
 
-# Copier le CLAUDE.md (instructions globales)
+# Copier les hooks
+mkdir -p ~/.claude/hooks
+cp hooks/*.py ~/.claude/hooks/
+
+# Copier les configs
 cp CLAUDE.md ~/.claude/CLAUDE.md
-
-# Copier les settings
 cp settings.json ~/.claude/settings.json
+cp statusline.py ~/.claude/statusline.py
+
+# Copier la memory
+cp memory/*.md ~/.claude/projects/*/memory/ 2>/dev/null
 ```
 
 ### Option 2 : Ouvrir comme projet (claude.ai web)
@@ -111,6 +171,7 @@ cp settings.json ~/.claude/settings.json
 | `tradingview-mcp` | 78 outils TradingView | local (port 9222) |
 | `alpha-vantage` | Données financières US | MCP |
 | `google-sheets` | Google Sheets API | MCP |
+| `n8n-mcp` | Automation n8n (mode docs-only) | MCP |
 | Bigdata.com | Données financières | Remote (claude.ai) |
 | LunarCrush | Sentiment crypto | Remote (claude.ai) |
 | Crypto.com | Prix crypto live | Remote (claude.ai) |
@@ -127,6 +188,8 @@ cp settings.json ~/.claude/settings.json
 | `chart_generator.py` | Graphiques pro (6 types) |
 | `retex_manager.py` | Gestion RETEX et benchmark IAs |
 | `email_trigger.py` | Bridge email → Claude Code |
+| `modify_pdf.py` | Modification PDF post-génération |
+| `pdf_engine/` | Moteur PDF modulaire (Playwright, Mermaid, templates) |
 
 ## Tunnel Obsidian pour claude.ai web
 

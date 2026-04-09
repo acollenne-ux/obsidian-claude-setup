@@ -1,0 +1,29 @@
+{
+  "name": "BCG",
+  "primary": "#00543C",
+  "secondary": "#00A77D",
+  "accent": "#FFB81C",
+  "neutral": "#6C6C6C",
+  "background": "#FFFFFF",
+  "text": "#1A1A1A",
+  "font_family": "Inter, Helvetica, Arial, sans-serif",
+  "font_sizes": {"title": 24, "h1": 18, "body": 14, "caption": 12},
+  "stroke_width": {"primary": 2, "secondary": 1},
+  "shadow": "0 2px 8px rgba(0,0,0,0.08)",
+  "shadow_lg": "0 8px 24px rgba(0,0,0,0.12)",
+  "border_radius": "8px",
+  "header_gradient": "linear-gradient(135deg, #00543C, #00A77D)",
+  "card_bg": "#F0FFF7",
+  "border_color": "#D1E7DD",
+  "letter_spacing": "0.02em",
+  "google_fonts": ["Inter"],
+  "mermaid_theme_variables": {
+    "primaryColor": "#00543C",
+    "primaryTextColor": "#FFFFFF",
+    "primaryBorderColor": "#00543C",
+    "lineColor": "#6C6C6C",
+    "secondaryColor": "#00A77D",
+    "tertiaryColor": "#F5F5F5",
+    "fontFamily": "Inter, Helvetica, Arial, sans-serif"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "Monochrome",
+  "primary": "#1A1A1A",
+  "secondary": "#6C6C6C",
+  "accent": "#BDBDBD",
+  "neutral": "#E0E0E0",
+  "background": "#FFFFFF",
+  "text": "#1A1A1A",
+  "font_family": "Inter, Helvetica, Arial, sans-serif",
+  "font_sizes": {"title": 24, "h1": 18, "body": 14, "caption": 12},
+  "stroke_width": {"primary": 2, "secondary": 1},
+  "shadow": "0 2px 8px rgba(0,0,0,0.06)",
+  "shadow_lg": "0 8px 24px rgba(0,0,0,0.10)",
+  "border_radius": "6px",
+  "header_gradient": "linear-gradient(135deg, #1A1A1A, #4A4A4A)",
+  "card_bg": "#F8F8F8",
+  "border_color": "#E0E0E0",
+  "letter_spacing": "0.02em",
+  "google_fonts": ["Inter"],
+  "mermaid_theme_variables": {
+    "primaryColor": "#1A1A1A",
+    "primaryTextColor": "#FFFFFF",
+    "primaryBorderColor": "#1A1A1A",
+    "lineColor": "#6C6C6C",
+    "secondaryColor": "#6C6C6C",
+    "tertiaryColor": "#F5F5F5",
+    "fontFamily": "Inter, Helvetica, Arial, sans-serif"
+  }
+}

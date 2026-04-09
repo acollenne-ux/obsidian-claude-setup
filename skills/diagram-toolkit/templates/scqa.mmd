@@ -1,0 +1,14 @@
+---
+title: "{{SO_WHAT}}"
+---
+graph LR
+    S["Situation<br/>{{SITUATION}}"]:::s
+    C["Complication<br/>{{COMPLICATION}}"]:::c
+    Q["Question<br/>{{QUESTION}}"]:::q
+    A["Answer<br/>{{ANSWER}}"]:::a
+    S --> C --> Q --> A
+
+    classDef s fill:{{NEUTRAL}},color:#fff,stroke-width:1px
+    classDef c fill:{{ACCENT}},color:#fff,stroke-width:1px
+    classDef q fill:{{SECONDARY}},color:#fff,stroke-width:1px
+    classDef a fill:{{PRIMARY}},color:#fff,stroke-width:2px,font-weight:bold

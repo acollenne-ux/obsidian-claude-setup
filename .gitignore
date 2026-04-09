@@ -23,3 +23,14 @@ skill_b64.txt
 
 # Backups de skills
 *.bak_*
+
+# Credentials
+.credentials.json
+google-sa-key.json
+
+# Runtime
+*.pid
+
+# Cache & sessions
+sessions/
+cache/

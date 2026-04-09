@@ -198,3 +198,15 @@ Après chaque session de debug :
 - Si le fix a créé un nouveau bug → revoir le processus de vérification
 
 Seuils : si le même type de bug revient > 2 fois → créer une règle de prévention.
+
+## LIVRABLE FINAL
+
+- **Type** : PDF
+- **Généré par** : pdf-report-pro
+- **Destination** : acollenne@gmail.com via send_report.py
+
+## CHAÎNAGE ARBORESCENCE
+
+- **Amont** : deep-research (entrée unique)
+- **Aval** : pdf-report-pro
+

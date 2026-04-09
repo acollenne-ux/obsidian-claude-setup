@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1600">
+<title>SWOT Analysis</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: {{PRIMARY}};
+    --secondary: {{SECONDARY}};
+    --accent: {{ACCENT}};
+    --neutral: {{NEUTRAL}};
+    --background: {{BACKGROUND}};
+    --text: {{TEXT}};
+    --font: {{FONT_FAMILY}};
+    --shadow: {{SHADOW}};
+    --radius: {{BORDER_RADIUS}};
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1600px; height: 900px;
+    background: var(--background);
+    font-family: var(--font), 'Inter', sans-serif;
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* ── So-What Header ── */
+  .header {
+    padding: 28px 64px 16px;
+    text-align: center;
+  }
+  .header .label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--neutral);
+    margin-bottom: 6px;
+  }
+  .header h1 {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--primary);
+    line-height: 1.3;
+  }
+
+  /* ── Axis Labels ── */
+  .axis-row {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 0 64px 4px;
+  }
+  .axis-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--neutral);
+    width: 340px;
+    text-align: center;
+  }
+
+  /* ── Grid ── */
+  .swot-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 10px;
+    padding: 8px 64px 32px;
+    max-height: 700px;
+  }
+
+  .quadrant {
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 28px 32px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  .quadrant::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 5px; height: 100%;
+  }
+
+  .quadrant .q-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .quadrant .q-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .quadrant .q-title {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .quadrant ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+  }
+  .quadrant li {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    padding-left: 20px;
+    position: relative;
+  }
+  .quadrant li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 8px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+  }
+
+  /* ── Strengths (green) ── */
+  .q-strengths {
+    background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+  }
+  .q-strengths::before { background: #2e7d32; }
+  .q-strengths .q-icon { background: #2e7d32; }
+  .q-strengths .q-title { color: #1b5e20; }
+  .q-strengths li::before { background: #43a047; }
+
+  /* ── Weaknesses (red) ── */
+  .q-weaknesses {
+    background: linear-gradient(135deg, #ffebee 0%, #fce4ec 100%);
+  }
+  .q-weaknesses::before { background: #c62828; }
+  .q-weaknesses .q-icon { background: #c62828; }
+  .q-weaknesses .q-title { color: #b71c1c; }
+  .q-weaknesses li::before { background: #e53935; }
+
+  /* ── Opportunities (blue) ── */
+  .q-opportunities {
+    background: linear-gradient(135deg, #e3f2fd 0%, #e8eaf6 100%);
+  }
+  .q-opportunities::before { background: #1565c0; }
+  .q-opportunities .q-icon { background: #1565c0; }
+  .q-opportunities .q-title { color: #0d47a1; }
+  .q-opportunities li::before { background: #1e88e5; }
+
+  /* ── Threats (orange) ── */
+  .q-threats {
+    background: linear-gradient(135deg, #fff3e0 0%, #fbe9e7 100%);
+  }
+  .q-threats::before { background: #e65100; }
+  .q-threats .q-icon { background: #e65100; }
+  .q-threats .q-title { color: #bf360c; }
+  .q-threats li::before { background: #fb8c00; }
+
+  /* ── Side Labels ── */
+  .side-labels {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--neutral);
+    white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="label">SWOT Analysis</div>
+    <h1>{{SO_WHAT}}</h1>
+  </div>
+
+  <div class="axis-row">
+    <div class="axis-label">Helpful</div>
+    <div class="axis-label">Harmful</div>
+  </div>
+
+  <div class="swot-grid">
+    <!-- Strengths -->
+    <div class="quadrant q-strengths">
+      <div class="q-header">
+        <div class="q-icon">S</div>
+        <div class="q-title">Strengths</div>
+      </div>
+      <ul>
+        <li>{{STRENGTH_1}}</li>
+        <li>{{STRENGTH_2}}</li>
+        <li>{{STRENGTH_3}}</li>
+      </ul>
+    </div>
+
+    <!-- Weaknesses -->
+    <div class="quadrant q-weaknesses">
+      <div class="q-header">
+        <div class="q-icon">W</div>
+        <div class="q-title">Weaknesses</div>
+      </div>
+      <ul>
+        <li>{{WEAKNESS_1}}</li>
+        <li>{{WEAKNESS_2}}</li>
+        <li>{{WEAKNESS_3}}</li>
+      </ul>
+    </div>
+
+    <!-- Opportunities -->
+    <div class="quadrant q-opportunities">
+      <div class="q-header">
+        <div class="q-icon">O</div>
+        <div class="q-title">Opportunities</div>
+      </div>
+      <ul>
+        <li>{{OPPORTUNITY_1}}</li>
+        <li>{{OPPORTUNITY_2}}</li>
+        <li>{{OPPORTUNITY_3}}</li>
+      </ul>
+    </div>
+
+    <!-- Threats -->
+    <div class="quadrant q-threats">
+      <div class="q-header">
+        <div class="q-icon">T</div>
+        <div class="q-title">Threats</div>
+      </div>
+      <ul>
+        <li>{{THREAT_1}}</li>
+        <li>{{THREAT_2}}</li>
+        <li>{{THREAT_3}}</li>
+      </ul>
+    </div>
+  </div>
+
+</body>
+</html>

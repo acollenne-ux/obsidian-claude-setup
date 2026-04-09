@@ -18,7 +18,27 @@ description: SKILL OBLIGATOIRE AUTO-INVOQUÉ pour TOUTE demande de création ou 
 4. JAMAIS livrer sans QA visuel final (lisibilité, contraste, alignements, export formats).
 5. TOUJOURS capturer le résultat à chaque itération et le comparer au brief.
 6. **TOUJOURS travailler avec Canva via le MCP `claude_ai_Canva`** comme moteur de composition principal. Les rendus HTML/CSS/Pillow ne sont utilisés QUE comme fallback si Canva est indisponible ou si la tâche est une retouche photo pure (non compositionnelle).
+7. **TOUJOURS utiliser `gemini-cli` (Gemini 3 Pro via OAuth gratuit) comme co-moteur vision** pour : (a) analyser toute image de référence fournie par l'utilisateur (extraction palette, composition, style, typo), (b) générer la description structurée du visuel à composer dans Canva, (c) reviewer les drafts exportés par Canva avant de les envoyer à l'art-director. Claude Opus s'appuie sur Gemini 3 Pro pour tout ce qui touche à la vision et à la génération de prompts visuels, parce que Gemini bat Claude sur la perception d'images. Fallback transparent vers `multi-ia-router` (Gemini 2.5 Flash) géré par `gemini_wrapper.py`.
 </HARD-GATE>
+
+## CO-MOTEUR VISION : GEMINI 3 PRO (obligatoire)
+
+Pour toute tâche image/visuel, appeler `gemini-cli` AVANT l'art-director via :
+
+```bash
+python "C:/Users/Alexandre collenne/.claude/skills/gemini-cli/tools/gemini_wrapper.py" \
+  --prompt "<instruction vision>" \
+  --image "<image_input>"
+```
+
+**Usages obligatoires dans le pipeline image-studio :**
+- **Phase 1 (Brief + références)** : analyser chaque image de référence fournie → extraire palette, style, composition, typo, mood.
+- **Phase 3 (Moodboard)** : générer la description structurée du moodboard (prompt Canva `generate-design-structured`).
+- **Phase 5 (Composition Canva)** : enrichir les prompts Canva avec la description générée par Gemini.
+- **Phase 7 (Itération critique)** : Gemini review le draft Canva exporté (critique vision) avant passage à l'art-director Claude.
+
+**Pourquoi Gemini ?** Gemini 3 Pro a une vision supérieure à Claude Opus 4.6 sur la lecture d'images (composition, typo, palette, micro-détails). Claude garde le raisonnement stratégique et le contrôle du pipeline, Gemini fait le heavy lifting visuel.
+
 
 ## INTÉGRATION CANVA (OBLIGATOIRE)
 
@@ -127,6 +147,32 @@ Pour chaque image réelle fournie par l'utilisateur :
    - Fond à retirer → invoquer skill **`image-detourage`**
    - Basse résolution / flou → invoquer skill **`image-enhancer`**
    - Exposition/couleurs → Pillow `ImageEnhance` (Brightness, Contrast, Color, Sharpness)
+
+### Phase 2ter — AI Generation (skill `image-generator`) — OPTIONNEL
+
+**Declencheur** : le brief demande un visuel SANS images reelles fournies, OU le brief necessite des visuels supplementaires generes par IA (fonds, illustrations, elements graphiques).
+
+**Si active** :
+1. Invoquer le skill `image-generator` avec le brief analyse en Phase 1
+2. Specifier le type (photo/illustration/text-in-image/logo/anime/abstract)
+3. Specifier le mode qualite (draft/standard/best)
+4. Recuperer l'image generee comme "asset genere" dans le pipeline
+5. Continuer normalement vers Phase 3 (Moodboard) avec cet asset
+
+**Quand NE PAS activer** :
+- L'utilisateur a fourni toutes les images necessaires
+- Le brief est une retouche/modification d'image existante
+- Le brief est une composition pure de photos reelles
+
+**Integration** :
+```
+image-studio Phase 2 (Asset Intake)
+  → Detecte besoin de generation IA
+  → Invoque: Skill("image-generator", args="<brief>")
+  → Recupere: C:/tmp/image-generator/<session>/selected_best.png
+  → Traite comme ASSET #N dans le pipeline
+  → Continue Phase 3
+```
 
 ### Phase 3 — Moodboard & Direction (agent `art-director` — mode exploration)
 
@@ -346,3 +392,36 @@ Toujours livrer :
 | "Pillow suffit pour un flyer" | Pour du texte typographié pro → HTML/CSS/Playwright. Pillow ne gère pas la typographie pro (kerning, ligatures, feature settings). |
 | "Contraste OK à l'œil" | Calcule le ratio WCAG. |
 | "Une seule direction esthétique proposée" | Toujours 2 en Phase 3. |
+
+## LIVRABLE FINAL
+
+- **Type** : image
+- **Généré par** : self
+- **Destination** : acollenne@gmail.com via send_report.py
+
+## CHAÎNAGE ARBORESCENCE
+
+- **Amont** : deep-research (entrée unique)
+- **Aval** : self
+
+
+---
+
+## DELIVERY GATE — layout-qa (OBLIGATOIRE)
+
+**Avant tout envoi du livrable final**, ce skill DOIT invoquer la porte `layout-qa` :
+
+```bash
+python ~/.claude/skills/layout-qa/scripts/run_gate.py \
+    --input <livrable> \
+    --brief <brief.md> \
+    --caller <nom-de-ce-skill> \
+    --max-iter 3 \
+    --out-report qa_report.json
+```
+
+- Exit `0` (PASS) → envoi autorisé (email, téléchargement utilisateur)
+- Exit `1` (FIX) → lire `qa_report.json`, appliquer les corrections au Composer, re-rendre, re-invoquer layout-qa (max 3 itérations)
+- Exit `2` (FAIL) → escalade utilisateur avec les PNG annotés (`annotated_dir`)
+
+La phase vision multimodale est assurée par l'agent `visual-layout-critic` côté Claude après l'exécution déterministe du script. Aucun livrable ne sort sans verdict PASS.

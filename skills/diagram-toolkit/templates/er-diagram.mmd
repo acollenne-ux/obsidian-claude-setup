@@ -1,0 +1,15 @@
+%% Entity-Relationship Diagram — modèle de données
+erDiagram
+    CUSTOMER ||--o{ ORDER : places
+    ORDER ||--|{ LINE_ITEM : contains
+    PRODUCT ||--o{ LINE_ITEM : "referenced in"
+    CUSTOMER {
+        string id PK
+        string email
+        string name
+    }
+    ORDER {
+        string id PK
+        date created_at
+        decimal total
+    }

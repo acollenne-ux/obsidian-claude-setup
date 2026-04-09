@@ -218,3 +218,15 @@ Après chaque installation :
 - Si le processus d'installation est trop long → automatiser davantage
 
 Seuils : si taux d'échec installation > 30% → revoir le protocole de vérification pré-installation.
+
+## LIVRABLE FINAL
+
+- **Type** : DOC
+- **Généré par** : pdf-report-pro
+- **Destination** : acollenne@gmail.com via send_report.py
+
+## CHAÎNAGE ARBORESCENCE
+
+- **Amont** : deep-research (entrée unique)
+- **Aval** : pdf-report-pro
+

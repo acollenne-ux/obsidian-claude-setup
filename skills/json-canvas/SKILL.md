@@ -289,3 +289,15 @@ Après chaque création de canvas :
 - Si un pattern de layout est récurrent → l'ajouter comme template
 
 Seuils : si > 2 canvas nécessitent des corrections d'IDs → revoir le générateur.
+
+## LIVRABLE FINAL
+
+- **Type** : DOC
+- **Généré par** : json-canvas
+- **Destination** : acollenne@gmail.com via send_report.py
+
+## CHAÎNAGE ARBORESCENCE
+
+- **Amont** : deep-research (entrée unique)
+- **Aval** : json-canvas
+

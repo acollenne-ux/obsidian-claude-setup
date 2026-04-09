@@ -17,10 +17,51 @@ TOUJOURS invoquer ces skills AVANT de commencer :
 1. **`superpowers:brainstorming`** — Explorer l'intention et les exigences
 2. **`team-agent`** — Orchestrer les agents spécialisés en parallèle
 
-JAMAIS d'exécution directe sans classification (LITE/STANDARD/FULL).
+JAMAIS d'exécution directe sans classification (STANDARD/FULL — **mode LITE SUPPRIMÉ, interdit**).
+**TOUJOURS proposer à l'utilisateur STANDARD ou FULL avant de démarrer l'exécution** (sauf s'il l'a déjà précisé dans le message courant).
 JAMAIS de réponse sans sources numérotées.
 TOUJOURS dispatcher vers les skills spécialisés — ne JAMAIS faire le travail soi-même.
+**Chaque couche de l'arborescence peut invoquer PLUSIEURS skills simultanément** (L1 THINK, L2 RESEARCH, L3 SPECIALIST, L4 DELIVERY… ne sont pas limitées à 1 skill).
+**La phase RECHERCHE (L2) n'est lancée qu'APRÈS que les skills spécialisés (L3) aient indiqué CE QU'IL FAUT RECHERCHER.** Des aller-retours L3 ↔ L2 sont obligatoires — c'est l'intérêt du brainstorming initial : cadrer, interroger les spécialistes, puis chercher de façon ciblée, puis retour aux spécialistes.
 </HARD-GATE>
+
+## ARBORESCENCE 7 COUCHES (imposée par skill-tree-manager)
+
+Toute exécution doit respecter cette chaîne sans exception :
+
+```
+L0 deep-research (ENTRY unique)
+ └─ L1 THINK      : [superpowers-brainstorming + project-analysis + team-agent + …]  ← PLUSIEURS skills en parallèle
+     └─ L3 SPECIALIST (1er passage — CADRAGE) : [skills métier activés définissent ce qu'il faut chercher]
+         ↕  ALLER-RETOUR  (les spécialistes dictent les requêtes, la recherche nourrit les spécialistes)
+         └─ L2 RESEARCH  : [multi-ia-router + defuddle + WebSearch/WebFetch + MCPs + …]  ← PLUSIEURS outils en parallèle
+             └─ L3 SPECIALIST (2e passage — ANALYSE) : [skills métier consomment la recherche + peuvent redemander L2]
+                 └─ L4 DELIVERY  : [pdf-report-pro + ppt-creator + gsheet-builder + image-studio + cv-creator + …]  ← PLUSIEURS livrables
+                     └─ L5 QA       : qa-pipeline (validation de chaque livrable)
+                         └─ L6 META    : feedback-loop → retex-evolution
+```
+
+**Multiplicité par couche :** chaque ligne de l'arborescence peut et doit invoquer **plusieurs skills simultanément** quand le contexte le justifie (ex. L3 = `financial-analysis-framework` + `stock-analysis` + `macro-analysis` en même temps).
+
+**Boucle L3 ↔ L2 obligatoire :** la recherche n'est jamais lancée à l'aveugle. Séquence :
+1. L1 brainstorming → comprendre l'intention
+2. L3 spécialistes (1er passage) → **établir la liste précise des questions, données et sources à chercher**
+3. L2 recherche → exécuter en ciblant ces questions
+4. L3 spécialistes (2e passage) → analyser ; si des lacunes apparaissent, **relancer L2 avec de nouvelles requêtes** (autant de boucles que nécessaire)
+5. L4 delivery une fois les spécialistes satisfaits
+
+**Règles non-négociables (STRICTES — enforcement total) :**
+1. Toute conversation démarre par `deep-research` (L0).
+2. **DOUBLE LIVRABLE L4 OBLIGATOIRE : PDF (`pdf-report-pro`) ET PPT (`ppt-creator`) générés en parallèle sur CHAQUE réponse d'analyse, recherche, code ou production.** Exceptions uniquement si :
+   - Livrable natif différent : image → `image-studio`, CV → `cv-creator`, lettre → `cover-letter-creator`, site web audit → `website-analyzer`.
+   - L'utilisateur écrit EXPLICITEMENT dans le message courant : "sans PPT", "PDF seulement", "pas de livrable", "réponse courte", "rapide".
+3. **AUCUNE COUCHE NE PEUT ÊTRE SAUTÉE.** L1 → L3(cadrage) ↔ L2 ↔ L3(analyse) → L4(PDF+PPT) → L5 → L6 sont TOUTES invoquées, sur chaque demande. Les boucles L3↔L2 sont obligatoires.
+4. **Mode LITE INTERDIT — SUPPRIMÉ DÉFINITIVEMENT.** Seuls **STANDARD** et **FULL** existent. Aucune exception.
+4bis. **CHOIX UTILISATEUR OBLIGATOIRE AVANT EXÉCUTION :** après l'Agent 1 (Contexte) et l'Agent 2 (Benchmark Pro), deep-research DOIT présenter à l'utilisateur un récap court + la question : **"Mode STANDARD ou FULL ?"** avec une recommandation motivée. Attendre la réponse avant de lancer la Phase 3. Exception unique : si l'utilisateur a précisé "standard" ou "full" explicitement dans son message courant.
+5. **Toute compression du pipeline = VIOLATION.** Si une contrainte technique force un skip, le signaler explicitement à l'utilisateur dans la réponse.
+6. **Override utilisateur toujours prioritaire.** Si l'utilisateur demande "autre chose" (pas de PDF, pas de PPT, skip QA, réponse directe), respecter sa demande sans argumenter — mais uniquement pour le message courant, pas pour les suivants.
+
+Cartographie complète + mapping SPECIALIST → DELIVERY : `~/.claude/skills/skill-tree-manager/SKILL_TREE.md`.
 
 **Workflow :**
 ```
@@ -238,6 +279,27 @@ Types : `stock_analysis`, `multi_stock`, `code`, `research`, `macro`, `crypto`, 
 
 **Règle** : si un outil a score < 5/10 ou taux d'échec > 50% → le déprioritiser.
 
+### 0B-bis — TOKEN-ECONOMIZER (OBLIGATOIRE après classification Phase 1)
+
+Principe **reasoning-first, tokens-second** : chaque token économisé est réinvesti en profondeur de raisonnement Opus, PAS supprimé.
+
+Dès que Phase 1 a produit la classification LITE/STANDARD/FULL, invoquer OBLIGATOIREMENT :
+
+```
+Skill: token-economizer
+Args: complexity=<LITE|STANDARD|FULL>
+```
+
+Le skill `token-economizer` dispatche ensuite dans l'ordre :
+1. `prompt-cache-manager` — marque system prompt + CLAUDE.md + MCP docs (gain ~90% sur tokens cachés)
+2. `context-compressor` — classe HIGH/MED/LOW + compression hiérarchique FULL→SUMMARY→META→ARCHIVE
+3. `haiku-delegator` — route grep/parse/list/fetch vers Claude Haiku 4.5 (retour JSON ≤500 tok)
+4. `adaptive-thinking-router` — règle `thinking.effort` par phase selon table de routage
+
+Résultat retourné en Phase 2 : **allocation matrix optimisée** (budget tokens par phase + effort thinking).
+
+**Gate de non-régression** : à la fin du pipeline, mesurer `qa-pipeline` score. Si `score_optim < score_baseline` → rollback compression + re-run en FULL context. Voir `token-economizer/SKILL.md` pour détails.
+
 ---
 
 ## PHASE 1 — CLASSIFICATION ET DÉTECTION
@@ -252,9 +314,24 @@ Types : `stock_analysis`, `multi_stock`, `code`, `research`, `macro`, `crypto`, 
 
 | Niveau | Score | Mode | Multi-IA | Skills invoqués |
 |--------|-------|------|----------|----------------|
-| **LITE** | 1-3/10 | Simplifié | Non (Claude seul) | 1 skill direct |
-| **STANDARD** | 4-6/10 | Normal | 2 IAs max | Skills pertinents |
-| **FULL** | 7-10/10 | Complet | Toutes IAs | Tous skills nécessaires |
+| **STANDARD** | 1-6/10 | Normal | 2-3 IAs | Skills pertinents (plusieurs par couche) |
+| **FULL** | 7-10/10 | Complet | Toutes IAs | Tous skills nécessaires (plusieurs par couche) |
+
+**Mode LITE : SUPPRIMÉ. Interdit. Ne jamais le proposer.**
+
+**Choix utilisateur obligatoire :** après Agent 1 + Agent 2, présenter :
+```
+📋 CADRAGE — [titre]
+Intention : [...]
+Domaines détectés : [...]
+Score complexité : X/10
+
+Recommandation : **STANDARD** (ou FULL)
+Raison : [motivation courte]
+
+👉 Tu préfères STANDARD ou FULL ?
+```
+Attendre la réponse avant Phase 3.
 
 **UPGRADE AUTOMATIQUE** (irréversible) :
 - Sous-questions multiples → upgrade
@@ -274,6 +351,7 @@ Types : `stock_analysis`, `multi_stock`, `code`, `research`, `macro`, `crypto`, 
 | Recherche générale | WebSearch x5+ | WebFetch |
 | TradingView/Pine | Direct Pine Script | Context7 |
 | Site web/audit web | **`website-analyzer` (OBLIGATOIRE — invoquer via `Skill` tool, PAS manuellement)** | Playwright crawler, 4 agents UX/Marketing/Conversion/Brand |
+| Generation image IA / text-to-image | **`image-generator`** (L3) → `image-studio` (L4) | FLUX (HF), GPT-Image (OpenAI), Nano Banana 2 (Gemini), SDXL (HF) |
 
 ### 1C — Matrice agents/outils
 
@@ -331,6 +409,7 @@ ALLOCATION — [titre]
 4     | qa-pipeline            | Validation tous outputs   | Étape 3   | Non
 5     | pdf-report-pro         | PDF institutionnel        | Étape 4   | Non
 5bis  | ppt-creator            | .pptx éditable            | Étape 4bis| Non
+5ter  | gsheet-builder         | Google Sheet live          | Étape 4ter| Non
 6     | feedback-loop          | Score utilisateur         | Étape 5   | Non
 7     | retex-evolution        | RETEX + amélioration      | Étape 6   | Non
 ```
@@ -396,6 +475,7 @@ Après la collecte de données, invoquer les skills dans l'ordre :
 3. **`qa-pipeline`** (TOUJOURS) → validation, sources, confiance
 4. **`pdf-report-pro`** (si PDF demandé ou analyse importante) → rapport institutionnel McKinsey/BCG + envoi email
 4bis. **`ppt-creator`** (si mots-clés "présentation", "slides", "ppt", "pptx", "deck", "pitch", "présenter", "powerpoint") → .pptx éditable McKinsey/BCG avec ghost deck validé utilisateur
+4ter. **`gsheet-builder`** (si mots-clés "spreadsheet", "google sheets", "gsheet", "tableau", "tableur", "tableurs", "feuille de calcul", "tracker", "dashboard sheets", "KPI sheet", "portefeuille sheets", "P&L sheet", "Excel", "classeur", "grille", "reporting sheet") → Google Sheet consulting-grade via 31 outils MCP, 5 themes, 6 templates
 5. **`feedback-loop`** (TOUJOURS) → score utilisateur
 6. **`retex-evolution`** (TOUJOURS, en dernier) → RETEX + amélioration
 
