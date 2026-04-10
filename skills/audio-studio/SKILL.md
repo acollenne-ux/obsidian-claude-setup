@@ -77,9 +77,9 @@ Collecter ou generer tous les elements audio :
 1. **Elements fournis** : fichiers audio deja existants
 2. **Elements a generer** : invoquer `audio-generator` (skill L3) pour chaque element manquant
    - Narration → audio-generator type=tts
-   - Musique de fond → audio-generator type=music
-   - Effets sonores → audio-generator type=sfx
-   - Jingle intro/outro → audio-generator type=music
+   - Musique de fond → audio-generator type=music (Tencent SongGeneration ou UnlimitedMusicGen)
+   - Effets sonores → audio-generator type=sfx (numpy synth ou MusicGen en fallback)
+   - Jingle intro/outro → audio-generator type=music (UnlimitedMusicGen)
 3. **Inventaire** : lister tous les assets avec duree, format, niveau
 
 ### Phase 3 — Arrangement

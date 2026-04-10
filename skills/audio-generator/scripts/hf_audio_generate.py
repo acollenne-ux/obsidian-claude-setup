@@ -29,37 +29,54 @@ from pathlib import Path
 AI_CONFIG = Path.home() / ".claude" / "tools" / "ai_config.json"
 API_KEYS = Path.home() / ".claude" / "tools" / "api_keys.json"
 
-# Spaces pre-configures
+# Spaces pre-configures (mis a jour avril 2026)
 SPACES = {
-    # TTS
+    # TTS — actifs et testes
     "kokoro": "hexgrad/Kokoro-TTS",
     "dia": "nari-labs/Dia-1.6B",
-    "sesame-csm": "sesame/csm-1b",
-    "orpheus": "canopylabs/orpheus-tts",
     "f5-tts": "mrfakename/E2-F5-TTS",
+    "qwen3-tts": "Qwen/Qwen3-TTS",
+    "edge-tts-hf": "innoai/Edge-TTS-Text-to-Speech",
+    "sherpa-tts": "k2-fsa/text-to-speech",
+    # TTS — en panne avril 2026 (gardes pour retry)
+    "sesame-csm": "sesame/csm-1b",          # ConfigError ZeroGPU
+    "orpheus": "canopylabs/orpheus-tts",      # 401 Unauthorized
     # Voice cloning
-    "xtts-v2": "coqui/xtts",
     "openvoice": "myshell-ai/OpenVoiceV2",
-    # Music
-    "musicgen": "facebook/MusicGen",
-    "stable-audio": "stabilityai/stable-audio-open-1.0",
-    # Sound effects
-    "tango2": "declare-lab/tango2",
-    "audioldm2": "haoheliu/audioldm2-text2audio",
+    # Music — actifs
+    "musicgen-unlimited": "Surn/UnlimitedMusicGen",
+    "tencent-song": "tencent/SongGeneration",
+    # Music — en panne avril 2026
+    "musicgen": "facebook/MusicGen",          # RuntimeError numpy
+    "stable-audio": "stabilityai/stable-audio-open-1.0",  # 401
+    # Sound effects — en panne avril 2026
+    "tango2": "declare-lab/tango2",           # ConfigError ZeroGPU
+    "audioldm2": "haoheliu/audioldm2-text2audio",  # 401
     # STT
     "whisper-large": "openai/whisper-large-v3",
 }
 
-# Type de tache par Space
+# Spaces dont le statut est connu DOWN (avril 2026)
+KNOWN_DOWN = {
+    "sesame/csm-1b", "canopylabs/orpheus-tts", "facebook/MusicGen",
+    "stabilityai/stable-audio-open-1.0", "declare-lab/tango2",
+    "haoheliu/audioldm2-text2audio", "fishaudio/fish-speech-1",
+}
+
+# Type de tache par Space (mis a jour avril 2026)
 SPACE_TYPE = {
     "hexgrad/Kokoro-TTS": "tts",
     "nari-labs/Dia-1.6B": "tts",
     "sesame/csm-1b": "tts",
     "canopylabs/orpheus-tts": "tts",
     "mrfakename/E2-F5-TTS": "tts",
-    "coqui/xtts": "voice-clone",
+    "Qwen/Qwen3-TTS": "tts",
+    "innoai/Edge-TTS-Text-to-Speech": "tts",
+    "k2-fsa/text-to-speech": "tts",
     "myshell-ai/OpenVoiceV2": "voice-clone",
     "facebook/MusicGen": "music",
+    "Surn/UnlimitedMusicGen": "music",
+    "tencent/SongGeneration": "music",
     "stabilityai/stable-audio-open-1.0": "music",
     "declare-lab/tango2": "sfx",
     "haoheliu/audioldm2-text2audio": "sfx",
@@ -93,56 +110,145 @@ def generate_via_gradio(text, space, hf_token, reference_audio=None, duration=No
     except ImportError:
         raise RuntimeError("gradio_client non installe. pip install gradio_client")
 
-    client = Client(space, hf_token=hf_token)
+    # Verifier si le space est connu DOWN
+    if space in KNOWN_DOWN:
+        print(f"[HF-Audio] WARNING: {space} est connu DOWN (avril 2026), tentative quand meme...",
+              file=sys.stderr)
+
+    client = Client(space, token=hf_token)
     start_time = time.time()
 
     space_type = SPACE_TYPE.get(space, "tts")
 
     try:
-        # Adapter l'appel selon le Space
+        # Adapter l'appel selon le Space (mis a jour avril 2026)
+
+        # --- TTS ---
         if space == "hexgrad/Kokoro-TTS":
-            result = client.predict(text, api_name="/predict")
+            # API desactivee sur l'original, tenter predict ou generate_first
+            try:
+                result = client.predict(text, "af_heart", 1.0, True,
+                                        api_name="/generate_first")
+            except Exception:
+                result = client.predict(text, api_name="/predict")
+
         elif space == "nari-labs/Dia-1.6B":
-            result = client.predict(text, api_name="/predict")
+            # API mise a jour: generate_audio avec parametres avances
+            result = client.predict(
+                text_input=text,
+                audio_prompt_input=None,
+                max_new_tokens=3072,
+                cfg_scale=3.0,
+                temperature=1.3,
+                top_p=0.95,
+                cfg_filter_top_k=35,
+                speed_factor=0.94,
+                api_name="/generate_audio",
+            )
+
+        elif space == "Qwen/Qwen3-TTS":
+            # Nouveau: Qwen3-TTS multi-mode (voice design, clone, custom)
+            if reference_audio:
+                result = client.predict(
+                    ref_audio=handle_file(reference_audio),
+                    ref_text="",
+                    target_text=text,
+                    language="Auto",
+                    use_xvector_only=False,
+                    model_size="1.7B",
+                    fn_index=1,  # generate_voice_clone
+                )
+            else:
+                result = client.predict(
+                    text=text,
+                    language="Auto",
+                    speaker="Vivian",
+                    instruct="",
+                    model_size="1.7B",
+                    fn_index=2,  # generate_custom_voice
+                )
+
         elif space == "mrfakename/E2-F5-TTS":
             if reference_audio:
                 result = client.predict(
                     ref_audio_input=handle_file(reference_audio),
+                    ref_text_input="",
                     gen_text_input=text,
-                    api_name="/predict",
+                    model="F5-TTS",
+                    remove_silence=False,
                 )
             else:
-                result = client.predict(text, api_name="/predict")
-        elif space == "coqui/xtts":
-            if not reference_audio:
-                raise RuntimeError("XTTS-v2 necessite un audio de reference (--reference-audio)")
+                result = client.predict(text)
+
+        elif space == "innoai/Edge-TTS-Text-to-Speech":
+            # Edge-TTS via HF Space
             result = client.predict(
-                text,
-                handle_file(reference_audio),
-                api_name="/predict",
+                text=text,
+                voice="fr-FR-HenriNeural - fr-FR (Male)",
+                rate=0,
+                pitch=0,
             )
+
+        elif space == "k2-fsa/text-to-speech":
+            # Sherpa-ONNX multi-modeles
+            result = client.predict(
+                language="French",
+                repo_id="csukuangfj/piper-voices",
+                text=text,
+                sid="0",
+                speed=1.0,
+            )
+
+        # --- Voice Cloning ---
         elif space == "myshell-ai/OpenVoiceV2":
             if not reference_audio:
                 raise RuntimeError("OpenVoice necessite un audio de reference (--reference-audio)")
             result = client.predict(
-                text,
-                handle_file(reference_audio),
-                api_name="/predict",
+                prompt=text,
+                style="fr_default",
+                audio_file_pth=handle_file(reference_audio),
+                speed=1.0,
+                agree=True,
             )
+
+        # --- Music ---
+        elif space == "Surn/UnlimitedMusicGen":
+            result = client.predict(
+                model="facebook/musicgen-large",
+                text=text,
+                duration=duration or 15,
+                topk=250,
+                topp=0.0,
+                temperature=1.0,
+                cfg_coef=3.0,
+                seed=-1,
+                overlap=2,
+                video_orientation="Landscape",
+                background="",
+                api_name="/predict_simple",
+            )
+
+        elif space == "tencent/SongGeneration":
+            result = client.predict(
+                lyric=text,
+                description="",
+                prompt_audio=None,
+                genre="Pop",
+                cfg_coef=1.8,
+                temperature=0.8,
+                top_k=-1,
+            )
+
         elif space == "facebook/MusicGen":
-            result = client.predict(
-                text,
-                duration or 10,
-                api_name="/predict",
-            )
+            result = client.predict(text, duration or 10, api_name="/predict")
+
         elif space == "stabilityai/stable-audio-open-1.0":
-            result = client.predict(
-                text,
-                duration or 10,
-                api_name="/predict",
-            )
+            result = client.predict(text, duration or 10, api_name="/predict")
+
+        # --- SFX ---
         elif space in ("declare-lab/tango2", "haoheliu/audioldm2-text2audio"):
             result = client.predict(text, api_name="/predict")
+
         else:
             # Appel generique
             result = client.predict(text, api_name="/predict")

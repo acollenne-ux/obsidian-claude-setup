@@ -101,20 +101,28 @@ Invoquer l'agent `audio-prompt-architect` :
 
 ### Phase 3 — Routage + Generation
 
-#### 3A — Matrice de Routage
+#### 3A — Matrice de Routage (mise a jour avril 2026)
 
 | Type de tache | Provider primaire | Provider secondaire | Fallback | Raison |
 |---|---|---|---|---|
-| **TTS standard** (en/fr/multi) | OpenAI TTS-HD | Kokoro-82M (HF) | Edge-TTS (gratuit) | OpenAI = meilleur rapport qualite/cout |
-| **TTS dialogue/audiobook** | Dia 1.6B (HF) | OpenAI TTS | Kokoro-82M (HF) | Dia = tags non-verbaux, multi-speaker |
-| **TTS haute fidelite** | Sesame CSM (HF) | Orpheus (HF) | OpenAI TTS-HD | MOS 4.7 et 4.6 |
-| **Voice cloning** | XTTS-v2 (HF) | OpenVoice (HF) | F5-TTS (HF) | XTTS-v2 = 16 langues, 6s reference |
-| **Musique** | MusicGen (HF) | Stable Audio (HF) | — | MusicGen = open-source, controllable |
-| **Sound effects** | Tango 2 (HF) | AudioLDM2 (HF) | — | Tango 2 = 3.99 MOS, DPO-aligned |
+| **TTS standard** (en/fr/multi) | Qwen3-TTS 1.7B (HF, gratuit, FR) | OpenAI TTS-HD | Kokoro-82M (HF) / Edge-TTS | Qwen3 = multi-langue + voice design + gratuit |
+| **TTS dialogue/audiobook** | Dia 1.6B (HF) | Qwen3-TTS (HF) | Kokoro-82M (HF) | Dia = tags non-verbaux, multi-speaker en 1 pass |
+| **TTS haute fidelite** | Qwen3-TTS 1.7B (HF) | F5-TTS (HF) | Dia 1.6B (HF) | Qwen3 1.7B = qualite + multi-langue ; F5 = MOS ~4.5 |
+| **Voice cloning** | Qwen3-TTS clone (HF) | F5-TTS (HF) | OpenVoice V2 (HF) | Qwen3 = clone multi-langue ; F5 = meilleur zero-shot Apache 2.0 |
+| **Musique** | Tencent SongGeneration V2 (HF, 4B) | UnlimitedMusicGen (HF) | -- | Tencent = chansons avec paroles ; MusicGen = instrumentaux illimites |
+| **Sound effects** | UnlimitedMusicGen (HF) | Edge-TTS + numpy synth | -- | Tango2/AudioLDM2 DOWN ; MusicGen peut faire SFX basiques |
 | **Speech-to-text** | OpenAI Whisper API | Whisper Large v3 (HF) | Groq Whisper | Whisper = meilleure precision |
-| **TTS rapide/draft** | Kokoro-82M (HF) | OpenAI tts-1 | Edge-TTS | Kokoro = sub-0.3s, gratuit |
+| **TTS rapide/draft** | Kokoro-82M (HF) | Edge-TTS (HF/local) | OpenAI tts-1 | Kokoro = sub-0.3s, 82M params, gratuit |
 
-**Optimisation cout** : textes courts (<500 chars) → OpenAI API, textes longs (>500 chars) → HF Spaces gratuit (Kokoro/Dia)
+**Providers DOWN avril 2026** : Sesame CSM (ConfigError), Orpheus (401), MusicGen original (numpy crash), Stable Audio (401), Tango 2 (ConfigError), AudioLDM2 (401), Fish Speech HF (torchaudio crash)
+
+**Providers proprietaires premium** (si budget disponible) :
+- Fish Audio S2 Pro : #1 TTS Arena (ELO 1339), 80+ langues, API REST, ~$0.80/h
+- ElevenLabs v3 : leader qualite absolue, 70+ langues, SFX V2 48kHz
+- Cartesia Sonic 3 : 40ms latence, 73% moins cher qu'ElevenLabs
+- Voxtral TTS (Mistral) : 68.4% win vs ElevenLabs Flash, 9 langues dont FR, API $0.016/1K chars
+
+**Optimisation cout** : TOUJOURS privilegier les HF Spaces gratuits (Qwen3-TTS, Dia, F5-TTS, Kokoro). OpenAI TTS-HD en seconde intention. Providers premium uniquement si demande explicite de qualite maximale.
 
 #### 3B — Modes Qualite
 
@@ -226,18 +234,133 @@ Invoquer l'agent `audio-quality-scorer` :
 
 ---
 
-## PROVIDERS — DETAILS TECHNIQUES
+## PROVIDERS — DETAILS TECHNIQUES (mise a jour avril 2026)
 
-### OpenAI TTS — via API directe
+### TIER 1 — Gratuits / HF Spaces actifs
+
+#### Qwen3-TTS (HuggingFace Space) — NOUVEAU, PRIORITAIRE
+
+**Space** : `Qwen/Qwen3-TTS`
+**Architecture** : 0.6B et 1.7B params, Apache 2.0
+**Langues** : 10 (Auto, Chinese, English, Japanese, Korean, French, German, Spanish, Portuguese, Russian)
+**Modes** : Voice Design (decrire la voix), Voice Clone (audio reference), Custom Voice (voix predefinies)
+**Voix predefinies** : Aiden, Dylan, Eric, Ono_anna, Ryan, Serena, Sohee, Uncle_fu, Vivian
+**Forces** : multi-mode, francais natif, voice cloning inclus, gratuit
+**API HF** : `fn_index=0` (voice design), `fn_index=1` (voice clone), `fn_index=2` (custom voice)
+
+#### Dia 1.6B (HuggingFace Space)
+
+**Space** : `nari-labs/Dia-1.6B`
+**Architecture** : 1.6B params, Apache 2.0
+**MOS** : ~4.5-4.7 (surpasse CSM sur dialogues)
+**Forces** : dialogue multi-speaker en 1 pass, tags non-verbaux (laughs), (coughs), (gasps), (sighs)
+**Langues** : anglais
+**API HF** : `api_name="/generate_audio"` avec 8 parametres (cfg_scale, temperature, top_p, etc.)
+**Ideal pour** : audiobooks, dialogues, podcasts
+
+#### F5-TTS (HuggingFace Space)
+
+**Space** : `mrfakename/E2-F5-TTS`
+**Architecture** : 336M params, Apache 2.0
+**MOS** : ~4.3-4.5 ("le plus realiste open-source" — Uberduck)
+**Forces** : voice cloning zero-shot excellence, flow matching, code-switching EN/ZH
+**Langues** : EN, ZH natif + FR, DE, IT, JA (fine-tuned communaute)
+**Modes** : TTS simple, podcast generation (2 voix), emotional speech
+
+#### Kokoro-82M (HuggingFace Space)
+
+**Space** : `hexgrad/Kokoro-TTS`
+**Architecture** : 82M params, Apache 2.0, base StyleTTS2
+**MOS** : 4.2 (#1 open-source a taille comparable)
+**Latence** : RTF 0.03 GPU (10s audio en 0.3s)
+**Langues** : 8 (EN-US, EN-GB, FR, JA, KO, ZH, +)
+**Voix** : 54 voix, 10 voicepacks
+**Forces** : ultra-rapide, ultra-leger, ONNX browser
+
+#### OpenVoice V2 (HuggingFace Space)
+
+**Space** : `myshell-ai/OpenVoiceV2`
+**Licence** : MIT
+**Langues** : 6 (en, zh, ja, ko, es, fr)
+**Forces** : voice cloning cross-lingue zero-shot
+**API** : style + audio reference + speed
+
+#### Tencent SongGeneration V2 (HuggingFace Space) — NOUVEAU
+
+**Space** : `tencent/SongGeneration`
+**Architecture** : 4B params (V2, mars 2026)
+**Forces** : chansons completes avec paroles (lyrics tags : [verse], [chorus], [bridge])
+**Genres** : Pop, Rock, Jazz, Hip-Hop, Electronic, Classical, R&B, Country, Folk, Latin, Metal
+**API** : lyric + description + genre + cfg_coef + temperature
+
+#### UnlimitedMusicGen (HuggingFace Space) — NOUVEAU
+
+**Space** : `Surn/UnlimitedMusicGen`
+**Architecture** : MusicGen (Meta) avec extension duree illimitee via overlap
+**Forces** : instrumentaux sans limite de duree, modeles small/medium/large/melody
+**API** : `api_name="/predict_simple"` avec model, text, duration, topk, temperature, overlap
+
+#### Edge-TTS (HuggingFace Space + local)
+
+**Space** : `innoai/Edge-TTS-Text-to-Speech`
+**Local** : `pip install edge-tts` (gratuit, sans API key)
+**Langues** : 50+ langues, centaines de voix Microsoft
+**Forces** : zero-cost, ultra-rapide, voix naturelles Microsoft
+**Ideal pour** : fallback universel, drafts, textes longs
+
+### TIER 2 — Payants / APIs proprietaires
+
+#### OpenAI TTS — via API directe
 
 **Endpoint** : `POST https://api.openai.com/v1/audio/speech`
-**Modeles** : `tts-1` (standard, rapide), `tts-1-hd` (haute qualite)
-**Voix** : alloy, echo, fable, onyx, nova, shimmer
-**Formats** : mp3, opus, aac, flac, wav, pcm
-**Cle** : dans `ai_config.json` (provider "openai")
+**Modeles** : `tts-1` (standard), `tts-1-hd` (haute qualite), `gpt-4o-mini-tts` (steerable)
+**Voix** : alloy, echo, fable, onyx, nova, shimmer (+ 12 voix gpt-4o-mini-tts)
 **Tarifs** : $15/1M chars (tts-1), $30/1M chars (tts-1-hd)
-**Langues** : multilingue (auto-detection)
 **Limites** : 4096 chars max par requete
+
+#### Fish Audio S2 Pro (API REST) — NOUVEAU
+
+**API** : REST API (fish.audio)
+**ELO** : 1339 (TTS Arena V1 #1), 81.88% EmergentTTS win rate
+**Langues** : 80+ (cross-lingual)
+**Forces** : #1 Audio Turing Test, voice cloning 15-30s
+**Tarifs** : Gratuit (limite), Plus $5.50/mo, Pro $37.50/mo (~$0.80/h)
+
+#### Voxtral TTS — Mistral (API) — NOUVEAU
+
+**API** : Mistral API ($0.016/1K chars)
+**Architecture** : 4B params, open-weight CC BY-NC
+**Win rate** : 68.4% vs ElevenLabs Flash v2.5
+**Langues** : 9 (en, fr, de, es, nl, pt, it, hi, ar)
+**Latence** : 70ms TTFA, streaming
+**Forces** : rival ElevenLabs, francais natif excellent
+
+#### ElevenLabs v3 (API)
+
+**ELO** : 1179 (TTS Arena #2)
+**Langues** : 70+
+**Forces** : leader qualite absolue, SFX V2 48kHz, voice cloning pro
+**Tarifs** : Free 10K credits/mois, Starter $5, Pro $99, Scale $330/mo
+
+#### Cartesia Sonic 3 (API)
+
+**Latence** : 40ms (Turbo)
+**Langues** : 15
+**Forces** : ultra-low latency, emotion tags, 73% moins cher qu'ElevenLabs
+
+### TIER 3 — DOWN / En panne (avril 2026)
+
+| Space | Statut | Erreur |
+|-------|--------|--------|
+| `sesame/csm-1b` | DOWN | ConfigError ZeroGPU |
+| `canopylabs/orpheus-tts` | DOWN | 401 Unauthorized |
+| `facebook/MusicGen` | DOWN | RuntimeError numpy |
+| `stabilityai/stable-audio-open-1.0` | DOWN | 401 Unauthorized |
+| `declare-lab/tango2` | DOWN | ConfigError ZeroGPU |
+| `haoheliu/audioldm2-text2audio` | DOWN | 401 Unauthorized |
+| `fishaudio/fish-speech-1` | DOWN | RuntimeError torchaudio |
+
+**Note** : PlayHT a ferme (acquis par Meta, API arretee 31/12/2025). Coqui (XTTS-v2) a ferme en dec 2025 (modele encore disponible mais non maintenu).
 
 ### OpenAI Whisper — via API directe
 
@@ -245,52 +368,6 @@ Invoquer l'agent `audio-quality-scorer` :
 **Modeles** : `whisper-1`, `gpt-4o-transcribe`
 **Formats input** : mp3, mp4, mpeg, mpga, m4a, wav, webm (max 25MB)
 **Tarifs** : $0.006/minute
-
-### Kokoro-82M (HuggingFace Space)
-
-**Space** : `hexgrad/Kokoro-TTS`
-**Architecture** : 82M params, Apache 2.0
-**MOS** : 4.2 (rivalise ElevenLabs)
-**Latence** : sub-0.3s
-**Langues** : anglais principalement
-**Forces** : ultra-rapide, gratuit, leger
-
-### Dia 1.6B (HuggingFace Space)
-
-**Space** : `nari-labs/Dia-1.6B`
-**Architecture** : 1.6B params
-**MOS** : ~4.4
-**Forces** : dialogue multi-speaker, tags non-verbaux (laughs), (coughs), (gasps)
-**Langues** : anglais
-**Ideal pour** : audiobooks, dialogues, podcasts
-
-### Sesame CSM (HuggingFace Space)
-
-**Space** : `sesame/csm-1b`
-**MOS** : 4.7 (meilleur open-source actuel)
-**Forces** : naturalite exceptionnelle
-**Langues** : anglais
-
-### XTTS-v2 (HuggingFace Space)
-
-**Space** : `coqui/xtts`
-**Architecture** : zero-shot voice cloning, 6s reference audio
-**Langues** : 16 (en, es, fr, de, it, pt, pl, tr, ru, nl, cs, ar, zh, ja, hu, ko)
-**Forces** : clonage voix multilingue, preservation emotion
-
-### MusicGen (HuggingFace Space)
-
-**Space** : `facebook/MusicGen`
-**Architecture** : 3.9B params (Meta)
-**Forces** : musique conditionnee par texte, controllable
-**Duree** : jusqu'a 30s par generation
-
-### Tango 2 (HuggingFace Space)
-
-**Space** : `declare-lab/tango2`
-**MOS** : 3.99 (meilleur SFX)
-**Architecture** : DPO-aligned text-to-audio
-**Forces** : sons humains, animaux, effets naturels/artificiels
 
 ---
 

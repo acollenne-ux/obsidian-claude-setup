@@ -29,40 +29,45 @@ from pathlib import Path
 SCRIPTS_DIR = Path(__file__).parent
 PYTHON = sys.executable
 
-# Matrice de routage : type → [providers ordonnes par priorite]
+# Matrice de routage : type -> [providers ordonnes par priorite]
+# Mis a jour avril 2026 — base sur TTS Arena, MOS scores, et disponibilite HF Spaces
 ROUTING_TABLE = {
     "tts": [
+        {"name": "qwen3-tts", "script": "hf_audio_generate.py", "args": ["--space", "qwen3-tts"]},
         {"name": "openai", "script": "openai_tts.py", "args": ["--model", "tts-1-hd"]},
         {"name": "kokoro", "script": "hf_audio_generate.py", "args": ["--space", "kokoro"]},
+        {"name": "edge-tts-hf", "script": "hf_audio_generate.py", "args": ["--space", "edge-tts-hf"]},
     ],
     "tts-dialogue": [
         {"name": "dia", "script": "hf_audio_generate.py", "args": ["--space", "dia"]},
+        {"name": "qwen3-tts", "script": "hf_audio_generate.py", "args": ["--space", "qwen3-tts"]},
         {"name": "openai", "script": "openai_tts.py", "args": ["--model", "tts-1-hd"]},
         {"name": "kokoro", "script": "hf_audio_generate.py", "args": ["--space", "kokoro"]},
     ],
     "tts-hifi": [
-        {"name": "sesame-csm", "script": "hf_audio_generate.py", "args": ["--space", "sesame-csm"]},
-        {"name": "orpheus", "script": "hf_audio_generate.py", "args": ["--space", "orpheus"]},
+        {"name": "qwen3-tts", "script": "hf_audio_generate.py", "args": ["--space", "qwen3-tts"]},
+        {"name": "f5-tts", "script": "hf_audio_generate.py", "args": ["--space", "f5-tts"]},
+        {"name": "dia", "script": "hf_audio_generate.py", "args": ["--space", "dia"]},
         {"name": "openai", "script": "openai_tts.py", "args": ["--model", "tts-1-hd"]},
     ],
     "voice-clone": [
-        {"name": "xtts-v2", "script": "hf_audio_generate.py", "args": ["--space", "xtts-v2"]},
-        {"name": "openvoice", "script": "hf_audio_generate.py", "args": ["--space", "openvoice"]},
+        {"name": "qwen3-tts", "script": "hf_audio_generate.py", "args": ["--space", "qwen3-tts"]},
         {"name": "f5-tts", "script": "hf_audio_generate.py", "args": ["--space", "f5-tts"]},
+        {"name": "openvoice", "script": "hf_audio_generate.py", "args": ["--space", "openvoice"]},
     ],
     "music": [
-        {"name": "musicgen", "script": "hf_audio_generate.py", "args": ["--space", "musicgen"]},
-        {"name": "stable-audio", "script": "hf_audio_generate.py", "args": ["--space", "stable-audio"]},
+        {"name": "tencent-song", "script": "hf_audio_generate.py", "args": ["--space", "tencent-song"]},
+        {"name": "musicgen-unlimited", "script": "hf_audio_generate.py", "args": ["--space", "musicgen-unlimited"]},
     ],
     "sfx": [
-        {"name": "tango2", "script": "hf_audio_generate.py", "args": ["--space", "tango2"]},
-        {"name": "audioldm2", "script": "hf_audio_generate.py", "args": ["--space", "audioldm2"]},
+        {"name": "musicgen-unlimited", "script": "hf_audio_generate.py", "args": ["--space", "musicgen-unlimited"]},
     ],
     "stt": [
         {"name": "openai-whisper", "script": "openai_stt.py", "args": ["--model", "whisper-1"]},
     ],
     "tts-fast": [
         {"name": "kokoro", "script": "hf_audio_generate.py", "args": ["--space", "kokoro"]},
+        {"name": "edge-tts-hf", "script": "hf_audio_generate.py", "args": ["--space", "edge-tts-hf"]},
         {"name": "openai-fast", "script": "openai_tts.py", "args": ["--model", "tts-1"]},
     ],
 }
